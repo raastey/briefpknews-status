@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>BriefPK News Status</title>
+  <meta name="description" content="Official service health and incident status for BriefPK News.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <div class="chrome-line" aria-hidden="true"></div>
+  <header class="topbar">
+    <div class="brand-wrap">
+      <span class="brand-kicker">BRIEFPKNEWS</span>
+      <h1>System Status</h1>
+      <p class="brand-sub">Independent status page hosted on GitHub Pages</p>
+    </div>
+    <div class="top-actions">
+      <a class="ghost-btn" href="https://brief-pk-newsfeed-original-production.up.railway.app" target="_blank" rel="noreferrer">Open Main Site</a>
+      <button id="refreshBtn" class="ghost-btn" type="button">Refresh checks</button>
+    </div>
+  </header>
+
+  <main class="layout">
+    <section class="hero-card" id="overallCard">
+      <div class="hero-label">Current status</div>
+      <div class="hero-state" id="overallState">Loading...</div>
+      <div class="hero-meta" id="overallMeta">Waiting for monitor data...</div>
+    </section>
+
+    <section class="panel">
+      <div class="panel-head">
+        <h2>Service Components</h2>
+        <p>Checked every 5 minutes by GitHub Actions.</p>
+      </div>
+      <div class="service-grid" id="serviceGrid"></div>
+    </section>
+
+    <section class="panel">
+      <div class="panel-head">
+        <h2>24h Availability</h2>
+        <p>Rolling success ratio based on synthetic checks.</p>
+      </div>
+      <div class="uptime-grid" id="uptimeGrid"></div>
+    </section>
+
+    <section class="panel">
+      <div class="panel-head">
+        <h2>Incidents & Maintenance</h2>
+      </div>
+      <div id="incidentList" class="incident-list"></div>
+    </section>
+
+    <section class="panel">
+      <div class="panel-head">
+        <h2>Recent Monitor Runs</h2>
+      </div>
+      <div id="historyTableWrap"></div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <span id="lastUpdated">Last update: --</span>
+    <span>Repo: <a href="https://github.com/raastey/briefpknews-status" target="_blank" rel="noreferrer">raastey/briefpknews-status</a></span>
+  </footer>
+
+  <script src="./app.js"></script>
+</body>
+</html>

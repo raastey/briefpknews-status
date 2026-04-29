@@ -1,0 +1,55 @@
+{
+  "checkedAt": "2026-04-29T02:16:42.603Z",
+  "overall": "operational",
+  "region": "github-actions",
+  "services": [
+    {
+      "key": "site",
+      "name": "Main Website",
+      "url": "https://brief-pk-newsfeed-original-production.up.railway.app/",
+      "state": "operational",
+      "statusCode": 200,
+      "latencyMs": 673
+    },
+    {
+      "key": "health",
+      "name": "Public Health API",
+      "url": "https://brief-pk-newsfeed-original-production.up.railway.app/api/health",
+      "state": "operational",
+      "statusCode": 200,
+      "latencyMs": 282
+    },
+    {
+      "key": "auth",
+      "name": "Auth Endpoint",
+      "url": "https://brief-pk-newsfeed-original-production.up.railway.app/api/auth/me",
+      "state": "operational",
+      "statusCode": 200,
+      "latencyMs": 308
+    },
+    {
+      "key": "news",
+      "name": "News API",
+      "url": "https://brief-pk-newsfeed-original-production.up.railway.app/api/news",
+      "state": "operational",
+      "statusCode": 401,
+      "latencyMs": 355
+    },
+    {
+      "key": "intel",
+      "name": "Intelligence API",
+      "url": "https://brief-pk-newsfeed-original-production.up.railway.app/api/intelligence",
+      "state": "operational",
+      "statusCode": 401,
+      "latencyMs": 374
+    },
+    {
+      "key": "macroInsight",
+      "name": "Macro Insight API",
+      "url": "https://brief-pk-newsfeed-original-production.up.railway.app/api/pakistan-macro-insight",
+      "state": "operational",
+      "statusCode": 401,
+      "latencyMs": 365
+    }
+  ]
+}

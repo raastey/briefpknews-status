@@ -1,0 +1,30 @@
+name: Monitor BriefPK Status
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "*/5 * * * *"
+
+permissions:
+  contents: write
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Run status checks
+        run: node scripts/check-status.mjs
+
+      - name: Commit status artifacts
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "chore(status): update synthetic status snapshot"
+          file_pattern: status-data/latest.json status-data/history.json
