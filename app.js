@@ -20,6 +20,23 @@ function normalizeState(state) {
   return "Outage";
 }
 
+function healthScore(svc) {
+  const latency = Number(svc.latencyMs);
+  if (svc.state === "outage") return 5;
+  if (svc.state === "degraded") return 45;
+  if (!Number.isFinite(latency)) return 65;
+  if (latency <= 600) return 96;
+  if (latency <= 1200) return 82;
+  if (latency <= 2500) return 64;
+  return 48;
+}
+
+function scoreClass(score) {
+  if (score >= 75) return "ok";
+  if (score >= 40) return "warn";
+  return "bad";
+}
+
 function renderOverall(latest) {
   const overall = latest.overall || "outage";
   const stateEl = document.getElementById("overallState");
@@ -28,12 +45,25 @@ function renderOverall(latest) {
   stateEl.style.color = overall === "operational" ? "var(--ok)" : (overall === "degraded" ? "var(--warn)" : "var(--bad)");
   metaEl.textContent = `Last synthetic check: ${fmtTime(latest.checkedAt)} · Region: ${latest.region || "global"}`;
   document.getElementById("lastUpdated").textContent = `Last update: ${fmtTime(latest.checkedAt)}`;
+
+  const services = latest.services || [];
+  const ops = services.filter((s) => s.state === "operational").length;
+  const degraded = services.filter((s) => s.state === "degraded").length;
+  const outages = services.filter((s) => s.state === "outage").length;
+  const latencies = services.map((s) => Number(s.latencyMs)).filter(Number.isFinite);
+  const avgLatency = latencies.length ? Math.round(latencies.reduce((a, b) => a + b, 0) / latencies.length) : null;
+  document.getElementById("kpiOps").textContent = `${ops}/${services.length}`;
+  document.getElementById("kpiDegraded").textContent = String(degraded);
+  document.getElementById("kpiOutages").textContent = String(outages);
+  document.getElementById("kpiLatency").textContent = avgLatency == null ? "n/a" : `${avgLatency}ms`;
 }
 
 function renderServices(latest) {
   const root = document.getElementById("serviceGrid");
   root.innerHTML = "";
   for (const svc of latest.services || []) {
+    const score = healthScore(svc);
+    const railClass = scoreClass(score);
     const card = document.createElement("article");
     card.className = "service-card";
     card.innerHTML = `
@@ -45,6 +75,8 @@ function renderServices(latest) {
         HTTP ${svc.statusCode ?? "n/a"} · ${svc.latencyMs ?? "n/a"}ms
       </div>
       <div class="service-meta">${svc.url}</div>
+      <div class="health-rail"><div class="health-fill ${railClass}" style="width:${score}%"></div></div>
+      <div class="health-caption">Health score: ${score}/100</div>
     `;
     root.appendChild(card);
   }
@@ -55,9 +87,9 @@ function computeUptime(history, key) {
   if (!window.length) return { pct: 0, bars: [] };
   const bars = window.map((run) => {
     const svc = (run.services || []).find((x) => x.key === key);
-    return svc?.state === "operational";
+    return svc?.state || "outage";
   });
-  const okCount = bars.filter(Boolean).length;
+  const okCount = bars.filter((state) => state === "operational").length;
   return { pct: (okCount / bars.length) * 100, bars };
 }
 
@@ -71,7 +103,7 @@ function renderUptime(latest, history) {
     item.innerHTML = `
       <div class="service-name">${svc.name}</div>
       <div class="uptime-value">${data.pct.toFixed(2)}%</div>
-      <div class="uptime-bars">${data.bars.map((ok) => `<span class="${ok ? "ok" : "bad"}"></span>`).join("")}</div>
+      <div class="uptime-bars">${data.bars.map((state) => `<span class="${badgeClass(state)}"></span>`).join("")}</div>
     `;
     root.appendChild(item);
   }

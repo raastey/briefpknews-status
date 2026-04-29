@@ -37,6 +37,36 @@ const services = [
     expectedStatuses: [200, 401, 503]
   },
   {
+    key: "market",
+    name: "Market API",
+    url: "https://brief-pk-newsfeed-original-production.up.railway.app/api/market",
+    expectedStatuses: [200, 401]
+  },
+  {
+    key: "map",
+    name: "Pakistan Map API",
+    url: "https://brief-pk-newsfeed-original-production.up.railway.app/api/pakistan-map",
+    expectedStatuses: [200, 401]
+  },
+  {
+    key: "security",
+    name: "Security Economy API",
+    url: "https://brief-pk-newsfeed-original-production.up.railway.app/api/security-economy",
+    expectedStatuses: [200, 401]
+  },
+  {
+    key: "securityInsight",
+    name: "Security Insight API",
+    url: "https://brief-pk-newsfeed-original-production.up.railway.app/api/security-economy-insight",
+    expectedStatuses: [200, 401]
+  },
+  {
+    key: "macro",
+    name: "Pakistan Macro API",
+    url: "https://brief-pk-newsfeed-original-production.up.railway.app/api/pakistan-macro",
+    expectedStatuses: [200, 401]
+  },
+  {
     key: "macroInsight",
     name: "Macro Insight API",
     url: "https://brief-pk-newsfeed-original-production.up.railway.app/api/pakistan-macro-insight",
