@@ -251,6 +251,78 @@ table {
 th, td { text-align: left; padding: .5rem; border-bottom: 1px solid var(--panel-border); }
 th { font: 700 .74rem var(--mono-font); text-transform: uppercase; color: var(--text-muted); }
 
+.heatmap {
+  margin-top: .7rem;
+  overflow-x: auto;
+}
+.heatmap table {
+  min-width: 860px;
+  table-layout: fixed;
+}
+.heatmap td { padding: .36rem .4rem; }
+.hm-service {
+  font: 600 .75rem var(--mono-font);
+  color: var(--text-main);
+  width: 160px;
+}
+.hm-box {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  border-radius: 2px;
+}
+.hm-box.ok { background: var(--ok); }
+.hm-box.warn { background: var(--warn); }
+.hm-box.bad { background: var(--bad); }
+
+.deep-controls {
+  margin-top: .7rem;
+  display: flex;
+  align-items: center;
+  gap: .6rem;
+  font: .78rem var(--mono-font);
+}
+#serviceSelect {
+  border: 1px solid var(--panel-border);
+  border-radius: 8px;
+  padding: .45rem .6rem;
+  background: var(--surface);
+}
+.deep-kpis {
+  margin-top: .8rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: .55rem;
+}
+.deep-card {
+  border: 1px solid var(--panel-border);
+  background: var(--surface-2);
+  border-radius: 8px;
+  padding: .56rem;
+}
+.deep-card .k {
+  color: var(--text-muted);
+  font: .64rem var(--mono-font);
+  text-transform: uppercase;
+  letter-spacing: .08em;
+}
+.deep-card .v {
+  margin-top: .25rem;
+  font-weight: 700;
+  font-size: 1rem;
+}
+.deep-chart-wrap {
+  margin-top: .8rem;
+  border: 1px solid var(--panel-border);
+  border-radius: 10px;
+  background: linear-gradient(180deg, rgba(3, 105, 161, 0.05), transparent);
+  padding: .4rem;
+}
+#latencySpark {
+  width: 100%;
+  height: 160px;
+}
+
 .footer {
   display: flex;
   justify-content: space-between;
@@ -265,6 +337,7 @@ th { font: 700 .74rem var(--mono-font); text-transform: uppercase; color: var(--
   .topbar { flex-direction: column; }
   .hero-top { flex-direction: column; }
   .kpi-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .deep-kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .top-actions { width: 100%; }
   .ghost-btn { flex: 1; text-align: center; }
   .footer { flex-direction: column; }

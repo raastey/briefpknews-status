@@ -1,6 +1,8 @@
 const STATUS_PATH = "./status-data/latest.json";
 const HISTORY_PATH = "./status-data/history.json";
 const INCIDENTS_PATH = "./status-data/incidents.json";
+let _latest = null;
+let _historyRuns = [];
 
 function fmtTime(iso) {
   const d = new Date(iso);
@@ -35,6 +37,16 @@ function scoreClass(score) {
   if (score >= 75) return "ok";
   if (score >= 40) return "warn";
   return "bad";
+}
+
+function percentile(sortedVals, p) {
+  if (!sortedVals.length) return null;
+  const idx = (p / 100) * (sortedVals.length - 1);
+  const low = Math.floor(idx);
+  const high = Math.ceil(idx);
+  if (low === high) return sortedVals[low];
+  const ratio = idx - low;
+  return sortedVals[low] + (sortedVals[high] - sortedVals[low]) * ratio;
 }
 
 function renderOverall(latest) {
@@ -149,6 +161,106 @@ function renderHistory(history) {
   `;
 }
 
+function renderHeatmap(latest, history) {
+  const root = document.getElementById("heatmapWrap");
+  const recent = history.slice(-24);
+  const labels = recent.map((run) => new Date(run.checkedAt).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }));
+  const head = labels.map((x) => `<th title="${x}">${x}</th>`).join("");
+  const rows = (latest.services || []).map((svc) => {
+    const boxes = recent.map((run) => {
+      const state = (run.services || []).find((s) => s.key === svc.key)?.state || "outage";
+      return `<td><span class="hm-box ${badgeClass(state)}" title="${normalizeState(state)}"></span></td>`;
+    }).join("");
+    return `<tr><td class="hm-service">${svc.name}</td>${boxes}</tr>`;
+  }).join("");
+  root.innerHTML = `
+    <div class="heatmap">
+      <table>
+        <thead><tr><th class="hm-service">Service</th>${head}</tr></thead>
+        <tbody>${rows}</tbody>
+      </table>
+    </div>
+  `;
+}
+
+function serviceSeries(history, key) {
+  return history
+    .map((run) => ({ t: run.checkedAt, svc: (run.services || []).find((s) => s.key === key) }))
+    .filter((x) => x.svc);
+}
+
+function outageStreak(series) {
+  let current = 0;
+  let max = 0;
+  for (const pt of series) {
+    if (pt.svc.state === "outage") {
+      current += 1;
+      max = Math.max(max, current);
+    } else {
+      current = 0;
+    }
+  }
+  return { current, max };
+}
+
+function buildPath(values, width, height) {
+  if (!values.length) return "";
+  const max = Math.max(...values, 1);
+  const min = Math.min(...values, 0);
+  const span = Math.max(max - min, 1);
+  return values.map((v, i) => {
+    const x = (i / (values.length - 1 || 1)) * width;
+    const y = height - ((v - min) / span) * height;
+    return `${i === 0 ? "M" : "L"}${x.toFixed(1)},${y.toFixed(1)}`;
+  }).join(" ");
+}
+
+function renderDeepDive(latest, history) {
+  const select = document.getElementById("serviceSelect");
+  const root = document.getElementById("deepKpis");
+  const svg = document.getElementById("latencySpark");
+  const services = latest.services || [];
+  if (!services.length) return;
+
+  if (!select.dataset.bound) {
+    select.innerHTML = services.map((s) => `<option value="${s.key}">${s.name}</option>`).join("");
+    select.dataset.bound = "1";
+    select.addEventListener("change", () => renderDeepDive(_latest, _historyRuns));
+  }
+  const activeKey = select.value || services[0].key;
+  if (!select.value) select.value = activeKey;
+  const activeService = services.find((s) => s.key === activeKey) || services[0];
+  const series = serviceSeries(history, activeService.key);
+  const lats = series.map((x) => Number(x.svc.latencyMs)).filter(Number.isFinite).sort((a, b) => a - b);
+  const p50 = percentile(lats, 50);
+  const p95 = percentile(lats, 95);
+  const p99 = percentile(lats, 99);
+  const maxLat = lats.length ? lats[lats.length - 1] : null;
+  const ops = series.filter((x) => x.svc.state === "operational").length;
+  const avail = series.length ? (ops / series.length) * 100 : 0;
+  const streak = outageStreak(series);
+  const errorBudget = Math.max(0, 99.9 - avail);
+  const risk = errorBudget > 0.4 ? "High" : errorBudget > 0.15 ? "Medium" : "Low";
+  root.innerHTML = `
+    <article class="deep-card"><div class="k">24h Availability</div><div class="v">${avail.toFixed(2)}%</div></article>
+    <article class="deep-card"><div class="k">P50 Latency</div><div class="v">${p50 == null ? "n/a" : `${Math.round(p50)}ms`}</div></article>
+    <article class="deep-card"><div class="k">P95 Latency</div><div class="v">${p95 == null ? "n/a" : `${Math.round(p95)}ms`}</div></article>
+    <article class="deep-card"><div class="k">P99 Latency</div><div class="v">${p99 == null ? "n/a" : `${Math.round(p99)}ms`}</div></article>
+    <article class="deep-card"><div class="k">Max Latency</div><div class="v">${maxLat == null ? "n/a" : `${Math.round(maxLat)}ms`}</div></article>
+    <article class="deep-card"><div class="k">Outage Streak</div><div class="v">${streak.current} now / ${streak.max} max</div></article>
+    <article class="deep-card"><div class="k">Error Budget Burn</div><div class="v">${errorBudget.toFixed(3)}%</div></article>
+    <article class="deep-card"><div class="k">SLO Risk</div><div class="v">${risk}</div></article>
+  `;
+
+  const latSeq = series.map((x) => Number(x.svc.latencyMs)).filter(Number.isFinite).slice(-96);
+  const path = buildPath(latSeq, 900, 150);
+  svg.innerHTML = `
+    <line x1="0" y1="150" x2="900" y2="150" stroke="#cbd5e1" stroke-width="1"></line>
+    <path d="${path}" fill="none" stroke="#0369a1" stroke-width="3" stroke-linecap="round"></path>
+    <text x="8" y="16" fill="#64748b" font-size="12" font-family="JetBrains Mono">${activeService.name} latency trend</text>
+  `;
+}
+
 async function loadStatus() {
   const [latestRes, historyRes, incidentsRes] = await Promise.all([
     fetch(`${STATUS_PATH}?t=${Date.now()}`),
@@ -159,11 +271,15 @@ async function loadStatus() {
   const latest = await latestRes.json();
   const history = await historyRes.json();
   const incidents = await incidentsRes.json();
+  _latest = latest;
+  _historyRuns = history.runs || [];
   renderOverall(latest);
   renderServices(latest);
-  renderUptime(latest, history.runs || []);
+  renderUptime(latest, _historyRuns);
+  renderHeatmap(latest, _historyRuns);
+  renderDeepDive(latest, _historyRuns);
   renderIncidents(incidents.items || []);
-  renderHistory(history.runs || []);
+  renderHistory(_historyRuns);
 }
 
 document.getElementById("refreshBtn").addEventListener("click", () => loadStatus().catch(console.error));

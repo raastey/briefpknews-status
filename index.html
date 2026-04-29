@@ -76,6 +76,29 @@
 
     <section class="panel">
       <div class="panel-head">
+        <h2>Mission Control Heatmap</h2>
+        <p>Latest 24 synthetic runs by service (green/yellow/red).</p>
+      </div>
+      <div id="heatmapWrap"></div>
+    </section>
+
+    <section class="panel">
+      <div class="panel-head">
+        <h2>Service Deep Dive</h2>
+        <p>Latency percentiles, outage streaks, error budget risk.</p>
+      </div>
+      <div class="deep-controls">
+        <label for="serviceSelect">Service</label>
+        <select id="serviceSelect"></select>
+      </div>
+      <div class="deep-kpis" id="deepKpis"></div>
+      <div class="deep-chart-wrap">
+        <svg id="latencySpark" viewBox="0 0 900 160" preserveAspectRatio="none" aria-label="latency trend"></svg>
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="panel-head">
         <h2>Incidents & Maintenance</h2>
       </div>
       <div id="incidentList" class="incident-list"></div>
