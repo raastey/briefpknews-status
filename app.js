@@ -55,8 +55,14 @@ function renderOverall(latest) {
   const metaEl = document.getElementById("overallMeta");
   stateEl.textContent = normalizeState(overall);
   stateEl.style.color = overall === "operational" ? "var(--ok)" : (overall === "degraded" ? "var(--warn)" : "var(--bad)");
-  metaEl.textContent = `Last synthetic check: ${fmtTime(latest.checkedAt)} · Region: ${latest.region || "global"}`;
+  metaEl.textContent = `Last check: ${fmtTime(latest.checkedAt)} · ${latest.region || "global"}`;
   document.getElementById("lastUpdated").textContent = `Last update: ${fmtTime(latest.checkedAt)}`;
+
+  // Drive the status orb and hero glow
+  const orb = document.getElementById("statusOrb");
+  const card = document.getElementById("overallCard");
+  if (orb) orb.dataset.state = overall;
+  if (card) card.dataset.state = overall;
 
   const services = latest.services || [];
   const ops = services.filter((s) => s.state === "operational").length;
@@ -77,7 +83,7 @@ function renderServices(latest) {
     const score = healthScore(svc);
     const railClass = scoreClass(score);
     const card = document.createElement("article");
-    card.className = "service-card";
+    card.className = `service-card ${badgeClass(svc.state)}`;
     card.innerHTML = `
       <div class="service-top">
         <div class="service-name">${svc.name}</div>
@@ -113,7 +119,7 @@ function renderUptime(latest, history) {
     const item = document.createElement("article");
     item.className = "uptime-item";
     item.innerHTML = `
-      <div class="service-name">${svc.name}</div>
+      <div class="uptime-label">${svc.name}</div>
       <div class="uptime-value">${data.pct.toFixed(2)}%</div>
       <div class="uptime-bars">${data.bars.map((state) => `<span class="${badgeClass(state)}"></span>`).join("")}</div>
     `;
@@ -350,11 +356,38 @@ function renderDeepDive(latest, history) {
   `;
 
   const latSeq = series.map((x) => Number(x.svc.latencyMs)).filter(Number.isFinite).slice(-96);
-  const path = buildPath(latSeq, 900, 150);
+  const linePath = buildPath(latSeq, 900, 140);
+
+  // Build area path that closes back to the baseline
+  let areaPath = "";
+  if (latSeq.length > 1) {
+    const max = Math.max(...latSeq, 1);
+    const min = Math.min(...latSeq, 0);
+    const span = Math.max(max - min, 1);
+    const pts = latSeq.map((v, i) => {
+      const x = (i / (latSeq.length - 1)) * 900;
+      const y = 140 - ((v - min) / span) * 140;
+      return [x, y];
+    });
+    areaPath = `M${pts[0][0].toFixed(1)},${pts[0][1].toFixed(1)} ` +
+      pts.slice(1).map(([x, y]) => `L${x.toFixed(1)},${y.toFixed(1)}`).join(" ") +
+      ` L900,140 L0,140 Z`;
+  }
+
   svg.innerHTML = `
-    <line x1="0" y1="150" x2="900" y2="150" stroke="#cbd5e1" stroke-width="1"></line>
-    <path d="${path}" fill="none" stroke="#0369a1" stroke-width="3" stroke-linecap="round"></path>
-    <text x="8" y="16" fill="#64748b" font-size="12" font-family="JetBrains Mono">${activeService.name} latency trend</text>
+    <defs>
+      <linearGradient id="sparkAreaGrad" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%"   stop-color="#3b82f6" stop-opacity="0.22"/>
+        <stop offset="100%" stop-color="#3b82f6" stop-opacity="0"/>
+      </linearGradient>
+    </defs>
+    <line x1="0" y1="35"  x2="900" y2="35"  stroke="rgba(15,23,42,0.06)" stroke-width="1"/>
+    <line x1="0" y1="70"  x2="900" y2="70"  stroke="rgba(15,23,42,0.06)" stroke-width="1"/>
+    <line x1="0" y1="105" x2="900" y2="105" stroke="rgba(15,23,42,0.06)" stroke-width="1"/>
+    <line x1="0" y1="140" x2="900" y2="140" stroke="rgba(15,23,42,0.1)"  stroke-width="1"/>
+    ${areaPath ? `<path d="${areaPath}" fill="url(#sparkAreaGrad)"/>` : ""}
+    <path d="${linePath}" fill="none" stroke="#3b82f6" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+    <text x="8" y="16" fill="#64748b" font-size="11" font-family="JetBrains Mono">${activeService.name} · latency trend (last 96 checks)</text>
   `;
 }
 
