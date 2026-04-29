@@ -183,6 +183,52 @@ function renderHeatmap(latest, history) {
   `;
 }
 
+function aiSwitchCount(history) {
+  let prev = null;
+  let count = 0;
+  for (const run of history.slice(-288)) {
+    const curr = run.aiRouter?.activeProvider || null;
+    if (prev && curr && curr !== prev) count += 1;
+    if (curr) prev = curr;
+  }
+  return count;
+}
+
+function renderAiRouter(latest, history) {
+  const summary = document.getElementById("aiRouterSummary");
+  const grid = document.getElementById("aiProviderGrid");
+  const router = latest.aiRouter;
+  if (!summary || !grid) return;
+  if (!router || !router.providers) {
+    summary.innerHTML = `<article class="ai-pill"><div class="k">Router status</div><div class="v">Unavailable</div></article>`;
+    grid.innerHTML = "";
+    return;
+  }
+  const switches = aiSwitchCount(history);
+  const configured = Object.entries(router.providers).filter(([, v]) => v?.configured).length;
+  summary.innerHTML = `
+    <article class="ai-pill"><div class="k">Active Provider</div><div class="v">${(router.activeProvider || "none").toUpperCase()}</div></article>
+    <article class="ai-pill"><div class="k">Routing Order</div><div class="v">${(router.order || []).join(" → ")}</div></article>
+    <article class="ai-pill"><div class="k">Configured Providers</div><div class="v">${configured}</div></article>
+    <article class="ai-pill"><div class="k">24h Provider Switches</div><div class="v">${switches}</div></article>
+  `;
+  const cards = Object.entries(router.providers).map(([name, info]) => {
+    const state = !info?.configured ? "outage" : (info.pausedUntil ? "degraded" : "operational");
+    const paused = info?.pausedUntil ? `Paused until ${fmtTime(info.pausedUntil)}` : "Live";
+    return `
+      <article class="ai-provider-card">
+        <div class="ai-provider-top">
+          <div class="ai-provider-name">${name}</div>
+          <span class="badge ${badgeClass(state)}">${normalizeState(state)}</span>
+        </div>
+        <div class="ai-provider-meta">Model: ${info?.model || "n/a"}</div>
+        <div class="ai-provider-meta">${paused}</div>
+      </article>
+    `;
+  }).join("");
+  grid.innerHTML = cards;
+}
+
 function serviceSeries(history, key) {
   return history
     .map((run) => ({ t: run.checkedAt, svc: (run.services || []).find((s) => s.key === key) }))
@@ -277,6 +323,7 @@ async function loadStatus() {
   renderServices(latest);
   renderUptime(latest, _historyRuns);
   renderHeatmap(latest, _historyRuns);
+  renderAiRouter(latest, _historyRuns);
   renderDeepDive(latest, _historyRuns);
   renderIncidents(incidents.items || []);
   renderHistory(_historyRuns);

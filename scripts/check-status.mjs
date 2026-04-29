@@ -114,6 +114,25 @@ async function probe(service) {
   }
 }
 
+async function fetchAiRouterSnapshot() {
+  const ctrl = new AbortController();
+  const timer = setTimeout(() => ctrl.abort(), TIMEOUT_MS);
+  try {
+    const res = await fetch("https://brief-pk-newsfeed-original-production.up.railway.app/api/health", {
+      method: "GET",
+      signal: ctrl.signal,
+      headers: { "cache-control": "no-cache" }
+    });
+    if (!res.ok) return null;
+    const body = await res.json();
+    return body?.ai_router || null;
+  } catch {
+    return null;
+  } finally {
+    clearTimeout(timer);
+  }
+}
+
 function aggregateOverall(results) {
   if (results.some((r) => r.state === "outage")) return "outage";
   if (results.some((r) => r.state === "degraded")) return "degraded";
@@ -123,11 +142,13 @@ function aggregateOverall(results) {
 async function main() {
   const checkedAt = new Date().toISOString();
   const results = await Promise.all(services.map((svc) => probe(svc)));
+  const aiRouter = await fetchAiRouterSnapshot();
   const latest = {
     checkedAt,
     overall: aggregateOverall(results),
     region: "github-actions",
-    services: results
+    services: results,
+    aiRouter
   };
 
   let history = { runs: [] };

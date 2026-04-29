@@ -275,6 +275,58 @@ th { font: 700 .74rem var(--mono-font); text-transform: uppercase; color: var(--
 .hm-box.warn { background: var(--warn); }
 .hm-box.bad { background: var(--bad); }
 
+.ai-router-summary {
+  margin-top: .7rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: .55rem;
+}
+.ai-pill {
+  border: 1px solid var(--panel-border);
+  background: var(--surface-2);
+  border-radius: 8px;
+  padding: .58rem;
+}
+.ai-pill .k {
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  font: .62rem var(--mono-font);
+}
+.ai-pill .v {
+  margin-top: .22rem;
+  font-size: .95rem;
+  font-weight: 700;
+}
+.ai-provider-grid {
+  margin-top: .7rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  gap: .55rem;
+}
+.ai-provider-card {
+  border: 1px solid var(--panel-border);
+  border-radius: 10px;
+  background: var(--surface);
+  padding: .62rem;
+}
+.ai-provider-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: .4rem;
+}
+.ai-provider-name {
+  font: 700 .78rem var(--mono-font);
+  text-transform: uppercase;
+  letter-spacing: .08em;
+}
+.ai-provider-meta {
+  margin-top: .42rem;
+  color: var(--text-dim);
+  font: .74rem var(--mono-font);
+}
+
 .deep-controls {
   margin-top: .7rem;
   display: flex;
