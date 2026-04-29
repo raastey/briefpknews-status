@@ -327,6 +327,50 @@ th { font: 700 .74rem var(--mono-font); text-transform: uppercase; color: var(--
   font: .74rem var(--mono-font);
 }
 
+.user-pulse-summary {
+  margin-top: .7rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: .55rem;
+}
+.user-pulse-grid {
+  margin-top: .7rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: .55rem;
+}
+.user-card {
+  border: 1px solid var(--panel-border);
+  background: linear-gradient(180deg, rgba(3, 105, 161, 0.06), transparent);
+  border-radius: 10px;
+  padding: .64rem;
+}
+.user-card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: .4rem;
+}
+.user-title {
+  font: 700 .82rem var(--mono-font);
+  letter-spacing: .06em;
+  text-transform: uppercase;
+}
+.user-meta {
+  margin-top: .4rem;
+  color: var(--text-dim);
+  font: .73rem var(--mono-font);
+}
+.journey-steps {
+  margin-top: .45rem;
+  display: grid;
+  gap: .25rem;
+}
+.journey-steps span {
+  color: var(--text-muted);
+  font: .67rem var(--mono-font);
+}
+
 .deep-controls {
   margin-top: .7rem;
   display: flex;

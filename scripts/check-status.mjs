@@ -133,6 +133,84 @@ async function fetchAiRouterSnapshot() {
   }
 }
 
+async function probeUrl(url, expectedStatuses) {
+  const ctrl = new AbortController();
+  const timer = setTimeout(() => ctrl.abort(), TIMEOUT_MS);
+  const start = Date.now();
+  try {
+    const res = await fetch(url, {
+      method: "GET",
+      signal: ctrl.signal,
+      headers: { "cache-control": "no-cache" },
+      redirect: "manual"
+    });
+    const latencyMs = Date.now() - start;
+    const ok = expectedStatuses.includes(res.status);
+    return { ok, statusCode: res.status, latencyMs };
+  } catch {
+    return { ok: false, statusCode: 0, latencyMs: null };
+  } finally {
+    clearTimeout(timer);
+  }
+}
+
+async function probeUserJourneys() {
+  const checks = [
+    {
+      key: "guest-landing",
+      name: "Guest Landing Flow",
+      steps: [
+        { label: "Load home shell", url: "https://brief-pk-newsfeed-original-production.up.railway.app/", expected: [200, 301, 302] },
+        { label: "Reach login page", url: "https://brief-pk-newsfeed-original-production.up.railway.app/login.html", expected: [200] }
+      ]
+    },
+    {
+      key: "auth-gate",
+      name: "Auth Gate Integrity",
+      steps: [
+        { label: "Protected /api/news blocks guest", url: "https://brief-pk-newsfeed-original-production.up.railway.app/api/news", expected: [401] },
+        { label: "Session probe returns auth state", url: "https://brief-pk-newsfeed-original-production.up.railway.app/api/auth/me", expected: [200, 401] }
+      ]
+    },
+    {
+      key: "reader-path",
+      name: "Reader Core Journey",
+      steps: [
+        { label: "Public health endpoint", url: "https://brief-pk-newsfeed-original-production.up.railway.app/api/health", expected: [200] },
+        { label: "Intelligence endpoint reachable", url: "https://brief-pk-newsfeed-original-production.up.railway.app/api/intelligence", expected: [200, 401, 503] }
+      ]
+    }
+  ];
+
+  const out = [];
+  for (const journey of checks) {
+    const stepResults = [];
+    for (const step of journey.steps) {
+      const r = await probeUrl(step.url, step.expected);
+      stepResults.push({
+        label: step.label,
+        statusCode: r.statusCode,
+        latencyMs: r.latencyMs,
+        ok: r.ok
+      });
+    }
+    const pass = stepResults.filter((s) => s.ok).length;
+    const avg = stepResults
+      .map((s) => Number(s.latencyMs))
+      .filter(Number.isFinite);
+    const avgLatencyMs = avg.length ? Math.round(avg.reduce((a, b) => a + b, 0) / avg.length) : null;
+    out.push({
+      key: journey.key,
+      name: journey.name,
+      state: pass === stepResults.length ? "operational" : (pass > 0 ? "degraded" : "outage"),
+      score: Math.round((pass / stepResults.length) * 100),
+      avgLatencyMs,
+      steps: stepResults
+    });
+  }
+  return out;
+}
+
 function aggregateOverall(results) {
   if (results.some((r) => r.state === "outage")) return "outage";
   if (results.some((r) => r.state === "degraded")) return "degraded";
@@ -143,12 +221,14 @@ async function main() {
   const checkedAt = new Date().toISOString();
   const results = await Promise.all(services.map((svc) => probe(svc)));
   const aiRouter = await fetchAiRouterSnapshot();
+  const userJourneys = await probeUserJourneys();
   const latest = {
     checkedAt,
     overall: aggregateOverall(results),
     region: "github-actions",
     services: results,
-    aiRouter
+    aiRouter,
+    userJourneys
   };
 
   let history = { runs: [] };

@@ -229,6 +229,57 @@ function renderAiRouter(latest, history) {
   grid.innerHTML = cards;
 }
 
+function userJourneySwitches(history) {
+  let transitions = 0;
+  let prev = null;
+  for (const run of history.slice(-288)) {
+    const states = (run.userJourneys || []).map((j) => `${j.key}:${j.state}`).join("|");
+    if (prev && states && states !== prev) transitions += 1;
+    if (states) prev = states;
+  }
+  return transitions;
+}
+
+function renderUserPulse(latest, history) {
+  const summary = document.getElementById("userPulseSummary");
+  const grid = document.getElementById("userPulseGrid");
+  const journeys = latest.userJourneys || [];
+  if (!summary || !grid) return;
+  if (!journeys.length) {
+    summary.innerHTML = `<article class="ai-pill"><div class="k">User Pulse</div><div class="v">Unavailable</div></article>`;
+    grid.innerHTML = "";
+    return;
+  }
+  const ok = journeys.filter((j) => j.state === "operational").length;
+  const degraded = journeys.filter((j) => j.state === "degraded").length;
+  const outage = journeys.filter((j) => j.state === "outage").length;
+  const avgScore = Math.round(journeys.reduce((a, b) => a + (Number(b.score) || 0), 0) / journeys.length);
+  const drift = userJourneySwitches(history);
+  summary.innerHTML = `
+    <article class="ai-pill"><div class="k">Healthy Journeys</div><div class="v">${ok}/${journeys.length}</div></article>
+    <article class="ai-pill"><div class="k">Degraded</div><div class="v">${degraded}</div></article>
+    <article class="ai-pill"><div class="k">Outages</div><div class="v">${outage}</div></article>
+    <article class="ai-pill"><div class="k">Avg UX Score</div><div class="v">${avgScore}/100</div></article>
+    <article class="ai-pill"><div class="k">Journey State Changes (24h)</div><div class="v">${drift}</div></article>
+  `;
+  grid.innerHTML = journeys.map((j) => {
+    const klass = scoreClass(Number(j.score) || 0);
+    return `
+      <article class="user-card">
+        <div class="user-card-top">
+          <div class="user-title">${j.name}</div>
+          <span class="badge ${badgeClass(j.state)}">${normalizeState(j.state)}</span>
+        </div>
+        <div class="health-rail"><div class="health-fill ${klass}" style="width:${Math.max(0, Math.min(100, Number(j.score) || 0))}%"></div></div>
+        <div class="user-meta">Journey score: ${j.score}/100 · Avg latency: ${j.avgLatencyMs ?? "n/a"}ms</div>
+        <div class="journey-steps">
+          ${(j.steps || []).map((s) => `<span>${s.ok ? "✓" : "✕"} ${s.label} · HTTP ${s.statusCode} · ${s.latencyMs ?? "n/a"}ms</span>`).join("")}
+        </div>
+      </article>
+    `;
+  }).join("");
+}
+
 function serviceSeries(history, key) {
   return history
     .map((run) => ({ t: run.checkedAt, svc: (run.services || []).find((s) => s.key === key) }))
@@ -324,6 +375,7 @@ async function loadStatus() {
   renderUptime(latest, _historyRuns);
   renderHeatmap(latest, _historyRuns);
   renderAiRouter(latest, _historyRuns);
+  renderUserPulse(latest, _historyRuns);
   renderDeepDive(latest, _historyRuns);
   renderIncidents(incidents.items || []);
   renderHistory(_historyRuns);
