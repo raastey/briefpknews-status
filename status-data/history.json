@@ -2937,6 +2937,203 @@
           ]
         }
       ]
+    },
+    {
+      "checkedAt": "2026-04-29T13:26:32.699Z",
+      "overall": "operational",
+      "region": "github-actions",
+      "services": [
+        {
+          "key": "site",
+          "name": "Main Website",
+          "url": "https://brief-pk-newsfeed-original-production.up.railway.app/",
+          "state": "operational",
+          "statusCode": 200,
+          "latencyMs": 499
+        },
+        {
+          "key": "health",
+          "name": "Public Health API",
+          "url": "https://brief-pk-newsfeed-original-production.up.railway.app/api/health",
+          "state": "operational",
+          "statusCode": 200,
+          "latencyMs": 225
+        },
+        {
+          "key": "auth",
+          "name": "Auth Endpoint",
+          "url": "https://brief-pk-newsfeed-original-production.up.railway.app/api/auth/me",
+          "state": "operational",
+          "statusCode": 200,
+          "latencyMs": 242
+        },
+        {
+          "key": "news",
+          "name": "News API",
+          "url": "https://brief-pk-newsfeed-original-production.up.railway.app/api/news",
+          "state": "operational",
+          "statusCode": 401,
+          "latencyMs": 241
+        },
+        {
+          "key": "intel",
+          "name": "Intelligence API",
+          "url": "https://brief-pk-newsfeed-original-production.up.railway.app/api/intelligence",
+          "state": "operational",
+          "statusCode": 401,
+          "latencyMs": 250
+        },
+        {
+          "key": "market",
+          "name": "Market API",
+          "url": "https://brief-pk-newsfeed-original-production.up.railway.app/api/market",
+          "state": "operational",
+          "statusCode": 401,
+          "latencyMs": 248
+        },
+        {
+          "key": "map",
+          "name": "Pakistan Map API",
+          "url": "https://brief-pk-newsfeed-original-production.up.railway.app/api/pakistan-map",
+          "state": "operational",
+          "statusCode": 401,
+          "latencyMs": 246
+        },
+        {
+          "key": "security",
+          "name": "Security Economy API",
+          "url": "https://brief-pk-newsfeed-original-production.up.railway.app/api/security-economy",
+          "state": "operational",
+          "statusCode": 401,
+          "latencyMs": 263
+        },
+        {
+          "key": "securityInsight",
+          "name": "Security Insight API",
+          "url": "https://brief-pk-newsfeed-original-production.up.railway.app/api/security-economy-insight",
+          "state": "operational",
+          "statusCode": 401,
+          "latencyMs": 253
+        },
+        {
+          "key": "macro",
+          "name": "Pakistan Macro API",
+          "url": "https://brief-pk-newsfeed-original-production.up.railway.app/api/pakistan-macro",
+          "state": "operational",
+          "statusCode": 401,
+          "latencyMs": 258
+        },
+        {
+          "key": "macroInsight",
+          "name": "Macro Insight API",
+          "url": "https://brief-pk-newsfeed-original-production.up.railway.app/api/pakistan-macro-insight",
+          "state": "operational",
+          "statusCode": 401,
+          "latencyMs": 267
+        }
+      ],
+      "aiRouter": {
+        "order": [
+          "groq",
+          "openrouter",
+          "nvidia",
+          "deepseek",
+          "cerebras"
+        ],
+        "activeProvider": "openrouter",
+        "providers": {
+          "groq": {
+            "configured": true,
+            "model": "llama-3.3-70b-versatile",
+            "pausedUntil": "2026-04-30T00:00:00.000Z"
+          },
+          "openrouter": {
+            "configured": true,
+            "model": "deepseek/deepseek-chat-v3-0324:free",
+            "pausedUntil": null
+          },
+          "nvidia": {
+            "configured": true,
+            "model": "meta/llama-3.3-70b-instruct",
+            "pausedUntil": null
+          },
+          "deepseek": {
+            "configured": true,
+            "model": "deepseek-chat",
+            "pausedUntil": null
+          },
+          "cerebras": {
+            "configured": true,
+            "model": "llama3.1-8b",
+            "pausedUntil": null
+          }
+        }
+      },
+      "userJourneys": [
+        {
+          "key": "guest-landing",
+          "name": "Guest Landing Flow",
+          "state": "operational",
+          "score": 100,
+          "avgLatencyMs": 101,
+          "steps": [
+            {
+              "label": "Load home shell",
+              "statusCode": 302,
+              "latencyMs": 97,
+              "ok": true
+            },
+            {
+              "label": "Reach login page",
+              "statusCode": 200,
+              "latencyMs": 105,
+              "ok": true
+            }
+          ]
+        },
+        {
+          "key": "auth-gate",
+          "name": "Auth Gate Integrity",
+          "state": "operational",
+          "score": 100,
+          "avgLatencyMs": 197,
+          "steps": [
+            {
+              "label": "Protected /api/news blocks guest",
+              "statusCode": 401,
+              "latencyMs": 188,
+              "ok": true
+            },
+            {
+              "label": "Session probe returns auth state",
+              "statusCode": 200,
+              "latencyMs": 206,
+              "ok": true
+            }
+          ]
+        },
+        {
+          "key": "reader-path",
+          "name": "Reader Core Journey",
+          "state": "operational",
+          "score": 100,
+          "avgLatencyMs": 148,
+          "steps": [
+            {
+              "label": "Public health endpoint",
+              "statusCode": 200,
+              "latencyMs": 192,
+              "ok": true
+            },
+            {
+              "label": "Intelligence endpoint reachable",
+              "statusCode": 401,
+              "latencyMs": 103,
+              "ok": true
+            }
+          ]
+        }
+      ]
     }
   ]
 }
