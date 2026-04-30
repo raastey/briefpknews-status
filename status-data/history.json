@@ -8179,6 +8179,208 @@
           ]
         }
       ]
+    },
+    {
+      "checkedAt": "2026-04-30T07:29:32.358Z",
+      "overall": "operational",
+      "region": "github-actions",
+      "services": [
+        {
+          "key": "site",
+          "name": "Main Website",
+          "url": "https://brief-pk-newsfeed-original-production.up.railway.app/",
+          "state": "operational",
+          "statusCode": 200,
+          "latencyMs": 432
+        },
+        {
+          "key": "health",
+          "name": "Public Health API",
+          "url": "https://brief-pk-newsfeed-original-production.up.railway.app/api/health",
+          "state": "operational",
+          "statusCode": 200,
+          "latencyMs": 260
+        },
+        {
+          "key": "auth",
+          "name": "Auth Endpoint",
+          "url": "https://brief-pk-newsfeed-original-production.up.railway.app/api/auth/me",
+          "state": "operational",
+          "statusCode": 200,
+          "latencyMs": 275
+        },
+        {
+          "key": "news",
+          "name": "News API",
+          "url": "https://brief-pk-newsfeed-original-production.up.railway.app/api/news",
+          "state": "operational",
+          "statusCode": 401,
+          "latencyMs": 277
+        },
+        {
+          "key": "intel",
+          "name": "Intelligence API",
+          "url": "https://brief-pk-newsfeed-original-production.up.railway.app/api/intelligence",
+          "state": "operational",
+          "statusCode": 401,
+          "latencyMs": 304
+        },
+        {
+          "key": "market",
+          "name": "Market API",
+          "url": "https://brief-pk-newsfeed-original-production.up.railway.app/api/market",
+          "state": "operational",
+          "statusCode": 401,
+          "latencyMs": 292
+        },
+        {
+          "key": "map",
+          "name": "Pakistan Map API",
+          "url": "https://brief-pk-newsfeed-original-production.up.railway.app/api/pakistan-map",
+          "state": "operational",
+          "statusCode": 401,
+          "latencyMs": 321
+        },
+        {
+          "key": "security",
+          "name": "Security Economy API",
+          "url": "https://brief-pk-newsfeed-original-production.up.railway.app/api/security-economy",
+          "state": "operational",
+          "statusCode": 401,
+          "latencyMs": 322
+        },
+        {
+          "key": "securityInsight",
+          "name": "Security Insight API",
+          "url": "https://brief-pk-newsfeed-original-production.up.railway.app/api/security-economy-insight",
+          "state": "operational",
+          "statusCode": 401,
+          "latencyMs": 331
+        },
+        {
+          "key": "macro",
+          "name": "Pakistan Macro API",
+          "url": "https://brief-pk-newsfeed-original-production.up.railway.app/api/pakistan-macro",
+          "state": "operational",
+          "statusCode": 401,
+          "latencyMs": 342
+        },
+        {
+          "key": "macroInsight",
+          "name": "Macro Insight API",
+          "url": "https://brief-pk-newsfeed-original-production.up.railway.app/api/pakistan-macro-insight",
+          "state": "operational",
+          "statusCode": 401,
+          "latencyMs": 335
+        }
+      ],
+      "aiRouter": {
+        "order": [
+          "groq",
+          "openrouter",
+          "nvidia",
+          "deepseek",
+          "cerebras"
+        ],
+        "activeProvider": "openrouter",
+        "providers": {
+          "groq": {
+            "configured": true,
+            "model": "llama-3.3-70b-versatile",
+            "enabled": true,
+            "pausedUntil": "2026-05-01T00:00:00.000Z"
+          },
+          "openrouter": {
+            "configured": true,
+            "model": "deepseek/deepseek-chat-v3-0324:free",
+            "enabled": true,
+            "pausedUntil": null
+          },
+          "nvidia": {
+            "configured": true,
+            "model": "meta/llama-3.3-70b-instruct",
+            "enabled": true,
+            "pausedUntil": null
+          },
+          "deepseek": {
+            "configured": true,
+            "model": "deepseek-chat",
+            "enabled": true,
+            "pausedUntil": null
+          },
+          "cerebras": {
+            "configured": true,
+            "model": "llama3.1-8b",
+            "enabled": true,
+            "pausedUntil": null
+          }
+        }
+      },
+      "userJourneys": [
+        {
+          "key": "guest-landing",
+          "name": "Guest Landing Flow",
+          "state": "operational",
+          "score": 100,
+          "avgLatencyMs": 112,
+          "steps": [
+            {
+              "label": "Load home shell",
+              "statusCode": 302,
+              "latencyMs": 112,
+              "ok": true
+            },
+            {
+              "label": "Reach login page",
+              "statusCode": 200,
+              "latencyMs": 111,
+              "ok": true
+            }
+          ]
+        },
+        {
+          "key": "auth-gate",
+          "name": "Auth Gate Integrity",
+          "state": "operational",
+          "score": 100,
+          "avgLatencyMs": 154,
+          "steps": [
+            {
+              "label": "Protected /api/news blocks guest",
+              "statusCode": 401,
+              "latencyMs": 110,
+              "ok": true
+            },
+            {
+              "label": "Session probe returns auth state",
+              "statusCode": 200,
+              "latencyMs": 198,
+              "ok": true
+            }
+          ]
+        },
+        {
+          "key": "reader-path",
+          "name": "Reader Core Journey",
+          "state": "operational",
+          "score": 100,
+          "avgLatencyMs": 153,
+          "steps": [
+            {
+              "label": "Public health endpoint",
+              "statusCode": 200,
+              "latencyMs": 194,
+              "ok": true
+            },
+            {
+              "label": "Intelligence endpoint reachable",
+              "statusCode": 401,
+              "latencyMs": 112,
+              "ok": true
+            }
+          ]
+        }
+      ]
     }
   ]
 }
