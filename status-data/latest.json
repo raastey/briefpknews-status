@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-05-01T16:29:15.285Z",
+  "checkedAt": "2026-05-01T16:53:50.389Z",
   "overall": "operational",
   "region": "github-actions",
   "services": [
@@ -9,7 +9,7 @@
       "url": "https://brief-pk-newsfeed-original-production.up.railway.app/",
       "state": "operational",
       "statusCode": 200,
-      "latencyMs": 474
+      "latencyMs": 454
     },
     {
       "key": "health",
@@ -17,7 +17,7 @@
       "url": "https://brief-pk-newsfeed-original-production.up.railway.app/api/health",
       "state": "operational",
       "statusCode": 200,
-      "latencyMs": 266
+      "latencyMs": 249
     },
     {
       "key": "auth",
@@ -25,7 +25,7 @@
       "url": "https://brief-pk-newsfeed-original-production.up.railway.app/api/auth/me",
       "state": "operational",
       "statusCode": 200,
-      "latencyMs": 269
+      "latencyMs": 293
     },
     {
       "key": "news",
@@ -33,7 +33,7 @@
       "url": "https://brief-pk-newsfeed-original-production.up.railway.app/api/news",
       "state": "operational",
       "statusCode": 401,
-      "latencyMs": 271
+      "latencyMs": 288
     },
     {
       "key": "intel",
@@ -41,7 +41,7 @@
       "url": "https://brief-pk-newsfeed-original-production.up.railway.app/api/intelligence",
       "state": "operational",
       "statusCode": 401,
-      "latencyMs": 295
+      "latencyMs": 316
     },
     {
       "key": "market",
@@ -49,7 +49,7 @@
       "url": "https://brief-pk-newsfeed-original-production.up.railway.app/api/market",
       "state": "operational",
       "statusCode": 401,
-      "latencyMs": 304
+      "latencyMs": 311
     },
     {
       "key": "map",
@@ -57,7 +57,7 @@
       "url": "https://brief-pk-newsfeed-original-production.up.railway.app/api/pakistan-map",
       "state": "operational",
       "statusCode": 401,
-      "latencyMs": 313
+      "latencyMs": 323
     },
     {
       "key": "security",
@@ -65,7 +65,7 @@
       "url": "https://brief-pk-newsfeed-original-production.up.railway.app/api/security-economy",
       "state": "operational",
       "statusCode": 401,
-      "latencyMs": 333
+      "latencyMs": 346
     },
     {
       "key": "securityInsight",
@@ -73,7 +73,7 @@
       "url": "https://brief-pk-newsfeed-original-production.up.railway.app/api/security-economy-insight",
       "state": "operational",
       "statusCode": 401,
-      "latencyMs": 381
+      "latencyMs": 357
     },
     {
       "key": "macro",
@@ -81,7 +81,7 @@
       "url": "https://brief-pk-newsfeed-original-production.up.railway.app/api/pakistan-macro",
       "state": "operational",
       "statusCode": 401,
-      "latencyMs": 345
+      "latencyMs": 363
     },
     {
       "key": "macroInsight",
@@ -89,7 +89,7 @@
       "url": "https://brief-pk-newsfeed-original-production.up.railway.app/api/pakistan-macro-insight",
       "state": "operational",
       "statusCode": 401,
-      "latencyMs": 403
+      "latencyMs": 385
     }
   ],
   "aiRouter": {
@@ -100,13 +100,13 @@
       "deepseek",
       "cerebras"
     ],
-    "activeProvider": "groq",
+    "activeProvider": "openrouter",
     "providers": {
       "groq": {
         "configured": true,
         "model": "llama-3.3-70b-versatile",
         "enabled": true,
-        "pausedUntil": null
+        "pausedUntil": "2026-05-02T00:00:00.000Z"
       },
       "openrouter": {
         "configured": true,
@@ -140,18 +140,18 @@
       "name": "Guest Landing Flow",
       "state": "operational",
       "score": 100,
-      "avgLatencyMs": 198,
+      "avgLatencyMs": 158,
       "steps": [
         {
           "label": "Load home shell",
           "statusCode": 302,
-          "latencyMs": 198,
+          "latencyMs": 200,
           "ok": true
         },
         {
           "label": "Reach login page",
           "statusCode": 200,
-          "latencyMs": 198,
+          "latencyMs": 115,
           "ok": true
         }
       ]
@@ -161,18 +161,18 @@
       "name": "Auth Gate Integrity",
       "state": "operational",
       "score": 100,
-      "avgLatencyMs": 157,
+      "avgLatencyMs": 114,
       "steps": [
         {
           "label": "Protected /api/news blocks guest",
           "statusCode": 401,
-          "latencyMs": 195,
+          "latencyMs": 115,
           "ok": true
         },
         {
           "label": "Session probe returns auth state",
           "statusCode": 200,
-          "latencyMs": 119,
+          "latencyMs": 113,
           "ok": true
         }
       ]
@@ -182,18 +182,18 @@
       "name": "Reader Core Journey",
       "state": "operational",
       "score": 100,
-      "avgLatencyMs": 117,
+      "avgLatencyMs": 113,
       "steps": [
         {
           "label": "Public health endpoint",
           "statusCode": 200,
-          "latencyMs": 116,
+          "latencyMs": 114,
           "ok": true
         },
         {
           "label": "Intelligence endpoint reachable",
           "statusCode": 401,
-          "latencyMs": 118,
+          "latencyMs": 112,
           "ok": true
         }
       ]
