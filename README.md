@@ -12,12 +12,23 @@ Independent status page for BriefPK News, designed to match the BriefPK visual s
 
 ## Monitored endpoints
 
-- Main website
-- Public health API
-- Auth endpoint
-- News API
-- Intelligence API
-- Pakistan macro insight API
+The GitHub Actions workflow probes production `GET` routes (see `scripts/check-status.mjs`), including:
+
+| Key | Surface |
+|-----|---------|
+| `site` | Main website HTML |
+| `health` | `/api/health` |
+| `auth` | `/api/auth/me` (expects 200 or 401) |
+| `news` | `/api/news` — merged RSS + Google News corpus |
+| `search` | `/api/search` — headline search over the same merged pool + supplemental Google News per query |
+| `intel` | `/api/intelligence` — Brief’s Pulse (uses merged headlines + AI) |
+| `market`, `map`, `macro`, `macroInsight`, `security`, `securityInsight` | Domain feeds |
+
+All authenticated APIs may return **401** when the probe has no session cookie; that still counts as “endpoint reachable.”
+
+## Product note (news stack)
+
+The dashboard news rail, Pulse intelligence, and `/api/search` share one server-side **merged article pool** (Pakistani RSS feeds plus international outlets via Google News `Pakistan site:` scopes). The news endpoint returns up to **250** rows per response; Pulse samples headline titles from the full merged list.
 
 ## Incident management
 

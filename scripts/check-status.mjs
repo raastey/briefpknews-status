@@ -31,6 +31,12 @@ const services = [
     expectedStatuses: [200, 401]
   },
   {
+    key: "search",
+    name: "Search API",
+    url: "https://brief-pk-newsfeed-original-production.up.railway.app/api/search?q=test&limit=3",
+    expectedStatuses: [200, 401]
+  },
+  {
     key: "intel",
     name: "Intelligence API",
     url: "https://brief-pk-newsfeed-original-production.up.railway.app/api/intelligence",
