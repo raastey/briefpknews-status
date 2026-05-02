@@ -22117,6 +22117,208 @@
           ]
         }
       ]
+    },
+    {
+      "checkedAt": "2026-05-02T00:05:00.336Z",
+      "overall": "operational",
+      "region": "github-actions",
+      "services": [
+        {
+          "key": "site",
+          "name": "Main Website",
+          "url": "https://brief-pk-newsfeed-original-production.up.railway.app/",
+          "state": "operational",
+          "statusCode": 200,
+          "latencyMs": 603
+        },
+        {
+          "key": "health",
+          "name": "Public Health API",
+          "url": "https://brief-pk-newsfeed-original-production.up.railway.app/api/health",
+          "state": "operational",
+          "statusCode": 200,
+          "latencyMs": 374
+        },
+        {
+          "key": "auth",
+          "name": "Auth Endpoint",
+          "url": "https://brief-pk-newsfeed-original-production.up.railway.app/api/auth/me",
+          "state": "operational",
+          "statusCode": 200,
+          "latencyMs": 377
+        },
+        {
+          "key": "news",
+          "name": "News API",
+          "url": "https://brief-pk-newsfeed-original-production.up.railway.app/api/news",
+          "state": "operational",
+          "statusCode": 401,
+          "latencyMs": 374
+        },
+        {
+          "key": "intel",
+          "name": "Intelligence API",
+          "url": "https://brief-pk-newsfeed-original-production.up.railway.app/api/intelligence",
+          "state": "operational",
+          "statusCode": 401,
+          "latencyMs": 374
+        },
+        {
+          "key": "market",
+          "name": "Market API",
+          "url": "https://brief-pk-newsfeed-original-production.up.railway.app/api/market",
+          "state": "operational",
+          "statusCode": 401,
+          "latencyMs": 366
+        },
+        {
+          "key": "map",
+          "name": "Pakistan Map API",
+          "url": "https://brief-pk-newsfeed-original-production.up.railway.app/api/pakistan-map",
+          "state": "operational",
+          "statusCode": 401,
+          "latencyMs": 374
+        },
+        {
+          "key": "security",
+          "name": "Security Economy API",
+          "url": "https://brief-pk-newsfeed-original-production.up.railway.app/api/security-economy",
+          "state": "operational",
+          "statusCode": 401,
+          "latencyMs": 370
+        },
+        {
+          "key": "securityInsight",
+          "name": "Security Insight API",
+          "url": "https://brief-pk-newsfeed-original-production.up.railway.app/api/security-economy-insight",
+          "state": "operational",
+          "statusCode": 401,
+          "latencyMs": 368
+        },
+        {
+          "key": "macro",
+          "name": "Pakistan Macro API",
+          "url": "https://brief-pk-newsfeed-original-production.up.railway.app/api/pakistan-macro",
+          "state": "operational",
+          "statusCode": 401,
+          "latencyMs": 376
+        },
+        {
+          "key": "macroInsight",
+          "name": "Macro Insight API",
+          "url": "https://brief-pk-newsfeed-original-production.up.railway.app/api/pakistan-macro-insight",
+          "state": "operational",
+          "statusCode": 401,
+          "latencyMs": 366
+        }
+      ],
+      "aiRouter": {
+        "order": [
+          "groq",
+          "openrouter",
+          "nvidia",
+          "deepseek",
+          "cerebras"
+        ],
+        "activeProvider": "groq",
+        "providers": {
+          "groq": {
+            "configured": true,
+            "model": "llama-3.3-70b-versatile",
+            "enabled": true,
+            "pausedUntil": null
+          },
+          "openrouter": {
+            "configured": true,
+            "model": "deepseek/deepseek-chat-v3-0324:free",
+            "enabled": true,
+            "pausedUntil": null
+          },
+          "nvidia": {
+            "configured": true,
+            "model": "meta/llama-3.3-70b-instruct",
+            "enabled": true,
+            "pausedUntil": null
+          },
+          "deepseek": {
+            "configured": true,
+            "model": "deepseek-chat",
+            "enabled": true,
+            "pausedUntil": null
+          },
+          "cerebras": {
+            "configured": true,
+            "model": "llama3.1-8b",
+            "enabled": true,
+            "pausedUntil": null
+          }
+        }
+      },
+      "userJourneys": [
+        {
+          "key": "guest-landing",
+          "name": "Guest Landing Flow",
+          "state": "operational",
+          "score": 100,
+          "avgLatencyMs": 264,
+          "steps": [
+            {
+              "label": "Load home shell",
+              "statusCode": 302,
+              "latencyMs": 362,
+              "ok": true
+            },
+            {
+              "label": "Reach login page",
+              "statusCode": 200,
+              "latencyMs": 166,
+              "ok": true
+            }
+          ]
+        },
+        {
+          "key": "auth-gate",
+          "name": "Auth Gate Integrity",
+          "state": "operational",
+          "score": 100,
+          "avgLatencyMs": 170,
+          "steps": [
+            {
+              "label": "Protected /api/news blocks guest",
+              "statusCode": 401,
+              "latencyMs": 172,
+              "ok": true
+            },
+            {
+              "label": "Session probe returns auth state",
+              "statusCode": 200,
+              "latencyMs": 167,
+              "ok": true
+            }
+          ]
+        },
+        {
+          "key": "reader-path",
+          "name": "Reader Core Journey",
+          "state": "operational",
+          "score": 100,
+          "avgLatencyMs": 166,
+          "steps": [
+            {
+              "label": "Public health endpoint",
+              "statusCode": 200,
+              "latencyMs": 166,
+              "ok": true
+            },
+            {
+              "label": "Intelligence endpoint reachable",
+              "statusCode": 401,
+              "latencyMs": 166,
+              "ok": true
+            }
+          ]
+        }
+      ]
     }
   ]
 }
