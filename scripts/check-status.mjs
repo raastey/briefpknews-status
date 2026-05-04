@@ -2,80 +2,82 @@ import { readFile, writeFile } from "node:fs/promises";
 
 const OUTPUT_LATEST = "status-data/latest.json";
 const OUTPUT_HISTORY = "status-data/history.json";
+const OUTPUT_INCIDENTS = "status-data/incidents.json";
 const HISTORY_LIMIT = 2016; // one week at 5-minute intervals
 const TIMEOUT_MS = 12000;
+const BASE = "https://www.briefpknews.xyz";
 
 const services = [
   {
     key: "site",
     name: "Main Website",
-    url: "https://brief-pk-newsfeed-original-production.up.railway.app/",
+    url: `${BASE}/`,
     expectedStatuses: [200, 301, 302]
   },
   {
     key: "health",
     name: "Public Health API",
-    url: "https://brief-pk-newsfeed-original-production.up.railway.app/api/health",
+    url: `${BASE}/api/health`,
     expectedStatuses: [200]
   },
   {
     key: "auth",
     name: "Auth Endpoint",
-    url: "https://brief-pk-newsfeed-original-production.up.railway.app/api/auth/me",
+    url: `${BASE}/api/auth/me`,
     expectedStatuses: [200, 401]
   },
   {
     key: "news",
     name: "News API",
-    url: "https://brief-pk-newsfeed-original-production.up.railway.app/api/news",
+    url: `${BASE}/api/news`,
     expectedStatuses: [200, 401]
   },
   {
     key: "search",
     name: "Search API",
-    url: "https://brief-pk-newsfeed-original-production.up.railway.app/api/search?q=test&limit=3",
+    url: `${BASE}/api/search?q=test&limit=3`,
     expectedStatuses: [200, 401]
   },
   {
     key: "intel",
     name: "Intelligence API",
-    url: "https://brief-pk-newsfeed-original-production.up.railway.app/api/intelligence",
+    url: `${BASE}/api/intelligence`,
     expectedStatuses: [200, 401, 503]
   },
   {
     key: "market",
     name: "Market API",
-    url: "https://brief-pk-newsfeed-original-production.up.railway.app/api/market",
+    url: `${BASE}/api/market`,
     expectedStatuses: [200, 401]
   },
   {
     key: "map",
     name: "Pakistan Map API",
-    url: "https://brief-pk-newsfeed-original-production.up.railway.app/api/pakistan-map",
+    url: `${BASE}/api/pakistan-map`,
     expectedStatuses: [200, 401]
   },
   {
     key: "security",
     name: "Security Economy API",
-    url: "https://brief-pk-newsfeed-original-production.up.railway.app/api/security-economy",
+    url: `${BASE}/api/security-economy`,
     expectedStatuses: [200, 401]
   },
   {
     key: "securityInsight",
     name: "Security Insight API",
-    url: "https://brief-pk-newsfeed-original-production.up.railway.app/api/security-economy-insight",
+    url: `${BASE}/api/security-economy-insight`,
     expectedStatuses: [200, 401]
   },
   {
     key: "macro",
     name: "Pakistan Macro API",
-    url: "https://brief-pk-newsfeed-original-production.up.railway.app/api/pakistan-macro",
+    url: `${BASE}/api/pakistan-macro`,
     expectedStatuses: [200, 401]
   },
   {
     key: "macroInsight",
     name: "Macro Insight API",
-    url: "https://brief-pk-newsfeed-original-production.up.railway.app/api/pakistan-macro-insight",
+    url: `${BASE}/api/pakistan-macro-insight`,
     expectedStatuses: [200, 401]
   }
 ];
@@ -124,7 +126,7 @@ async function fetchAiRouterSnapshot() {
   const ctrl = new AbortController();
   const timer = setTimeout(() => ctrl.abort(), TIMEOUT_MS);
   try {
-    const res = await fetch("https://brief-pk-newsfeed-original-production.up.railway.app/api/health", {
+    const res = await fetch(`${BASE}/api/health`, {
       method: "GET",
       signal: ctrl.signal,
       headers: { "cache-control": "no-cache" }
@@ -166,24 +168,24 @@ async function probeUserJourneys() {
       key: "guest-landing",
       name: "Guest Landing Flow",
       steps: [
-        { label: "Load home shell", url: "https://brief-pk-newsfeed-original-production.up.railway.app/", expected: [200, 301, 302] },
-        { label: "Reach login page", url: "https://brief-pk-newsfeed-original-production.up.railway.app/login.html", expected: [200] }
+        { label: "Load home shell", url: `${BASE}/`, expected: [200, 301, 302] },
+        { label: "Reach login page", url: `${BASE}/login.html`, expected: [200] }
       ]
     },
     {
       key: "auth-gate",
       name: "Auth Gate Integrity",
       steps: [
-        { label: "Protected /api/news blocks guest", url: "https://brief-pk-newsfeed-original-production.up.railway.app/api/news", expected: [401] },
-        { label: "Session probe returns auth state", url: "https://brief-pk-newsfeed-original-production.up.railway.app/api/auth/me", expected: [200, 401] }
+        { label: "Protected /api/news blocks guest", url: `${BASE}/api/news`, expected: [401] },
+        { label: "Session probe returns auth state", url: `${BASE}/api/auth/me`, expected: [200, 401] }
       ]
     },
     {
       key: "reader-path",
       name: "Reader Core Journey",
       steps: [
-        { label: "Public health endpoint", url: "https://brief-pk-newsfeed-original-production.up.railway.app/api/health", expected: [200] },
-        { label: "Intelligence endpoint reachable", url: "https://brief-pk-newsfeed-original-production.up.railway.app/api/intelligence", expected: [200, 401, 503] }
+        { label: "Public health endpoint", url: `${BASE}/api/health`, expected: [200] },
+        { label: "Intelligence endpoint reachable", url: `${BASE}/api/intelligence`, expected: [200, 401, 503] }
       ]
     }
   ];
@@ -228,9 +230,10 @@ async function main() {
   const results = await Promise.all(services.map((svc) => probe(svc)));
   const aiRouter = await fetchAiRouterSnapshot();
   const userJourneys = await probeUserJourneys();
+  const overall = aggregateOverall(results);
   const latest = {
     checkedAt,
-    overall: aggregateOverall(results),
+    overall,
     region: "github-actions",
     services: results,
     aiRouter,
@@ -246,9 +249,48 @@ async function main() {
   history.runs.push(latest);
   history.runs = history.runs.slice(-HISTORY_LIMIT);
 
+  // Auto-incident detection: open a new incident if we just flipped to outage/degraded
+  let incidents = { items: [] };
+  try {
+    incidents = JSON.parse(await readFile(OUTPUT_INCIDENTS, "utf8"));
+  } catch {
+    incidents = { items: [] };
+  }
+  const prevOverall = history.runs.at(-2)?.overall ?? "operational";
+  const isNewOutage = overall !== "operational" && prevOverall === "operational";
+  const isResolved = overall === "operational" && prevOverall !== "operational";
+  if (isNewOutage) {
+    incidents.items.unshift({
+      id: `auto-${Date.now()}`,
+      title: overall === "outage" ? "Service Outage Detected" : "Service Degradation Detected",
+      state: overall,
+      startedAt: checkedAt,
+      resolvedAt: null,
+      affectedServices: results.filter((r) => r.state !== "operational").map((r) => r.name),
+      updates: [{ at: checkedAt, message: `Automatic detection: overall status flipped to ${overall}.` }]
+    });
+    console.log(`[INCIDENT OPENED] overall=${overall}`);
+  }
+  if (isResolved) {
+    const open = incidents.items.find((i) => !i.resolvedAt);
+    if (open) {
+      open.resolvedAt = checkedAt;
+      open.state = "resolved";
+      open.updates.push({ at: checkedAt, message: "Automatic resolution: all services operational." });
+      console.log(`[INCIDENT RESOLVED] id=${open.id}`);
+    }
+  }
+
   await writeFile(OUTPUT_LATEST, `${JSON.stringify(latest, null, 2)}\n`, "utf8");
   await writeFile(OUTPUT_HISTORY, `${JSON.stringify(history, null, 2)}\n`, "utf8");
-  console.log(`updated status at ${checkedAt} (${latest.overall})`);
+  await writeFile(OUTPUT_INCIDENTS, `${JSON.stringify(incidents, null, 2)}\n`, "utf8");
+  console.log(`updated status at ${checkedAt} (${overall})`);
+
+  // Exit with code 1 to fail the workflow step visibly on outage
+  if (overall === "outage") {
+    console.error(`[ALERT] briefpknews is DOWN — ${results.filter(r=>r.state==="outage").map(r=>r.name).join(", ")}`);
+    process.exit(1);
+  }
 }
 
 main().catch((err) => {
