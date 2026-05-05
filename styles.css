@@ -1,26 +1,26 @@
 :root {
-  --bg-app:       #eef2f8;
+  --bg-app:       #f3f4f6;
   --bg-surface:   #ffffff;
   --bg-card:      #ffffff;
-  --bg-card-2:    #f7f9fc;
+  --bg-card-2:    #0f172a; /* Deep navy from main site */
   --bg-input:     #ffffff;
-  --border:       #dde6f0;
-  --border-hi:    #b8cce0;
-  --text-primary: #0f1729;
-  --text-dim:     #334155;
+  --border:       #e5e7eb;
+  --border-hi:    #d1d5db;
+  --text-primary: #0f172a;
+  --text-dim:     #1e293b;
   --text-muted:   #64748b;
-  --ok:           #059669;
-  --ok-dim:       rgba(5,150,105,0.08);
-  --ok-glow:      rgba(5,150,105,0.18);
-  --warn:         #b45309;
-  --warn-dim:     rgba(180,83,9,0.09);
-  --warn-glow:    rgba(180,83,9,0.2);
-  --bad:          #dc2626;
-  --bad-dim:      rgba(220,38,38,0.08);
-  --bad-glow:     rgba(220,38,38,0.18);
-  --accent:       #2563eb;
-  --accent-dim:   rgba(37,99,235,0.08);
-  --brand-red:    #dc2626;
+  --ok:           #10b981;
+  --ok-dim:       rgba(16,185,129,0.08);
+  --ok-glow:      rgba(16,185,129,0.18);
+  --warn:         #f59e0b;
+  --warn-dim:     rgba(245,158,11,0.09);
+  --warn-glow:    rgba(245,158,11,0.2);
+  --bad:          #ef4444; /* Brief.pk Red */
+  --bad-dim:      rgba(239,68,68,0.08);
+  --bad-glow:     rgba(239,68,68,0.18);
+  --accent:       #0f172a;
+  --accent-dim:   rgba(15,23,42,0.05);
+  --brand-red:    #ef4444;
   --brand-blue:   #2563eb;
   --mono-font:    "JetBrains Mono", monospace;
   --ui-font:      "Inter", system-ui, sans-serif;
@@ -80,24 +80,28 @@ body {
   z-index: 100;
   box-shadow: 0 1px 0 var(--border), var(--shadow-sm);
 }
-.brand-wrap { display: flex; flex-direction: column; gap: .18rem; }
-.brand-kicker {
-  font-family: var(--mono-font);
-  font-size: .67rem;
-  letter-spacing: .26em;
-  color: var(--text-muted);
+.main-logo {
+  font-family: var(--brand-font);
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  letter-spacing: -0.04em;
+  line-height: 1;
+}
+.dot-pk {
+  color: var(--brand-red);
 }
 h1 {
   margin: 0;
-  font-family: var(--brand-font);
-  font-size: 1.3rem;
-  color: var(--text-primary);
-  line-height: 1.2;
+  font-family: var(--mono-font);
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  font-weight: 600;
 }
 .brand-sub {
-  margin: 0;
-  color: var(--text-muted);
-  font-size: .8rem;
+  display: none;
 }
 .topbar-right { display: flex; align-items: center; gap: 1rem; }
 
