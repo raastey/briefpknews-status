@@ -13,6 +13,15 @@
 <body>
   <div class="chrome-line" aria-hidden="true"></div>
 
+  <!-- GitHub-style top incident banner (hidden by default) -->
+  <div id="incidentBanner" class="incident-banner hidden">
+    <div class="banner-content">
+      <div class="banner-title" id="bannerTitle">Service Outage Detected</div>
+      <div class="banner-meta" id="bannerMeta">Investigating issues with core APIs.</div>
+      <a href="#incidentList" class="banner-link">View Details</a>
+    </div>
+  </div>
+
   <header class="topbar">
     <div class="brand-wrap">
       <span class="brand-kicker">BRIEFPKNEWS</span>
@@ -33,61 +42,48 @@
 
   <main class="layout">
 
-    <section class="hero-card" id="overallCard">
-      <div class="hero-top">
-        <div class="hero-status-row">
-          <div class="status-orb" id="statusOrb" aria-hidden="true"></div>
-          <div>
-            <div class="hero-label">Current status</div>
-            <div class="hero-state" id="overallState">Loading…</div>
-            <div class="hero-meta" id="overallMeta">Waiting for monitor data…</div>
-          </div>
-        </div>
-        <div class="legend-wrap">
-          <span class="legend-dot ok"></span><span>Healthy</span>
-          <span class="legend-dot warn"></span><span>Degraded</span>
-          <span class="legend-dot bad"></span><span>Outage</span>
-        </div>
-      </div>
-      <div class="kpi-grid">
-        <div class="kpi">
-          <div class="kpi-label">Operational</div>
-          <div id="kpiOps" class="kpi-value">--</div>
-        </div>
-        <div class="kpi">
-          <div class="kpi-label">Degraded</div>
-          <div id="kpiDegraded" class="kpi-value">--</div>
-        </div>
-        <div class="kpi">
-          <div class="kpi-label">Outages</div>
-          <div id="kpiOutages" class="kpi-value">--</div>
-        </div>
-        <div class="kpi">
-          <div class="kpi-label">Avg Latency</div>
-          <div id="kpiLatency" class="kpi-value">--</div>
+    <section class="status-hero" id="overallCard">
+      <div class="hero-status-row">
+        <div class="status-orb" id="statusOrb" aria-hidden="true"></div>
+        <div>
+          <h2 id="overallState">All Systems Operational</h2>
+          <div class="hero-meta" id="overallMeta">Last check: --</div>
         </div>
       </div>
     </section>
 
+    <!-- GitHub-style Service Grid -->
     <section class="panel">
       <div class="panel-head">
         <h2>Service Components</h2>
-        <p>Live status, response code, latency, and health score per service.</p>
+        <p>Live status and rolling uptime for the last 24 hours.</p>
       </div>
-      <div class="service-grid" id="serviceGrid"></div>
+      <div class="status-grid" id="statusGrid">
+        <!-- Rendered by app.js -->
+      </div>
     </section>
+
+    <div class="split-layout">
+      <section class="panel">
+        <div class="panel-head">
+          <h2>AI Router Tower</h2>
+        </div>
+        <div id="aiRouterSummary" class="ai-router-summary"></div>
+        <div id="aiProviderGrid" class="ai-provider-grid"></div>
+      </section>
+
+      <section class="panel">
+        <div class="panel-head">
+          <h2>User Health Pulse</h2>
+        </div>
+        <div id="userPulseSummary" class="user-pulse-summary"></div>
+        <div id="userPulseGrid" class="user-pulse-grid"></div>
+      </section>
+    </div>
 
     <section class="panel">
       <div class="panel-head">
-        <h2>24h Availability</h2>
-        <p>Rolling success ratio with sparkline for the last 24 hours.</p>
-      </div>
-      <div class="uptime-grid" id="uptimeGrid"></div>
-    </section>
-
-    <section class="panel">
-      <div class="panel-head">
-        <h2>Mission Control Heatmap</h2>
+        <h2>System Heatmap</h2>
         <p>Latest 24 synthetic runs by service — green / amber / red.</p>
       </div>
       <div id="heatmapWrap"></div>
@@ -95,26 +91,7 @@
 
     <section class="panel">
       <div class="panel-head">
-        <h2>AI Router Control Tower</h2>
-        <p>Provider routing order, active engine, pause windows, and model telemetry.</p>
-      </div>
-      <div id="aiRouterSummary" class="ai-router-summary"></div>
-      <div id="aiProviderGrid" class="ai-provider-grid"></div>
-    </section>
-
-    <section class="panel">
-      <div class="panel-head">
-        <h2>User Health Pulse</h2>
-        <p>Synthetic user-journey health across guest and auth-gated experiences.</p>
-      </div>
-      <div id="userPulseSummary" class="user-pulse-summary"></div>
-      <div id="userPulseGrid" class="user-pulse-grid"></div>
-    </section>
-
-    <section class="panel">
-      <div class="panel-head">
         <h2>Service Deep Dive</h2>
-        <p>Latency percentiles, outage streaks, error budget risk.</p>
       </div>
       <div class="deep-controls">
         <label for="serviceSelect">Service</label>
@@ -126,7 +103,7 @@
       </div>
     </section>
 
-    <section class="panel">
+    <section class="panel" id="incidentPanel">
       <div class="panel-head">
         <h2>Incidents &amp; Maintenance</h2>
       </div>

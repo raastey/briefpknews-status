@@ -49,81 +49,70 @@ function percentile(sortedVals, p) {
   return sortedVals[low] + (sortedVals[high] - sortedVals[low]) * ratio;
 }
 
-function renderOverall(latest) {
+function renderOverall(latest, incidents) {
   const overall = latest.overall || "outage";
   const stateEl = document.getElementById("overallState");
   const metaEl = document.getElementById("overallMeta");
-  stateEl.textContent = normalizeState(overall);
+  const banner = document.getElementById("incidentBanner");
+  const bannerTitle = document.getElementById("bannerTitle");
+  const bannerMeta = document.getElementById("bannerMeta");
+
+  // Update Hero
+  stateEl.textContent = overall === "operational" ? "All Systems Operational" : normalizeState(overall);
   stateEl.style.color = overall === "operational" ? "var(--ok)" : (overall === "degraded" ? "var(--warn)" : "var(--bad)");
   metaEl.textContent = `Last check: ${fmtTime(latest.checkedAt)} · ${latest.region || "global"}`;
   document.getElementById("lastUpdated").textContent = `Last update: ${fmtTime(latest.checkedAt)}`;
 
-  // Drive the status orb and hero glow
   const orb = document.getElementById("statusOrb");
   const card = document.getElementById("overallCard");
   if (orb) orb.dataset.state = overall;
   if (card) card.dataset.state = overall;
 
-  const services = latest.services || [];
-  const ops = services.filter((s) => s.state === "operational").length;
-  const degraded = services.filter((s) => s.state === "degraded").length;
-  const outages = services.filter((s) => s.state === "outage").length;
-  const latencies = services.map((s) => Number(s.latencyMs)).filter(Number.isFinite);
-  const avgLatency = latencies.length ? Math.round(latencies.reduce((a, b) => a + b, 0) / latencies.length) : null;
-  document.getElementById("kpiOps").textContent = `${ops}/${services.length}`;
-  document.getElementById("kpiDegraded").textContent = String(degraded);
-  document.getElementById("kpiOutages").textContent = String(outages);
-  document.getElementById("kpiLatency").textContent = avgLatency == null ? "n/a" : `${avgLatency}ms`;
-}
-
-function renderServices(latest) {
-  const root = document.getElementById("serviceGrid");
-  root.innerHTML = "";
-  for (const svc of latest.services || []) {
-    const score = healthScore(svc);
-    const railClass = scoreClass(score);
-    const card = document.createElement("article");
-    card.className = `service-card ${badgeClass(svc.state)}`;
-    card.innerHTML = `
-      <div class="service-top">
-        <div class="service-name">${svc.name}</div>
-        <span class="badge ${badgeClass(svc.state)}">${normalizeState(svc.state)}</span>
-      </div>
-      <div class="service-meta">
-        HTTP ${svc.statusCode ?? "n/a"} · ${svc.latencyMs ?? "n/a"}ms
-      </div>
-      <div class="service-meta">${svc.url}</div>
-      <div class="health-rail"><div class="health-fill ${railClass}" style="width:${score}%"></div></div>
-      <div class="health-caption">Health score: ${score}/100</div>
-    `;
-    root.appendChild(card);
+  // Handle Top Banner
+  if (overall !== "operational") {
+    banner.classList.remove("hidden");
+    banner.className = `incident-banner ${badgeClass(overall)}`;
+    const activeIncident = incidents.find(i => !i.resolvedAt);
+    bannerTitle.textContent = activeIncident ? activeIncident.title : (overall === "outage" ? "Service Outage Detected" : "Service Degradation Detected");
+    bannerMeta.textContent = activeIncident ? activeIncident.detail : "We are investigating reports of service issues.";
+  } else {
+    banner.classList.add("hidden");
   }
 }
 
-function computeUptime(history, key) {
-  const window = history.slice(-288);
-  if (!window.length) return { pct: 0, bars: [] };
-  const bars = window.map((run) => {
-    const svc = (run.services || []).find((x) => x.key === key);
-    return svc?.state || "outage";
-  });
-  const okCount = bars.filter((state) => state === "operational").length;
-  return { pct: (okCount / bars.length) * 100, bars };
-}
-
-function renderUptime(latest, history) {
-  const root = document.getElementById("uptimeGrid");
+function renderStatusGrid(latest, history) {
+  const root = document.getElementById("statusGrid");
   root.innerHTML = "";
+  
   for (const svc of latest.services || []) {
-    const data = computeUptime(history, svc.key);
-    const item = document.createElement("article");
-    item.className = "uptime-item";
-    item.innerHTML = `
-      <div class="uptime-label">${svc.name}</div>
-      <div class="uptime-value">${data.pct.toFixed(2)}%</div>
-      <div class="uptime-bars">${data.bars.map((state) => `<span class="${badgeClass(state)}"></span>`).join("")}</div>
+    const uptime = computeUptime(history, svc.key);
+    const score = healthScore(svc);
+    const stateKlass = badgeClass(svc.state);
+    const icon = svc.state === "operational" ? "✓" : (svc.state === "degraded" ? "!" : "✕");
+
+    const card = document.createElement("article");
+    card.className = "status-card";
+    card.innerHTML = `
+      <div class="status-card-top">
+        <div class="status-card-name">${svc.name}</div>
+        <div class="status-card-icon ${stateKlass}">${icon}</div>
+      </div>
+      <div class="uptime-row">
+        <div class="uptime-meta">
+          <span>90 days ago</span>
+          <span>${uptime.pct.toFixed(2)}% uptime</span>
+          <span>Today</span>
+        </div>
+        <div class="uptime-bars-mini">
+          ${uptime.bars.map(s => `<span class="${badgeClass(s)}"></span>`).join("")}
+        </div>
+      </div>
+      <div class="status-card-footer">
+        <div class="status-label ${stateKlass}">${normalizeState(svc.state)}</div>
+        <div class="latency-meta">${svc.latencyMs ?? "n/a"}ms · ${svc.statusCode ?? "???"}</div>
+      </div>
     `;
-    root.appendChild(item);
+    root.appendChild(card);
   }
 }
 
@@ -137,13 +126,25 @@ function renderIncidents(items) {
   for (const incident of items) {
     const node = document.createElement("article");
     node.className = "incident";
+    if (!incident.resolvedAt) node.style.borderLeftColor = "var(--bad)";
     node.innerHTML = `
       <h3>${incident.title}</h3>
-      <p>${incident.detail}</p>
-      <div class="when">${incident.status.toUpperCase()} · ${fmtTime(incident.updatedAt)}</div>
+      <p>${incident.detail || ""}</p>
+      <div class="when">${(incident.status || incident.state || "Active").toUpperCase()} · ${fmtTime(incident.updatedAt || incident.startedAt)}</div>
     `;
     root.appendChild(node);
   }
+}
+
+function computeUptime(history, key) {
+  const window = history.slice(-288);
+  if (!window.length) return { pct: 0, bars: [] };
+  const bars = window.map((run) => {
+    const svc = (run.services || []).find((x) => x.key === key);
+    return svc?.state || "outage";
+  });
+  const okCount = bars.filter((state) => state === "operational").length;
+  return { pct: (okCount / bars.length) * 100, bars };
 }
 
 function renderHistory(history) {
@@ -403,9 +404,9 @@ async function loadStatus() {
   const incidents = await incidentsRes.json();
   _latest = latest;
   _historyRuns = history.runs || [];
-  renderOverall(latest);
-  renderServices(latest);
-  renderUptime(latest, _historyRuns);
+  
+  renderOverall(latest, incidents.items || []);
+  renderStatusGrid(latest, _historyRuns);
   renderHeatmap(latest, _historyRuns);
   renderAiRouter(latest, _historyRuns);
   renderUserPulse(latest, _historyRuns);
