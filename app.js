@@ -151,14 +151,26 @@ function renderIncidents(items) {
 }
 
 function computeUptime(history, key) {
-  const window = (history || []).slice(-288);
+  const window = (history || []).slice(-288); // Last 24 hours (assuming 5 min checks)
   if (!window.length) return { pct: 0, bars: [] };
-  const bars = window.map((run) => {
+
+  const rawBars = window.map((run) => {
     const svc = (run.services || []).find((x) => x.key === key);
     return svc?.state || "outage";
   });
-  const okCount = bars.filter((state) => state === "operational").length;
-  return { pct: (okCount / bars.length) * 100, bars };
+
+  // Group 288 points into 48 bars (30 min each) for better visibility
+  const groupedBars = [];
+  const chunkSize = 6;
+  for (let i = 0; i < rawBars.length; i += chunkSize) {
+    const chunk = rawBars.slice(i, i + chunkSize);
+    if (chunk.includes("outage")) groupedBars.push("outage");
+    else if (chunk.includes("degraded")) groupedBars.push("degraded");
+    else groupedBars.push("operational");
+  }
+
+  const okCount = rawBars.filter((state) => state === "operational").length;
+  return { pct: (okCount / rawBars.length) * 100, bars: groupedBars };
 }
 
 function renderHistory(history) {
