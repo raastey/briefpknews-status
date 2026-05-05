@@ -49,19 +49,29 @@ function percentile(sortedVals, p) {
   return sortedVals[low] + (sortedVals[high] - sortedVals[low]) * ratio;
 }
 
+function safeSetText(id, text) {
+  const el = document.getElementById(id);
+  if (el) el.textContent = text;
+  return el;
+}
+
+function safeSetHTML(id, html) {
+  const el = document.getElementById(id);
+  if (el) el.innerHTML = html;
+  return el;
+}
+
 function renderOverall(latest, incidents) {
   const overall = latest.overall || "outage";
-  const stateEl = document.getElementById("overallState");
-  const metaEl = document.getElementById("overallMeta");
-  const banner = document.getElementById("incidentBanner");
-  const bannerTitle = document.getElementById("bannerTitle");
-  const bannerMeta = document.getElementById("bannerMeta");
-
+  
   // Update Hero
-  stateEl.textContent = overall === "operational" ? "All Systems Operational" : normalizeState(overall);
-  stateEl.style.color = overall === "operational" ? "var(--ok)" : (overall === "degraded" ? "var(--warn)" : "var(--bad)");
-  metaEl.textContent = `Last check: ${fmtTime(latest.checkedAt)} · ${latest.region || "global"}`;
-  document.getElementById("lastUpdated").textContent = `Last update: ${fmtTime(latest.checkedAt)}`;
+  const stateEl = safeSetText("overallState", overall === "operational" ? "All Systems Operational" : normalizeState(overall));
+  if (stateEl) {
+    stateEl.style.color = overall === "operational" ? "var(--ok)" : (overall === "degraded" ? "var(--warn)" : "var(--bad)");
+  }
+  
+  safeSetText("overallMeta", `Last check: ${fmtTime(latest.checkedAt)} · ${latest.region || "global"}`);
+  safeSetText("lastUpdated", `Last update: ${fmtTime(latest.checkedAt)}`);
 
   const orb = document.getElementById("statusOrb");
   const card = document.getElementById("overallCard");
@@ -69,24 +79,27 @@ function renderOverall(latest, incidents) {
   if (card) card.dataset.state = overall;
 
   // Handle Top Banner
-  if (overall !== "operational") {
-    banner.classList.remove("hidden");
-    banner.className = `incident-banner ${badgeClass(overall)}`;
-    const activeIncident = incidents.find(i => !i.resolvedAt);
-    bannerTitle.textContent = activeIncident ? activeIncident.title : (overall === "outage" ? "Service Outage Detected" : "Service Degradation Detected");
-    bannerMeta.textContent = activeIncident ? activeIncident.detail : "We are investigating reports of service issues.";
-  } else {
-    banner.classList.add("hidden");
+  const banner = document.getElementById("incidentBanner");
+  if (banner) {
+    if (overall !== "operational") {
+      banner.classList.remove("hidden");
+      banner.className = `incident-banner ${badgeClass(overall)}`;
+      const activeIncident = (incidents || []).find(i => !i.resolvedAt);
+      safeSetText("bannerTitle", activeIncident ? activeIncident.title : (overall === "outage" ? "Service Outage Detected" : "Service Degradation Detected"));
+      safeSetText("bannerMeta", activeIncident ? activeIncident.detail : "We are investigating reports of service issues.");
+    } else {
+      banner.classList.add("hidden");
+    }
   }
 }
 
 function renderStatusGrid(latest, history) {
   const root = document.getElementById("statusGrid");
+  if (!root) return;
   root.innerHTML = "";
   
   for (const svc of latest.services || []) {
     const uptime = computeUptime(history, svc.key);
-    const score = healthScore(svc);
     const stateKlass = badgeClass(svc.state);
     const icon = svc.state === "operational" ? "✓" : (svc.state === "degraded" ? "!" : "✕");
 
@@ -118,6 +131,7 @@ function renderStatusGrid(latest, history) {
 
 function renderIncidents(items) {
   const root = document.getElementById("incidentList");
+  if (!root) return;
   root.innerHTML = "";
   if (!items.length) {
     root.innerHTML = '<div class="incident"><h3>No active incidents</h3><p>All systems have been stable recently.</p></div>';
@@ -137,7 +151,7 @@ function renderIncidents(items) {
 }
 
 function computeUptime(history, key) {
-  const window = history.slice(-288);
+  const window = (history || []).slice(-288);
   if (!window.length) return { pct: 0, bars: [] };
   const bars = window.map((run) => {
     const svc = (run.services || []).find((x) => x.key === key);
@@ -149,7 +163,8 @@ function computeUptime(history, key) {
 
 function renderHistory(history) {
   const root = document.getElementById("historyTableWrap");
-  const rows = history.slice(-15).reverse().map((run) => {
+  if (!root) return;
+  const rows = (history || []).slice(-15).reverse().map((run) => {
     const ops = (run.services || []).filter((x) => x.state === "operational").length;
     return `<tr>
       <td>${fmtTime(run.checkedAt)}</td>
@@ -170,7 +185,8 @@ function renderHistory(history) {
 
 function renderHeatmap(latest, history) {
   const root = document.getElementById("heatmapWrap");
-  const recent = history.slice(-24);
+  if (!root) return;
+  const recent = (history || []).slice(-24);
   const labels = recent.map((run) => new Date(run.checkedAt).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }));
   const head = labels.map((x) => `<th title="${x}">${x}</th>`).join("");
   const rows = (latest.services || []).map((svc) => {
@@ -193,7 +209,7 @@ function renderHeatmap(latest, history) {
 function aiSwitchCount(history) {
   let prev = null;
   let count = 0;
-  for (const run of history.slice(-288)) {
+  for (const run of (history || []).slice(-288)) {
     const curr = run.aiRouter?.activeProvider || null;
     if (prev && curr && curr !== prev) count += 1;
     if (curr) prev = curr;
@@ -239,7 +255,7 @@ function renderAiRouter(latest, history) {
 function userJourneySwitches(history) {
   let transitions = 0;
   let prev = null;
-  for (const run of history.slice(-288)) {
+  for (const run of (history || []).slice(-288)) {
     const states = (run.userJourneys || []).map((j) => `${j.key}:${j.state}`).join("|");
     if (prev && states && states !== prev) transitions += 1;
     if (states) prev = states;
@@ -288,7 +304,7 @@ function renderUserPulse(latest, history) {
 }
 
 function serviceSeries(history, key) {
-  return history
+  return (history || [])
     .map((run) => ({ t: run.checkedAt, svc: (run.services || []).find((s) => s.key === key) }))
     .filter((x) => x.svc);
 }
@@ -324,7 +340,7 @@ function renderDeepDive(latest, history) {
   const root = document.getElementById("deepKpis");
   const svg = document.getElementById("latencySpark");
   const services = latest.services || [];
-  if (!services.length) return;
+  if (!services.length || !select || !root || !svg) return;
 
   if (!select.dataset.bound) {
     select.innerHTML = services.map((s) => `<option value="${s.key}">${s.name}</option>`).join("");
@@ -359,7 +375,6 @@ function renderDeepDive(latest, history) {
   const latSeq = series.map((x) => Number(x.svc.latencyMs)).filter(Number.isFinite).slice(-96);
   const linePath = buildPath(latSeq, 900, 140);
 
-  // Build area path that closes back to the baseline
   let areaPath = "";
   if (latSeq.length > 1) {
     const max = Math.max(...latSeq, 1);
@@ -415,11 +430,12 @@ async function loadStatus() {
   renderHistory(_historyRuns);
 }
 
-document.getElementById("refreshBtn").addEventListener("click", () => loadStatus().catch(console.error));
+const refreshBtn = document.getElementById("refreshBtn");
+if (refreshBtn) refreshBtn.addEventListener("click", () => loadStatus().catch(console.error));
+
 loadStatus().catch((err) => {
-  const overall = document.getElementById("overallState");
-  const meta = document.getElementById("overallMeta");
-  overall.textContent = "Data Unavailable";
-  overall.style.color = "var(--bad)";
-  meta.textContent = `Unable to read status artifacts: ${err.message}`;
+  console.error("Load failed:", err);
+  const overall = safeSetText("overallState", "Data Unavailable");
+  if (overall) overall.style.color = "var(--bad)";
+  safeSetText("overallMeta", `Unable to read status artifacts: ${err.message}`);
 });
