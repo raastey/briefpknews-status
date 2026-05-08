@@ -128,7 +128,9 @@ function renderStatusGrid(latest, history) {
         <div class="status-label ${stateKlass}">${normalizeState(svc.state)}</div>
         <div class="latency-meta">${
           isConfigService(svc.key)
-            ? `Config check · ${svc.statusCode ?? "???"}`
+            ? (svc.state === "degraded"
+              ? "Unknown · enable login_health on /api/health"
+              : `Config check · HTTP ${svc.statusCode ?? "???"}`)
             : `${svc.latencyMs ?? "n/a"}ms · ${svc.statusCode ?? "???"}`
         }</div>
       </div>
@@ -323,8 +325,31 @@ function renderUserPulse(latest, history) {
   }).join("");
 }
 
-function loginHealthState(configured) {
-  return configured ? "operational" : "outage";
+function deriveLoginHealthFromServices(latest) {
+  const svcConfigured = (key) => {
+    const svc = (latest.services || []).find((s) => s.key === key);
+    if (!svc) return null;
+    if (svc.state === "operational") return true;
+    if (svc.state === "outage") return false;
+    return null;
+  };
+  return {
+    login_page: { configured: svcConfigured("loginPage") },
+    magic_link: { configured: svcConfigured("magicLink") },
+    google_oauth: { configured: svcConfigured("googleOAuth") }
+  };
+}
+
+function loginHealthBadgeState(configured) {
+  if (configured === true) return "operational";
+  if (configured === false) return "outage";
+  return "degraded";
+}
+
+function loginHealthBadgeLabel(configured) {
+  if (configured === true) return "Operational";
+  if (configured === false) return "Outage";
+  return "Unknown";
 }
 
 function renderLoginHealth(latest) {
@@ -332,47 +357,64 @@ function renderLoginHealth(latest) {
   const grid = document.getElementById("loginHealthGrid");
   if (!summary || !grid) return;
 
-  const loginHealth = latest.loginHealth;
+  let loginHealth = latest.loginHealth;
+  const hasLoginSvcRow = (latest.services || []).some((s) =>
+    ["loginPage", "magicLink", "googleOAuth"].includes(s.key)
+  );
+  if (!loginHealth && hasLoginSvcRow) {
+    loginHealth = deriveLoginHealthFromServices(latest);
+  }
   if (!loginHealth) {
     summary.innerHTML = `<article class="ai-pill"><div class="k">Login Health</div><div class="v">Unavailable</div></article>`;
     grid.innerHTML = "";
     return;
   }
 
+  const coalesce = (v) => (v === undefined ? null : v);
+
   const checks = [
     {
       key: "login-page",
       name: "Login Page",
-      description: "Static login entry point is present",
-      configured: Boolean(loginHealth.login_page?.configured)
+      description: "Reachable login shell (`/login.html`)",
+      configured: coalesce(loginHealth.login_page?.configured)
     },
     {
       key: "magic-link",
       name: "Magic Link",
-      description: "Email sender for auth links is configured",
-      configured: Boolean(loginHealth.magic_link?.configured)
+      description: "Resend/API key reported by `/api/health` (unknown until backend exposes `login_health`)",
+      configured: coalesce(loginHealth.magic_link?.configured)
     },
     {
       key: "google-oauth",
       name: "Google OAuth",
-      description: "Google auth client credentials are configured",
-      configured: Boolean(loginHealth.google_oauth?.configured)
+      description: "OAuth route redirects when credentials are present",
+      configured: coalesce(loginHealth.google_oauth?.configured)
     }
   ];
 
-  const operational = checks.filter((c) => c.configured).length;
+  const okCount = checks.filter((c) => c.configured === true).length;
+  const unknownCount = checks.filter((c) => c.configured === null).length;
+  const badCount = checks.filter((c) => c.configured === false).length;
+
+  let overallLabel = "Healthy";
+  if (badCount > 0) overallLabel = "Needs attention";
+  else if (unknownCount > 0) overallLabel = "Partially verified";
+
   summary.innerHTML = `
-    <article class="ai-pill"><div class="k">Configured Paths</div><div class="v">${operational}/${checks.length}</div></article>
-    <article class="ai-pill"><div class="k">Overall Login Health</div><div class="v">${operational === checks.length ? "Healthy" : "Needs Attention"}</div></article>
+    <article class="ai-pill"><div class="k">Verified OK</div><div class="v">${okCount}/${checks.length}</div></article>
+    <article class="ai-pill"><div class="k">Unknown</div><div class="v">${unknownCount}</div></article>
+    <article class="ai-pill"><div class="k">Overall</div><div class="v">${overallLabel}</div></article>
   `;
 
   grid.innerHTML = checks.map((check) => {
-    const state = loginHealthState(check.configured);
+    const state = loginHealthBadgeState(check.configured);
+    const label = loginHealthBadgeLabel(check.configured);
     return `
       <article class="user-card">
         <div class="user-card-top">
           <div class="user-title">${check.name}</div>
-          <span class="badge ${badgeClass(state)}">${normalizeState(state)}</span>
+          <span class="badge ${badgeClass(state)}">${label}</span>
         </div>
         <div class="user-meta">${check.description}</div>
       </article>
@@ -439,12 +481,17 @@ function renderDeepDive(latest, history) {
   const streak = outageStreak(series);
   const errorBudget = Math.max(0, 99.9 - avail);
   const risk = errorBudget > 0.4 ? "High" : errorBudget > 0.15 ? "Medium" : "Low";
+  const configProbeNote = activeService.state === "degraded"
+    ? "Fallback / unknown"
+    : "Health JSON + HTTP probes";
+  const configStatusDisplay = activeService.statusCode === 102 ? "Unknown" : (activeService.statusCode ?? "???");
+
   root.innerHTML = configCheck
     ? `
       <article class="deep-card"><div class="k">24h Availability</div><div class="v">${avail.toFixed(2)}%</div></article>
       <article class="deep-card"><div class="k">Check Type</div><div class="v">Configuration</div></article>
-      <article class="deep-card"><div class="k">Probe Mode</div><div class="v">Health payload assertion</div></article>
-      <article class="deep-card"><div class="k">Latest Status Code</div><div class="v">${activeService.statusCode ?? "???"}</div></article>
+      <article class="deep-card"><div class="k">Probe Mode</div><div class="v">${configProbeNote}</div></article>
+      <article class="deep-card"><div class="k">Latest Signal</div><div class="v">${configStatusDisplay}</div></article>
       <article class="deep-card"><div class="k">Outage Streak</div><div class="v">${streak.current} now / ${streak.max} max</div></article>
       <article class="deep-card"><div class="k">SLO Risk</div><div class="v">${risk}</div></article>
     `
@@ -479,7 +526,7 @@ function renderDeepDive(latest, history) {
 
   svg.innerHTML = configCheck
     ? `
-      <text x="8" y="16" fill="#64748b" font-size="11" font-family="JetBrains Mono">${activeService.name} · configuration health (no latency sparkline)</text>
+      <text x="8" y="16" fill="#64748b" font-size="11" font-family="JetBrains Mono">${activeService.name} · configuration signal (no latency sparkline)</text>
     `
     : `
     <defs>

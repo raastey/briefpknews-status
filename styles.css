@@ -2,7 +2,9 @@
   --bg-app:       #f3f4f6;
   --bg-surface:   #ffffff;
   --bg-card:      #ffffff;
-  --bg-card-2:    #0f172a; /* Deep navy from main site */
+  /* Light surfaces only — panel headers and summary strips */
+  --bg-card-2:    #f1f5f9;
+  --bg-card-muted:#f8fafc;
   --bg-input:     #ffffff;
   --border:       #e5e7eb;
   --border-hi:    #d1d5db;
@@ -292,19 +294,19 @@ h1 {
 .panel-head {
   padding: 1.2rem 1.4rem;
   border-bottom: 1px solid var(--border);
-  background: var(--bg-card-2);
+  background: linear-gradient(180deg, var(--bg-card-muted) 0%, var(--bg-card-2) 100%);
 }
 .panel-head h2 {
   margin: 0;
   font: 600 .75rem var(--mono-font);
   text-transform: uppercase;
   letter-spacing: .12em;
-  color: var(--text-muted);
+  color: var(--text-primary);
 }
 .panel-head p {
   margin: 0.4rem 0 0;
   font-size: .85rem;
-  color: var(--text-muted);
+  color: var(--text-dim);
 }
 
 /* ── Unified Status Grid ────────────────────────────── */
@@ -413,7 +415,7 @@ h1 {
   flex-wrap: wrap;
   gap: 0.6rem;
   padding: 1rem 1.4rem;
-  background: var(--bg-card-2);
+  background: var(--bg-card-muted);
   border-bottom: 1px solid var(--border);
 }
 .ai-pill {
@@ -482,7 +484,7 @@ h1 {
   padding: 0.2rem 0.5rem;
   background: var(--bg-card-2);
   border-radius: 4px;
-  color: var(--text-muted);
+  color: var(--text-dim);
 }
 
 /* ── Deep Dive ───────────────────────────────────────── */

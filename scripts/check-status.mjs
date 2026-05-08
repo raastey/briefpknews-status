@@ -135,13 +135,38 @@ async function fetchHealthSnapshot() {
     const body = await res.json();
     return {
       aiRouter: body?.ai_router || null,
-      loginHealth: body?.login_health || null
+      loginHealth: body?.login_health ?? null
     };
   } catch {
     return null;
   } finally {
     clearTimeout(timer);
   }
+}
+
+/** When production /api/health has no login_health yet, infer what we can from public probes. */
+async function inferLoginHealthFallback(journeys) {
+  const guest = journeys.find((j) => j.key === "guest-landing");
+  const loginStep = guest?.steps?.find((s) => s.label === "Reach login page");
+  const loginPageOk = Boolean(loginStep?.ok);
+
+  const googleRes = await probeUrl(`${BASE}/api/auth/google`, [302, 301, 303, 307, 503]);
+  const googleConfigured = [302, 301, 303, 307].includes(googleRes.statusCode);
+
+  return {
+    login_page: { configured: loginPageOk },
+    magic_link: { configured: null },
+    google_oauth: { configured: googleConfigured }
+  };
+}
+
+function mergeLoginHealth(fromApi, fallback) {
+  const pick = (v, fb) => (v === undefined || v === null ? fb : v);
+  return {
+    login_page: { configured: pick(fromApi?.login_page?.configured, fallback.login_page.configured) },
+    magic_link: { configured: pick(fromApi?.magic_link?.configured, fallback.magic_link.configured) },
+    google_oauth: { configured: pick(fromApi?.google_oauth?.configured, fallback.google_oauth.configured) }
+  };
 }
 
 async function probeUrl(url, expectedStatuses) {
@@ -236,30 +261,44 @@ function loginHealthToServices(loginHealth) {
       key: "loginPage",
       name: "Login Page Health",
       url: `${BASE}/login.html`,
-      configured: Boolean(loginHealth.login_page?.configured)
+      configured: loginHealth.login_page?.configured
     },
     {
       key: "magicLink",
       name: "Magic Link Health",
       url: `${BASE}/api/auth/login`,
-      configured: Boolean(loginHealth.magic_link?.configured)
+      configured: loginHealth.magic_link?.configured
     },
     {
       key: "googleOAuth",
       name: "Google OAuth Health",
       url: `${BASE}/api/auth/google`,
-      configured: Boolean(loginHealth.google_oauth?.configured)
+      configured: loginHealth.google_oauth?.configured
     }
   ];
 
-  return checks.map((check) => ({
-    key: check.key,
-    name: check.name,
-    url: check.url,
-    state: check.configured ? "operational" : "outage",
-    statusCode: check.configured ? 200 : 503,
-    latencyMs: null
-  }));
+  return checks.map((check) => {
+    let state;
+    let statusCode;
+    if (check.configured === true) {
+      state = "operational";
+      statusCode = 200;
+    } else if (check.configured === false) {
+      state = "outage";
+      statusCode = 503;
+    } else {
+      state = "degraded";
+      statusCode = 102;
+    }
+    return {
+      key: check.key,
+      name: check.name,
+      url: check.url,
+      state,
+      statusCode,
+      latencyMs: null
+    };
+  });
 }
 
 async function main() {
@@ -267,11 +306,12 @@ async function main() {
   const baseResults = await Promise.all(services.map((svc) => probe(svc)));
   const healthSnapshot = await fetchHealthSnapshot();
   const aiRouter = healthSnapshot?.aiRouter || null;
-  const loginHealth = healthSnapshot?.loginHealth || null;
+  const userJourneys = await probeUserJourneys();
+  const inferredLoginHealth = await inferLoginHealthFallback(userJourneys);
+  const loginHealth = mergeLoginHealth(healthSnapshot?.loginHealth, inferredLoginHealth);
   const loginHealthServices = loginHealthToServices(loginHealth);
   const results = [...baseResults, ...loginHealthServices];
-  const userJourneys = await probeUserJourneys();
-  const overall = aggregateOverall(results);
+  const overall = aggregateOverall(baseResults);
   const latest = {
     checkedAt,
     overall,
@@ -308,7 +348,7 @@ async function main() {
       state: overall,
       startedAt: checkedAt,
       resolvedAt: null,
-      affectedServices: results.filter((r) => r.state !== "operational").map((r) => r.name),
+      affectedServices: baseResults.filter((r) => r.state !== "operational").map((r) => r.name),
       updates: [{ at: checkedAt, message: `Automatic detection: overall status flipped to ${overall}.` }]
     });
     console.log(`[INCIDENT OPENED] overall=${overall}`);

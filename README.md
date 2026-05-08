@@ -28,13 +28,21 @@ All authenticated APIs may return **401** when the probe has no session cookie; 
 
 ## Login health telemetry
 
-`/api/health` now exposes `login_health`, and the status pipeline surfaces it on the dashboard:
+`/api/health` exposes `login_health` when the main app is on the latest deploy. The status pipeline merges that payload with **synthetic fallbacks** so the dashboard stays usable even before deploy:
 
-- `login_page.configured`: `public/login.html` exists in the deployed app
+- `login_page`: from monitoring journeys (`Reach login page` step)
+- `google_oauth`: from probing `/api/auth/google` (redirect vs `503`)
+- `magic_link`: only reliable once `/api/health` includes `login_health.magic_link` (`RESEND_API_KEY`). Until then it appears as **Unknown**, not “Unavailable”.
+
+Schema when fully wired:
+
+- `login_page.configured`: bundle ships `public/login.html`
 - `magic_link.configured`: `RESEND_API_KEY` is present
-- `google_oauth.configured`: `GOOGLE_CLIENT_ID` and `GOOGLE_CLIENT_SECRET` are present
+- `google_oauth.configured`: Google OAuth credentials are present
 
-This is shown in the **Login Health** panel to make auth-path regressions visible without digging through deployment logs.
+The **Login Health** panel and the three supplementary service rows reflect merged telemetry plus explicit Unknown states where probes cannot infer config safely.
+
+Overall uptime banner aggregates **core API probes only**; supplementary login rows do not flip the global outage state.
 
 ## Product note (news stack)
 
