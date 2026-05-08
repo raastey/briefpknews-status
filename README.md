@@ -26,6 +26,16 @@ The GitHub Actions workflow probes production `GET` routes (see `scripts/check-s
 
 All authenticated APIs may return **401** when the probe has no session cookie; that still counts as “endpoint reachable.”
 
+## Login health telemetry
+
+`/api/health` now exposes `login_health`, and the status pipeline surfaces it on the dashboard:
+
+- `login_page.configured`: `public/login.html` exists in the deployed app
+- `magic_link.configured`: `RESEND_API_KEY` is present
+- `google_oauth.configured`: `GOOGLE_CLIENT_ID` and `GOOGLE_CLIENT_SECRET` are present
+
+This is shown in the **Login Health** panel to make auth-path regressions visible without digging through deployment logs.
+
 ## Product note (news stack)
 
 The dashboard news rail, Pulse intelligence, and `/api/search` share one server-side **merged article pool** (Pakistani RSS feeds plus international outlets via Google News `Pakistan site:` scopes). The news endpoint returns up to **250** rows per response; Pulse samples headline titles from the full merged list.
