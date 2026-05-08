@@ -382,7 +382,7 @@ function renderLoginHealth(latest) {
     {
       key: "magic-link",
       name: "Magic Link",
-      description: "Resend/API key reported by `/api/health` (unknown until backend exposes `login_health`)",
+      description: "`RESEND_API_KEY` presence from `/api/health.login_health.magic_link`",
       configured: coalesce(loginHealth.magic_link?.configured)
     },
     {
