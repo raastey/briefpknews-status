@@ -1,3 +1,21 @@
 {
-  "items": []
+  "items": [
+    {
+      "id": "auto-1778260392035",
+      "title": "Service Outage Detected",
+      "state": "outage",
+      "startedAt": "2026-05-08T17:12:58.340Z",
+      "resolvedAt": null,
+      "affectedServices": [
+        "Auth Endpoint",
+        "Pakistan Macro API"
+      ],
+      "updates": [
+        {
+          "at": "2026-05-08T17:12:58.340Z",
+          "message": "Automatic detection: overall status flipped to outage."
+        }
+      ]
+    }
+  ]
 }
