@@ -22,6 +22,10 @@ function normalizeState(state) {
   return "Outage";
 }
 
+function isConfigService(serviceKey) {
+  return ["loginPage", "magicLink", "googleOAuth"].includes(serviceKey);
+}
+
 function healthScore(svc) {
   const latency = Number(svc.latencyMs);
   if (svc.state === "outage") return 5;
@@ -122,7 +126,11 @@ function renderStatusGrid(latest, history) {
       </div>
       <div class="status-card-footer">
         <div class="status-label ${stateKlass}">${normalizeState(svc.state)}</div>
-        <div class="latency-meta">${svc.latencyMs ?? "n/a"}ms · ${svc.statusCode ?? "???"}</div>
+        <div class="latency-meta">${
+          isConfigService(svc.key)
+            ? `Config check · ${svc.statusCode ?? "???"}`
+            : `${svc.latencyMs ?? "n/a"}ms · ${svc.statusCode ?? "???"}`
+        }</div>
       </div>
     `;
     root.appendChild(card);
@@ -315,6 +323,63 @@ function renderUserPulse(latest, history) {
   }).join("");
 }
 
+function loginHealthState(configured) {
+  return configured ? "operational" : "outage";
+}
+
+function renderLoginHealth(latest) {
+  const summary = document.getElementById("loginHealthSummary");
+  const grid = document.getElementById("loginHealthGrid");
+  if (!summary || !grid) return;
+
+  const loginHealth = latest.loginHealth;
+  if (!loginHealth) {
+    summary.innerHTML = `<article class="ai-pill"><div class="k">Login Health</div><div class="v">Unavailable</div></article>`;
+    grid.innerHTML = "";
+    return;
+  }
+
+  const checks = [
+    {
+      key: "login-page",
+      name: "Login Page",
+      description: "Static login entry point is present",
+      configured: Boolean(loginHealth.login_page?.configured)
+    },
+    {
+      key: "magic-link",
+      name: "Magic Link",
+      description: "Email sender for auth links is configured",
+      configured: Boolean(loginHealth.magic_link?.configured)
+    },
+    {
+      key: "google-oauth",
+      name: "Google OAuth",
+      description: "Google auth client credentials are configured",
+      configured: Boolean(loginHealth.google_oauth?.configured)
+    }
+  ];
+
+  const operational = checks.filter((c) => c.configured).length;
+  summary.innerHTML = `
+    <article class="ai-pill"><div class="k">Configured Paths</div><div class="v">${operational}/${checks.length}</div></article>
+    <article class="ai-pill"><div class="k">Overall Login Health</div><div class="v">${operational === checks.length ? "Healthy" : "Needs Attention"}</div></article>
+  `;
+
+  grid.innerHTML = checks.map((check) => {
+    const state = loginHealthState(check.configured);
+    return `
+      <article class="user-card">
+        <div class="user-card-top">
+          <div class="user-title">${check.name}</div>
+          <span class="badge ${badgeClass(state)}">${normalizeState(state)}</span>
+        </div>
+        <div class="user-meta">${check.description}</div>
+      </article>
+    `;
+  }).join("");
+}
+
 function serviceSeries(history, key) {
   return (history || [])
     .map((run) => ({ t: run.checkedAt, svc: (run.services || []).find((s) => s.key === key) }))
@@ -363,6 +428,7 @@ function renderDeepDive(latest, history) {
   if (!select.value) select.value = activeKey;
   const activeService = services.find((s) => s.key === activeKey) || services[0];
   const series = serviceSeries(history, activeService.key);
+  const configCheck = isConfigService(activeService.key);
   const lats = series.map((x) => Number(x.svc.latencyMs)).filter(Number.isFinite).sort((a, b) => a - b);
   const p50 = percentile(lats, 50);
   const p95 = percentile(lats, 95);
@@ -373,16 +439,25 @@ function renderDeepDive(latest, history) {
   const streak = outageStreak(series);
   const errorBudget = Math.max(0, 99.9 - avail);
   const risk = errorBudget > 0.4 ? "High" : errorBudget > 0.15 ? "Medium" : "Low";
-  root.innerHTML = `
-    <article class="deep-card"><div class="k">24h Availability</div><div class="v">${avail.toFixed(2)}%</div></article>
-    <article class="deep-card"><div class="k">P50 Latency</div><div class="v">${p50 == null ? "n/a" : `${Math.round(p50)}ms`}</div></article>
-    <article class="deep-card"><div class="k">P95 Latency</div><div class="v">${p95 == null ? "n/a" : `${Math.round(p95)}ms`}</div></article>
-    <article class="deep-card"><div class="k">P99 Latency</div><div class="v">${p99 == null ? "n/a" : `${Math.round(p99)}ms`}</div></article>
-    <article class="deep-card"><div class="k">Max Latency</div><div class="v">${maxLat == null ? "n/a" : `${Math.round(maxLat)}ms`}</div></article>
-    <article class="deep-card"><div class="k">Outage Streak</div><div class="v">${streak.current} now / ${streak.max} max</div></article>
-    <article class="deep-card"><div class="k">Error Budget Burn</div><div class="v">${errorBudget.toFixed(3)}%</div></article>
-    <article class="deep-card"><div class="k">SLO Risk</div><div class="v">${risk}</div></article>
-  `;
+  root.innerHTML = configCheck
+    ? `
+      <article class="deep-card"><div class="k">24h Availability</div><div class="v">${avail.toFixed(2)}%</div></article>
+      <article class="deep-card"><div class="k">Check Type</div><div class="v">Configuration</div></article>
+      <article class="deep-card"><div class="k">Probe Mode</div><div class="v">Health payload assertion</div></article>
+      <article class="deep-card"><div class="k">Latest Status Code</div><div class="v">${activeService.statusCode ?? "???"}</div></article>
+      <article class="deep-card"><div class="k">Outage Streak</div><div class="v">${streak.current} now / ${streak.max} max</div></article>
+      <article class="deep-card"><div class="k">SLO Risk</div><div class="v">${risk}</div></article>
+    `
+    : `
+      <article class="deep-card"><div class="k">24h Availability</div><div class="v">${avail.toFixed(2)}%</div></article>
+      <article class="deep-card"><div class="k">P50 Latency</div><div class="v">${p50 == null ? "n/a" : `${Math.round(p50)}ms`}</div></article>
+      <article class="deep-card"><div class="k">P95 Latency</div><div class="v">${p95 == null ? "n/a" : `${Math.round(p95)}ms`}</div></article>
+      <article class="deep-card"><div class="k">P99 Latency</div><div class="v">${p99 == null ? "n/a" : `${Math.round(p99)}ms`}</div></article>
+      <article class="deep-card"><div class="k">Max Latency</div><div class="v">${maxLat == null ? "n/a" : `${Math.round(maxLat)}ms`}</div></article>
+      <article class="deep-card"><div class="k">Outage Streak</div><div class="v">${streak.current} now / ${streak.max} max</div></article>
+      <article class="deep-card"><div class="k">Error Budget Burn</div><div class="v">${errorBudget.toFixed(3)}%</div></article>
+      <article class="deep-card"><div class="k">SLO Risk</div><div class="v">${risk}</div></article>
+    `;
 
   const latSeq = series.map((x) => Number(x.svc.latencyMs)).filter(Number.isFinite).slice(-96);
   const linePath = buildPath(latSeq, 900, 140);
@@ -402,7 +477,11 @@ function renderDeepDive(latest, history) {
       ` L900,140 L0,140 Z`;
   }
 
-  svg.innerHTML = `
+  svg.innerHTML = configCheck
+    ? `
+      <text x="8" y="16" fill="#64748b" font-size="11" font-family="JetBrains Mono">${activeService.name} · configuration health (no latency sparkline)</text>
+    `
+    : `
     <defs>
       <linearGradient id="sparkAreaGrad" x1="0" y1="0" x2="0" y2="1">
         <stop offset="0%"   stop-color="#3b82f6" stop-opacity="0.22"/>
@@ -436,6 +515,7 @@ async function loadStatus() {
   renderStatusGrid(latest, _historyRuns);
   renderHeatmap(latest, _historyRuns);
   renderAiRouter(latest, _historyRuns);
+  renderLoginHealth(latest);
   renderUserPulse(latest, _historyRuns);
   renderDeepDive(latest, _historyRuns);
   renderIncidents(incidents.items || []);

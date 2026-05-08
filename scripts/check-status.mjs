@@ -122,7 +122,7 @@ async function probe(service) {
   }
 }
 
-async function fetchAiRouterSnapshot() {
+async function fetchHealthSnapshot() {
   const ctrl = new AbortController();
   const timer = setTimeout(() => ctrl.abort(), TIMEOUT_MS);
   try {
@@ -133,7 +133,10 @@ async function fetchAiRouterSnapshot() {
     });
     if (!res.ok) return null;
     const body = await res.json();
-    return body?.ai_router || null;
+    return {
+      aiRouter: body?.ai_router || null,
+      loginHealth: body?.login_health || null
+    };
   } catch {
     return null;
   } finally {
@@ -225,10 +228,48 @@ function aggregateOverall(results) {
   return "operational";
 }
 
+function loginHealthToServices(loginHealth) {
+  if (!loginHealth) return [];
+
+  const checks = [
+    {
+      key: "loginPage",
+      name: "Login Page Health",
+      url: `${BASE}/login.html`,
+      configured: Boolean(loginHealth.login_page?.configured)
+    },
+    {
+      key: "magicLink",
+      name: "Magic Link Health",
+      url: `${BASE}/api/auth/login`,
+      configured: Boolean(loginHealth.magic_link?.configured)
+    },
+    {
+      key: "googleOAuth",
+      name: "Google OAuth Health",
+      url: `${BASE}/api/auth/google`,
+      configured: Boolean(loginHealth.google_oauth?.configured)
+    }
+  ];
+
+  return checks.map((check) => ({
+    key: check.key,
+    name: check.name,
+    url: check.url,
+    state: check.configured ? "operational" : "outage",
+    statusCode: check.configured ? 200 : 503,
+    latencyMs: null
+  }));
+}
+
 async function main() {
   const checkedAt = new Date().toISOString();
-  const results = await Promise.all(services.map((svc) => probe(svc)));
-  const aiRouter = await fetchAiRouterSnapshot();
+  const baseResults = await Promise.all(services.map((svc) => probe(svc)));
+  const healthSnapshot = await fetchHealthSnapshot();
+  const aiRouter = healthSnapshot?.aiRouter || null;
+  const loginHealth = healthSnapshot?.loginHealth || null;
+  const loginHealthServices = loginHealthToServices(loginHealth);
+  const results = [...baseResults, ...loginHealthServices];
   const userJourneys = await probeUserJourneys();
   const overall = aggregateOverall(results);
   const latest = {
@@ -237,6 +278,7 @@ async function main() {
     region: "github-actions",
     services: results,
     aiRouter,
+    loginHealth,
     userJourneys
   };
 
