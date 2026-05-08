@@ -1,6 +1,22 @@
 {
   "items": [
     {
+      "id": "auto-1778264312157",
+      "title": "Service Outage Detected",
+      "state": "outage",
+      "startedAt": "2026-05-08T18:18:18.493Z",
+      "resolvedAt": null,
+      "affectedServices": [
+        "Public Health API"
+      ],
+      "updates": [
+        {
+          "at": "2026-05-08T18:18:18.493Z",
+          "message": "Automatic detection: overall status flipped to outage."
+        }
+      ]
+    },
+    {
       "id": "auto-1778260392035",
       "title": "Service Outage Detected",
       "state": "resolved",
