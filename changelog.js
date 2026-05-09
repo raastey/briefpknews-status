@@ -17,6 +17,64 @@ function escapeHtml(str) {
     .replaceAll('"', "&quot;");
 }
 
+function toSentenceCase(text) {
+  const t = String(text || "").trim();
+  if (!t) return t;
+  return t.charAt(0).toUpperCase() + t.slice(1);
+}
+
+function friendlyCommitCopy(entry) {
+  const raw = String(entry?.title || "").trim();
+  const lower = raw.toLowerCase();
+
+  if (!raw) {
+    return {
+      title: "Repository update",
+      summary: "A change was recorded in the project history."
+    };
+  }
+
+  if (lower.includes("chore(status): update synthetic status snapshot")) {
+    return {
+      title: "Automated status monitoring snapshot updated",
+      summary: "Routine monitoring refreshed the public status data and health artifacts."
+    };
+  }
+
+  if (lower.startsWith("merge pull request")) {
+    return {
+      title: "Code updates merged into main",
+      summary: "A pull request was merged, bringing reviewed updates into production history."
+    };
+  }
+
+  if (lower === "create cname") {
+    return {
+      title: "Custom domain mapping was added",
+      summary: "Domain configuration for the status site was set up via CNAME."
+    };
+  }
+
+  if (lower === "update cname") {
+    return {
+      title: "Custom domain mapping was updated",
+      summary: "Domain routing for the status site was adjusted."
+    };
+  }
+
+  const stripped = raw.replace(/^[a-z]+(\([^)]+\))?:\s*/i, "");
+  const cleaned = stripped.replace(/\s+/g, " ").trim();
+  const title = toSentenceCase(cleaned || raw);
+  return {
+    title,
+    summary: "This update was delivered in the repository and recorded in the release timeline."
+  };
+}
+
+function isCommitLedgerEntry(entry) {
+  return String(entry?.id || "").startsWith("git-");
+}
+
 function renderHighlights(entries) {
   const root = document.getElementById("highlights");
   if (!root) return;
@@ -56,18 +114,19 @@ function renderTimeline(entries) {
   empty.classList.add("hidden");
 
   root.innerHTML = entries.map((entry) => {
+    const display = isCommitLedgerEntry(entry) ? friendlyCommitCopy(entry) : entry;
     const tags = (entry.tags || []).map((t) => `<span class="tag">${escapeHtml(t)}</span>`).join("");
     const links = (entry.links || []).map((l) => `<a href="${escapeHtml(l.url)}" target="_blank" rel="noreferrer">${escapeHtml(l.label || "Reference")}</a>`).join("");
     return `
       <article class="entry">
         <div class="entry-top">
           <div>
-            <h3 class="entry-title">${escapeHtml(entry.title)}</h3>
+            <h3 class="entry-title">${escapeHtml(display.title)}</h3>
             <div class="entry-meta">${fmtDate(entry.date)} · ${escapeHtml(entry.id)}</div>
           </div>
           <span class="type-pill type-${escapeHtml(entry.type)}">${escapeHtml(entry.type)}</span>
         </div>
-        <p class="entry-summary">${escapeHtml(entry.summary)}</p>
+        <p class="entry-summary">${escapeHtml(display.summary || entry.summary)}</p>
         <div class="tag-list">${tags}</div>
         ${links ? `<div class="entry-links">${links}</div>` : ""}
       </article>
