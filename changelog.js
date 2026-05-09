@@ -1,4 +1,5 @@
 const CHANGELOG_PATH = "./status-data/changelog.json";
+const HISTORY_PATH = "./status-data/changelog-history.json";
 
 let allEntries = [];
 
@@ -81,12 +82,38 @@ function applyFilters() {
   renderTimeline(filtered);
 }
 
+function commitHashFromEntry(entry) {
+  const url = entry?.links?.[0]?.url || "";
+  const m = url.match(/\/commit\/([a-f0-9]{7,40})$/i);
+  return m ? m[1].toLowerCase() : null;
+}
+
+function mergeEntries(curatedEntries, historyEntries) {
+  const seenHashes = new Set();
+  for (const e of curatedEntries) {
+    const h = commitHashFromEntry(e);
+    if (h) seenHashes.add(h);
+  }
+
+  const historyOnly = (historyEntries || []).filter((e) => {
+    const h = commitHashFromEntry(e);
+    return h ? !seenHashes.has(h) : true;
+  });
+
+  return [...curatedEntries, ...historyOnly];
+}
+
 async function loadChangelog() {
-  const res = await fetch(`${CHANGELOG_PATH}?t=${Date.now()}`);
-  if (!res.ok) throw new Error("Unable to load changelog data");
-  const body = await res.json();
-  const entries = Array.isArray(body.entries) ? body.entries : [];
-  allEntries = entries.sort((a, b) => new Date(b.date) - new Date(a.date));
+  const [curatedRes, historyRes] = await Promise.all([
+    fetch(`${CHANGELOG_PATH}?t=${Date.now()}`),
+    fetch(`${HISTORY_PATH}?t=${Date.now()}`)
+  ]);
+  if (!curatedRes.ok) throw new Error("Unable to load changelog data");
+  const body = await curatedRes.json();
+  const historyBody = historyRes.ok ? await historyRes.json() : { entries: [] };
+  const curated = Array.isArray(body.entries) ? body.entries : [];
+  const history = Array.isArray(historyBody.entries) ? historyBody.entries : [];
+  allEntries = mergeEntries(curated, history).sort((a, b) => new Date(b.date) - new Date(a.date));
 
   const heroMeta = document.getElementById("heroMeta");
   const lastPublished = document.getElementById("lastPublished");

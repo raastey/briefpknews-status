@@ -70,11 +70,14 @@ Edit `status-data/incidents.json`:
 
 - Public changelog route: `./changelog.html`
 - Data source: `status-data/changelog.json`
+- Historical commit ledger: `status-data/changelog-history.json`
 - Starter schema lives in top-level `entryTemplate` in that JSON.
 - To publish a new release note:
   1. Append an entry object to `entries` (newest-first preferred for editing convenience).
   2. Bump `lastPublished`.
-  3. Commit and deploy via GitHub Pages.
+  3. Refresh git-history ledger:
+     - `node scripts/build-changelog-history.mjs`
+  4. Commit and deploy via GitHub Pages.
 
 Example entry:
 
