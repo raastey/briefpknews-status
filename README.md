@@ -5,6 +5,7 @@ Independent status page for BriefPK News, designed to match the BriefPK visual s
 ## What this includes
 
 - Branded status dashboard (`index.html`, `styles.css`, `app.js`)
+- Dedicated changelog page (`changelog.html`, `changelog.css`, `changelog.js`)
 - Component-level health display
 - 24h uptime bars per component
 - Incident timeline from `status-data/incidents.json`
@@ -64,6 +65,15 @@ Edit `status-data/incidents.json`:
   ]
 }
 ```
+
+## Changelog workflow
+
+- Public changelog route: `./changelog.html`
+- Data source: `status-data/changelog.json`
+- To publish a new release note:
+  1. Append an entry object to `entries` (newest-first preferred for editing convenience).
+  2. Bump `lastPublished`.
+  3. Commit and deploy via GitHub Pages.
 
 ## GitHub Pages setup
 

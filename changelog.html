@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#f3f4f6">
+  <meta name="color-scheme" content="light">
+  <title>BriefPK Changelog</title>
+  <meta name="description" content="Historical and ongoing product, platform, and status updates for BriefPK.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./styles.css">
+  <link rel="stylesheet" href="./changelog.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand-wrap">
+      <div class="main-logo">brief<span class="dot-pk">.pk</span></div>
+      <h1>Changelog</h1>
+    </div>
+    <div class="topbar-right">
+      <div class="top-actions">
+        <a class="ghost-btn" href="./index.html">Status</a>
+        <a class="ghost-btn" href="https://www.briefpknews.xyz" target="_blank" rel="noreferrer">Open Site</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="layout">
+    <section class="status-hero changelog-hero">
+      <h2>Historical updates and future release log</h2>
+      <p id="heroMeta">Loading changelog...</p>
+    </section>
+
+    <section class="panel">
+      <div class="panel-head">
+        <h2>Browse updates</h2>
+      </div>
+      <div class="changelog-controls">
+        <input id="searchInput" type="search" placeholder="Search title, summary, or tags">
+        <select id="typeFilter">
+          <option value="all">All types</option>
+          <option value="feature">Feature</option>
+          <option value="improvement">Improvement</option>
+          <option value="fix">Fix</option>
+          <option value="ops">Ops</option>
+          <option value="security">Security</option>
+          <option value="domain">Domain</option>
+          <option value="docs">Docs</option>
+        </select>
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="panel-head">
+        <h2>Latest highlights</h2>
+      </div>
+      <div id="highlights" class="highlight-grid"></div>
+    </section>
+
+    <section class="panel">
+      <div class="panel-head">
+        <h2>Timeline</h2>
+      </div>
+      <div id="timeline" class="timeline-list"></div>
+      <div id="emptyState" class="empty-state hidden">No entries match your current filters.</div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <span id="lastPublished">Last published: --</span>
+    <span>Append new entries in `status-data/changelog.json`</span>
+  </footer>
+
+  <script src="./changelog.js"></script>
+</body>
+</html>
