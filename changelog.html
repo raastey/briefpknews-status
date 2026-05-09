@@ -30,19 +30,27 @@
   <main class="layout">
     <section class="status-hero changelog-hero">
       <div class="hero-kicker">Release Intelligence</div>
-      <h2>Historical updates and a premium forward changelog</h2>
+      <h2>Customer-ready release notes with full historical coverage</h2>
       <p id="heroMeta">Loading changelog...</p>
       <div class="hero-chips">
+        <span>Customer release notes</span>
+        <span>Technical transparency</span>
         <span>Historical backfill</span>
-        <span>Filter + search</span>
-        <span>JSON-driven publishing</span>
       </div>
+    </section>
+
+    <section class="panel mode-panel">
+      <div class="view-switch" role="tablist" aria-label="Release note view">
+        <button id="releaseNotesTab" class="view-tab active" type="button" role="tab" aria-selected="true">Release Notes</button>
+        <button id="technicalTab" class="view-tab" type="button" role="tab" aria-selected="false">Technical Changelog</button>
+      </div>
+      <p class="view-copy" id="viewCopy">Release Notes are written for customers in plain language. Switch to Technical Changelog for raw implementation history.</p>
     </section>
 
     <section class="panel">
       <div class="panel-head">
         <h2>Browse updates</h2>
-        <p>Filter by update type or search by summary, title, and tags.</p>
+        <p>Filter by category or search by feature names, summaries, and themes.</p>
       </div>
       <div class="changelog-controls">
         <input id="searchInput" type="search" placeholder="Search title, summary, or tags">
@@ -68,17 +76,52 @@
 
     <section class="panel">
       <div class="panel-head">
-        <h2>Timeline</h2>
-        <p>Includes curated release notes plus historical commit ledger coverage.</p>
+        <h2 id="timelineHeading">Release timeline</h2>
+        <p id="timelineSubhead">Human-readable monthly releases synthesized from curated notes plus complete historical commit coverage.</p>
       </div>
-      <div id="timeline" class="timeline-list"></div>
+      <div id="releaseTimeline" class="release-timeline"></div>
+      <div id="timeline" class="timeline-list hidden"></div>
       <div id="emptyState" class="empty-state hidden">No entries match your current filters.</div>
     </section>
   </main>
 
-  <footer class="footer">
-    <span id="lastPublished">Last published: --</span>
-    <span>Append new entries in `status-data/changelog.json`</span>
+  <footer class="site-footer">
+    <div class="footer-glass-bar"></div>
+    <div class="footer-inner">
+      <div class="footer-main">
+        <div class="footer-brand">
+          <span class="footer-logo">brief<span class="brand-dot">.pk</span></span>
+          <span class="footer-tagline">Pakistan Intelligence Dashboard</span>
+          <p class="footer-desc">Live news, macro-economics, and sovereign data streams.</p>
+        </div>
+        <div class="footer-nav">
+          <div class="footer-col">
+            <h4 class="footer-col-title">Network</h4>
+            <a href="https://brief.pk" target="_blank" rel="noreferrer">Substack Notes</a>
+            <a href="https://x.com/brief_pk" target="_blank" rel="noreferrer">Twitter / X</a>
+            <a href="https://www.briefpknews.xyz" target="_blank" rel="noreferrer">briefpknews.xyz</a>
+          </div>
+          <div class="footer-col">
+            <h4 class="footer-col-title">Research</h4>
+            <a href="https://www.briefpknews.xyz/pakistangdphistory" target="_blank" rel="noreferrer">Pakistan GDP History</a>
+          </div>
+          <div class="footer-col">
+            <h4 class="footer-col-title">Legal</h4>
+            <a href="https://www.briefpknews.xyz/privacy.html" target="_blank" rel="noreferrer">Privacy Policy</a>
+            <a href="https://www.briefpknews.xyz/terms.html" target="_blank" rel="noreferrer">Terms of Service</a>
+            <a href="mailto:team@brief.pk">team@brief.pk</a>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <div class="footer-sources-label">
+          <span class="src-title">Aggregated Intelligence:</span> <span id="footerSourceList">ARY News · Pakistan Observer · Dawn · Daily Times · The News · Google News (Pakistan) · ProPakistani · Business Recorder · The Guardian World · Geo News · Arab News · Washington Post · Profit Pakistan Today</span>
+        </div>
+        <div class="footer-note">
+          Main bundle refreshes about every 90s (RSS cache on the server is ~90s). Live markets via Yahoo Finance, Stooq, FRED. Telemetry via Open-Meteo & PSX API.
+        </div>
+      </div>
+    </div>
   </footer>
 
   <script src="./changelog.js"></script>
