@@ -70,10 +70,27 @@ Edit `status-data/incidents.json`:
 
 - Public changelog route: `./changelog.html`
 - Data source: `status-data/changelog.json`
+- Starter schema lives in top-level `entryTemplate` in that JSON.
 - To publish a new release note:
   1. Append an entry object to `entries` (newest-first preferred for editing convenience).
   2. Bump `lastPublished`.
   3. Commit and deploy via GitHub Pages.
+
+Example entry:
+
+```json
+{
+  "id": "chg-2026-05-09-my-release",
+  "date": "2026-05-09",
+  "type": "feature",
+  "title": "My release title",
+  "summary": "What changed and why it matters.",
+  "tags": ["ui", "status"],
+  "links": [
+    { "label": "Commit abc1234", "url": "https://github.com/raastey/briefpknews-status/commit/abc1234" }
+  ]
+}
+```
 
 ## GitHub Pages setup
 

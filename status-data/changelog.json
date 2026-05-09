@@ -1,5 +1,16 @@
 {
   "lastPublished": "2026-05-09",
+  "entryTemplate": {
+    "id": "chg-YYYY-MM-DD-short-slug",
+    "date": "YYYY-MM-DD",
+    "type": "feature",
+    "title": "Short release title",
+    "summary": "One to two lines describing what changed and why it matters.",
+    "tags": ["area", "theme"],
+    "links": [
+      { "label": "Commit abc1234", "url": "https://github.com/raastey/briefpknews-status/commit/abc1234" }
+    ]
+  },
   "entries": [
     {
       "id": "chg-2026-05-09-public-hardening",
