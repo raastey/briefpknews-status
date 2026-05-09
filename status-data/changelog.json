@@ -13,6 +13,18 @@
   },
   "entries": [
     {
+      "id": "chg-2026-05-09-canonical-footer",
+      "date": "2026-05-09",
+      "type": "improvement",
+      "title": "Canonical premium footer on public app and status site",
+      "summary": "Shared multi-column footer (brand, Network, Research, Legal, Aggregated Intelligence strip) on BriefPK public pages via canonical-footer.css; status index and changelog aligned to the same layout.",
+      "tags": ["footer", "branding", "public", "status-site"],
+      "links": [
+        { "label": "Commit d272ee7 (app)", "url": "https://github.com/raastey/brief-pk-newsfeed-original/commit/d272ee7" },
+        { "label": "Commit 558ffad (status)", "url": "https://github.com/raastey/briefpknews-status/commit/558ffad" }
+      ]
+    },
+    {
       "id": "chg-2026-05-09-public-hardening",
       "date": "2026-05-09",
       "type": "security",

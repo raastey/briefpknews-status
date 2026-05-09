@@ -1,8 +1,280 @@
 {
-  "generatedAt": "2026-05-09T12:39:37.274Z",
+  "generatedAt": "2026-05-09T18:50:53.672Z",
   "source": "git log",
-  "totalCommits": 420,
+  "totalCommits": 437,
   "entries": [
+    {
+      "id": "git-558ffadbc2",
+      "date": "2026-05-09",
+      "type": "improvement",
+      "title": "Align status site footer with canonical premium footer layout.",
+      "summary": "Historical commit from repository history.",
+      "tags": [
+        "git-history"
+      ],
+      "links": [
+        {
+          "label": "Commit 558ffad",
+          "url": "https://github.com/raastey/briefpknews-status/commit/558ffad"
+        }
+      ]
+    },
+    {
+      "id": "git-5c4a258ea2",
+      "date": "2026-05-09",
+      "type": "ops",
+      "title": "chore(status): update synthetic status snapshot",
+      "summary": "Historical commit from repository history.",
+      "tags": [
+        "snapshot-automation"
+      ],
+      "links": [
+        {
+          "label": "Commit 5c4a258",
+          "url": "https://github.com/raastey/briefpknews-status/commit/5c4a258"
+        }
+      ]
+    },
+    {
+      "id": "git-e0a1d65eeb",
+      "date": "2026-05-09",
+      "type": "ops",
+      "title": "chore(status): update synthetic status snapshot",
+      "summary": "Historical commit from repository history.",
+      "tags": [
+        "snapshot-automation"
+      ],
+      "links": [
+        {
+          "label": "Commit e0a1d65",
+          "url": "https://github.com/raastey/briefpknews-status/commit/e0a1d65"
+        }
+      ]
+    },
+    {
+      "id": "git-a67996a403",
+      "date": "2026-05-09",
+      "type": "ops",
+      "title": "chore(status): update synthetic status snapshot",
+      "summary": "Historical commit from repository history.",
+      "tags": [
+        "snapshot-automation"
+      ],
+      "links": [
+        {
+          "label": "Commit a67996a",
+          "url": "https://github.com/raastey/briefpknews-status/commit/a67996a"
+        }
+      ]
+    },
+    {
+      "id": "git-9117471b2d",
+      "date": "2026-05-09",
+      "type": "ops",
+      "title": "chore(status): update synthetic status snapshot",
+      "summary": "Historical commit from repository history.",
+      "tags": [
+        "snapshot-automation"
+      ],
+      "links": [
+        {
+          "label": "Commit 9117471",
+          "url": "https://github.com/raastey/briefpknews-status/commit/9117471"
+        }
+      ]
+    },
+    {
+      "id": "git-8c89a0fe83",
+      "date": "2026-05-09",
+      "type": "ops",
+      "title": "chore(status): update synthetic status snapshot",
+      "summary": "Historical commit from repository history.",
+      "tags": [
+        "snapshot-automation"
+      ],
+      "links": [
+        {
+          "label": "Commit 8c89a0f",
+          "url": "https://github.com/raastey/briefpknews-status/commit/8c89a0f"
+        }
+      ]
+    },
+    {
+      "id": "git-3e8fdc06bd",
+      "date": "2026-05-09",
+      "type": "ops",
+      "title": "chore(status): update synthetic status snapshot",
+      "summary": "Historical commit from repository history.",
+      "tags": [
+        "snapshot-automation"
+      ],
+      "links": [
+        {
+          "label": "Commit 3e8fdc0",
+          "url": "https://github.com/raastey/briefpknews-status/commit/3e8fdc0"
+        }
+      ]
+    },
+    {
+      "id": "git-d3431c9b9d",
+      "date": "2026-05-09",
+      "type": "ops",
+      "title": "chore(status): update synthetic status snapshot",
+      "summary": "Historical commit from repository history.",
+      "tags": [
+        "snapshot-automation"
+      ],
+      "links": [
+        {
+          "label": "Commit d3431c9",
+          "url": "https://github.com/raastey/briefpknews-status/commit/d3431c9"
+        }
+      ]
+    },
+    {
+      "id": "git-c4900f391a",
+      "date": "2026-05-09",
+      "type": "ops",
+      "title": "chore(status): update synthetic status snapshot",
+      "summary": "Historical commit from repository history.",
+      "tags": [
+        "snapshot-automation"
+      ],
+      "links": [
+        {
+          "label": "Commit c4900f3",
+          "url": "https://github.com/raastey/briefpknews-status/commit/c4900f3"
+        }
+      ]
+    },
+    {
+      "id": "git-588d5adfeb",
+      "date": "2026-05-09",
+      "type": "improvement",
+      "title": "Present commit-ledger updates in plain English.",
+      "summary": "Historical commit from repository history.",
+      "tags": [
+        "git-history"
+      ],
+      "links": [
+        {
+          "label": "Commit 588d5ad",
+          "url": "https://github.com/raastey/briefpknews-status/commit/588d5ad"
+        }
+      ]
+    },
+    {
+      "id": "git-a856f26daf",
+      "date": "2026-05-09",
+      "type": "ops",
+      "title": "chore(status): update synthetic status snapshot",
+      "summary": "Historical commit from repository history.",
+      "tags": [
+        "snapshot-automation"
+      ],
+      "links": [
+        {
+          "label": "Commit a856f26",
+          "url": "https://github.com/raastey/briefpknews-status/commit/a856f26"
+        }
+      ]
+    },
+    {
+      "id": "git-265217bf07",
+      "date": "2026-05-09",
+      "type": "ops",
+      "title": "chore(status): update synthetic status snapshot",
+      "summary": "Historical commit from repository history.",
+      "tags": [
+        "snapshot-automation"
+      ],
+      "links": [
+        {
+          "label": "Commit 265217b",
+          "url": "https://github.com/raastey/briefpknews-status/commit/265217b"
+        }
+      ]
+    },
+    {
+      "id": "git-2602ce9f45",
+      "date": "2026-05-09",
+      "type": "ops",
+      "title": "chore(status): update synthetic status snapshot",
+      "summary": "Historical commit from repository history.",
+      "tags": [
+        "snapshot-automation"
+      ],
+      "links": [
+        {
+          "label": "Commit 2602ce9",
+          "url": "https://github.com/raastey/briefpknews-status/commit/2602ce9"
+        }
+      ]
+    },
+    {
+      "id": "git-350c67f041",
+      "date": "2026-05-09",
+      "type": "ops",
+      "title": "chore(status): update synthetic status snapshot",
+      "summary": "Historical commit from repository history.",
+      "tags": [
+        "snapshot-automation"
+      ],
+      "links": [
+        {
+          "label": "Commit 350c67f",
+          "url": "https://github.com/raastey/briefpknews-status/commit/350c67f"
+        }
+      ]
+    },
+    {
+      "id": "git-f4bf4bf9cf",
+      "date": "2026-05-09",
+      "type": "ops",
+      "title": "chore(status): update synthetic status snapshot",
+      "summary": "Historical commit from repository history.",
+      "tags": [
+        "snapshot-automation"
+      ],
+      "links": [
+        {
+          "label": "Commit f4bf4bf",
+          "url": "https://github.com/raastey/briefpknews-status/commit/f4bf4bf"
+        }
+      ]
+    },
+    {
+      "id": "git-b45da2867e",
+      "date": "2026-05-09",
+      "type": "improvement",
+      "title": "Expand changelog with comprehensive git-history coverage.",
+      "summary": "Historical commit from repository history.",
+      "tags": [
+        "git-history"
+      ],
+      "links": [
+        {
+          "label": "Commit b45da28",
+          "url": "https://github.com/raastey/briefpknews-status/commit/b45da28"
+        }
+      ]
+    },
+    {
+      "id": "git-a56f929bb1",
+      "date": "2026-05-09",
+      "type": "ops",
+      "title": "chore(status): update synthetic status snapshot",
+      "summary": "Historical commit from repository history.",
+      "tags": [
+        "snapshot-automation"
+      ],
+      "links": [
+        {
+          "label": "Commit a56f929",
+          "url": "https://github.com/raastey/briefpknews-status/commit/a56f929"
+        }
+      ]
+    },
     {
       "id": "git-0487f447c5",
       "date": "2026-05-09",
