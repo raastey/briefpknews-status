@@ -1,17 +1,17 @@
 {
-  "generatedAt": "2026-05-09T18:55:09.801Z",
+  "generatedAt": "2026-05-09T18:56:04.907Z",
   "source": "git log (merged)",
   "repositories": [
     {
       "id": "status-site",
-      "commits": 438
+      "commits": 441
     },
     {
       "id": "news-app",
       "commits": 308
     }
   ],
-  "totalCommits": 746,
+  "totalCommits": 749,
   "entries": [
     {
       "id": "git-news-app-01ad8073dc",
@@ -95,6 +95,23 @@
         {
           "label": "Commit 0487f44",
           "url": "https://github.com/raastey/briefpknews-status/commit/0487f44"
+        }
+      ]
+    },
+    {
+      "id": "git-status-site-068eda4673",
+      "date": "2026-05-09",
+      "type": "improvement",
+      "title": "Improve changelog: weekly release cards, merged app history, briefpk naming.",
+      "summary": "Historical commit from repository history.",
+      "tags": [
+        "merge",
+        "status-site"
+      ],
+      "links": [
+        {
+          "label": "Commit 068eda4",
+          "url": "https://github.com/raastey/briefpknews-status/commit/068eda4"
         }
       ]
     },
@@ -337,6 +354,23 @@
       ]
     },
     {
+      "id": "git-status-site-824fc36ba6",
+      "date": "2026-05-09",
+      "type": "ops",
+      "title": "chore(status): update synthetic status snapshot",
+      "summary": "Historical commit from repository history.",
+      "tags": [
+        "snapshot-automation",
+        "status-site"
+      ],
+      "links": [
+        {
+          "label": "Commit 824fc36",
+          "url": "https://github.com/raastey/briefpknews-status/commit/824fc36"
+        }
+      ]
+    },
+    {
       "id": "git-status-site-834d14c570",
       "date": "2026-05-09",
       "type": "ops",
@@ -469,6 +503,23 @@
         {
           "label": "Commit 9c1aa17",
           "url": "https://github.com/raastey/briefpknews-status/commit/9c1aa17"
+        }
+      ]
+    },
+    {
+      "id": "git-status-site-a104c71995",
+      "date": "2026-05-09",
+      "type": "ops",
+      "title": "chore(ci): use briefpk naming in monitor workflow title.",
+      "summary": "Historical commit from repository history.",
+      "tags": [
+        "git-history",
+        "status-site"
+      ],
+      "links": [
+        {
+          "label": "Commit a104c71",
+          "url": "https://github.com/raastey/briefpknews-status/commit/a104c71"
         }
       ]
     },

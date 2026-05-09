@@ -6,15 +6,9 @@
     "type": "feature",
     "title": "Short release title",
     "summary": "One to two lines describing what changed and why it matters.",
-    "tags": [
-      "area",
-      "theme"
-    ],
+    "tags": ["area", "theme"],
     "links": [
-      {
-        "label": "Commit abc1234",
-        "url": "https://github.com/raastey/briefpknews-status/commit/abc1234"
-      }
+      { "label": "Commit abc1234", "url": "https://github.com/raastey/briefpknews-status/commit/abc1234" }
     ]
   },
   "entries": [
@@ -24,16 +18,9 @@
       "type": "improvement",
       "title": "Deeper release notes with merged product history",
       "summary": "Changelog merges git history from the status site and the briefpk news app (when build runs next to the app clone), groups customer-facing cards by week, and adds expandable full change lists. Regenerate with node scripts/build-changelog-history.mjs; set BRIEFPK_APP_REPO if repos are not siblings.",
-      "tags": [
-        "changelog",
-        "release-notes",
-        "history"
-      ],
+      "tags": ["changelog", "release-notes", "history"],
       "links": [
-        {
-          "label": "Commit 7a39d0f",
-          "url": "https://github.com/raastey/briefpknews-status/commit/7a39d0f"
-        }
+        { "label": "Commit 068eda4", "url": "https://github.com/raastey/briefpknews-status/commit/068eda4" }
       ]
     },
     {
@@ -42,21 +29,10 @@
       "type": "improvement",
       "title": "Canonical premium footer on public app and status site",
       "summary": "Shared multi-column footer (brand, Network, Research, Legal, Aggregated Intelligence strip) on briefpk public pages via canonical-footer.css; status index and changelog aligned to the same layout.",
-      "tags": [
-        "footer",
-        "branding",
-        "public",
-        "status-site"
-      ],
+      "tags": ["footer", "branding", "public", "status-site"],
       "links": [
-        {
-          "label": "Commit d272ee7 (app)",
-          "url": "https://github.com/raastey/brief-pk-newsfeed-original/commit/d272ee7"
-        },
-        {
-          "label": "Commit 558ffad (status)",
-          "url": "https://github.com/raastey/briefpknews-status/commit/558ffad"
-        }
+        { "label": "Commit d272ee7 (app)", "url": "https://github.com/raastey/brief-pk-newsfeed-original/commit/d272ee7" },
+        { "label": "Commit 558ffad (status)", "url": "https://github.com/raastey/briefpknews-status/commit/558ffad" }
       ]
     },
     {
@@ -65,16 +41,9 @@
       "type": "security",
       "title": "Public data hardening for status surface",
       "summary": "Removed internal AI routing/provider details from public UI and artifacts, scrubbed legacy fields, and simplified sensitive wording.",
-      "tags": [
-        "public",
-        "security",
-        "status-data"
-      ],
+      "tags": ["public", "security", "status-data"],
       "links": [
-        {
-          "label": "Commit 2683eb1",
-          "url": "https://github.com/raastey/briefpknews-status/commit/2683eb1"
-        }
+        { "label": "Commit 2683eb1", "url": "https://github.com/raastey/briefpknews-status/commit/2683eb1" }
       ]
     },
     {
@@ -83,16 +52,9 @@
       "type": "improvement",
       "title": "Mobile-first layout and touch UX refresh",
       "summary": "Improved responsive spacing, safe-area behavior, table scrolling, and small-screen card wrapping for better phone usability.",
-      "tags": [
-        "mobile",
-        "ui",
-        "accessibility"
-      ],
+      "tags": ["mobile", "ui", "accessibility"],
       "links": [
-        {
-          "label": "Commit 9160ab2",
-          "url": "https://github.com/raastey/briefpknews-status/commit/9160ab2"
-        }
+        { "label": "Commit 9160ab2", "url": "https://github.com/raastey/briefpknews-status/commit/9160ab2" }
       ]
     },
     {
@@ -101,15 +63,9 @@
       "type": "docs",
       "title": "Clarified login health messaging",
       "summary": "Updated status UI language so login health rows are easier to understand without exposing implementation details.",
-      "tags": [
-        "copy",
-        "login-health"
-      ],
+      "tags": ["copy", "login-health"],
       "links": [
-        {
-          "label": "Commit eff41cc",
-          "url": "https://github.com/raastey/briefpknews-status/commit/eff41cc"
-        }
+        { "label": "Commit eff41cc", "url": "https://github.com/raastey/briefpknews-status/commit/eff41cc" }
       ]
     },
     {
@@ -118,20 +74,10 @@
       "type": "domain",
       "title": "Custom domain routing updated",
       "summary": "CNAME configuration was updated to point Pages traffic to the status domain setup.",
-      "tags": [
-        "dns",
-        "github-pages",
-        "cname"
-      ],
+      "tags": ["dns", "github-pages", "cname"],
       "links": [
-        {
-          "label": "Commit a122871",
-          "url": "https://github.com/raastey/briefpknews-status/commit/a122871"
-        },
-        {
-          "label": "Commit 3049fd4",
-          "url": "https://github.com/raastey/briefpknews-status/commit/3049fd4"
-        }
+        { "label": "Commit a122871", "url": "https://github.com/raastey/briefpknews-status/commit/a122871" },
+        { "label": "Commit 3049fd4", "url": "https://github.com/raastey/briefpknews-status/commit/3049fd4" }
       ]
     },
     {
@@ -140,16 +86,9 @@
       "type": "fix",
       "title": "Login health fallback telemetry stabilized",
       "summary": "Added resilient login health fallback and improved light theme panel behavior while upstream health payloads were rolling out.",
-      "tags": [
-        "fallback",
-        "login-health",
-        "theme"
-      ],
+      "tags": ["fallback", "login-health", "theme"],
       "links": [
-        {
-          "label": "Commit 605d883",
-          "url": "https://github.com/raastey/briefpknews-status/commit/605d883"
-        }
+        { "label": "Commit 605d883", "url": "https://github.com/raastey/briefpknews-status/commit/605d883" }
       ]
     },
     {
@@ -158,16 +97,9 @@
       "type": "feature",
       "title": "Login health checks integrated into core grid",
       "summary": "Surfaced login page, magic link, and Google OAuth checks as first-class service components in status reporting.",
-      "tags": [
-        "auth",
-        "service-grid",
-        "observability"
-      ],
+      "tags": ["auth", "service-grid", "observability"],
       "links": [
-        {
-          "label": "Commit 892d7d9",
-          "url": "https://github.com/raastey/briefpknews-status/commit/892d7d9"
-        }
+        { "label": "Commit 892d7d9", "url": "https://github.com/raastey/briefpknews-status/commit/892d7d9" }
       ]
     },
     {
@@ -176,24 +108,11 @@
       "type": "feature",
       "title": "Major status UI overhaul and branding pass",
       "summary": "Introduced GitHub-style component grid, incident banner, uptime bars, and aligned typography/colors with the core briefpk brand.",
-      "tags": [
-        "design",
-        "branding",
-        "incident-ui"
-      ],
+      "tags": ["design", "branding", "incident-ui"],
       "links": [
-        {
-          "label": "Commit 324f68e",
-          "url": "https://github.com/raastey/briefpknews-status/commit/324f68e"
-        },
-        {
-          "label": "Commit a5d994c",
-          "url": "https://github.com/raastey/briefpknews-status/commit/a5d994c"
-        },
-        {
-          "label": "Commit 1aef39d",
-          "url": "https://github.com/raastey/briefpknews-status/commit/1aef39d"
-        }
+        { "label": "Commit 324f68e", "url": "https://github.com/raastey/briefpknews-status/commit/324f68e" },
+        { "label": "Commit a5d994c", "url": "https://github.com/raastey/briefpknews-status/commit/a5d994c" },
+        { "label": "Commit 1aef39d", "url": "https://github.com/raastey/briefpknews-status/commit/1aef39d" }
       ]
     },
     {
@@ -202,15 +121,9 @@
       "type": "fix",
       "title": "Defensive frontend null-checks for stability",
       "summary": "Added guardrails in app rendering to prevent panel crashes when partial status payloads are returned.",
-      "tags": [
-        "frontend",
-        "stability"
-      ],
+      "tags": ["frontend", "stability"],
       "links": [
-        {
-          "label": "Commit 1456500",
-          "url": "https://github.com/raastey/briefpknews-status/commit/1456500"
-        }
+        { "label": "Commit 1456500", "url": "https://github.com/raastey/briefpknews-status/commit/1456500" }
       ]
     },
     {
@@ -219,16 +132,9 @@
       "type": "ops",
       "title": "Search API included in monitoring stack documentation",
       "summary": "Expanded runbook coverage to include merged news/search endpoint observability expectations.",
-      "tags": [
-        "docs",
-        "monitoring",
-        "search"
-      ],
+      "tags": ["docs", "monitoring", "search"],
       "links": [
-        {
-          "label": "Commit fed6ff6",
-          "url": "https://github.com/raastey/briefpknews-status/commit/fed6ff6"
-        }
+        { "label": "Commit fed6ff6", "url": "https://github.com/raastey/briefpknews-status/commit/fed6ff6" }
       ]
     },
     {
@@ -237,15 +143,9 @@
       "type": "improvement",
       "title": "Premium light theme redesign",
       "summary": "Shifted status presentation to a cleaner premium light theme with better visual hierarchy.",
-      "tags": [
-        "theme",
-        "ui"
-      ],
+      "tags": ["theme", "ui"],
       "links": [
-        {
-          "label": "Commit 81e86c4",
-          "url": "https://github.com/raastey/briefpknews-status/commit/81e86c4"
-        }
+        { "label": "Commit 81e86c4", "url": "https://github.com/raastey/briefpknews-status/commit/81e86c4" }
       ]
     },
     {
@@ -254,24 +154,11 @@
       "type": "feature",
       "title": "Mission-control analytics era launched",
       "summary": "Introduced AI router control tower, user journey pulse, and richer synthetic component health analytics.",
-      "tags": [
-        "analytics",
-        "synthetic-checks",
-        "control-tower"
-      ],
+      "tags": ["analytics", "synthetic-checks", "control-tower"],
       "links": [
-        {
-          "label": "Commit a3f28c8",
-          "url": "https://github.com/raastey/briefpknews-status/commit/a3f28c8"
-        },
-        {
-          "label": "Commit 16a6bd8",
-          "url": "https://github.com/raastey/briefpknews-status/commit/16a6bd8"
-        },
-        {
-          "label": "Commit 3943d8e",
-          "url": "https://github.com/raastey/briefpknews-status/commit/3943d8e"
-        }
+        { "label": "Commit a3f28c8", "url": "https://github.com/raastey/briefpknews-status/commit/a3f28c8" },
+        { "label": "Commit 16a6bd8", "url": "https://github.com/raastey/briefpknews-status/commit/16a6bd8" },
+        { "label": "Commit 3943d8e", "url": "https://github.com/raastey/briefpknews-status/commit/3943d8e" }
       ]
     },
     {
@@ -280,20 +167,10 @@
       "type": "feature",
       "title": "Branded briefpk status site launched on GitHub Pages",
       "summary": "Initial public launch of the status site with component-level health reporting and uptime artifacts.",
-      "tags": [
-        "launch",
-        "github-pages",
-        "status"
-      ],
+      "tags": ["launch", "github-pages", "status"],
       "links": [
-        {
-          "label": "Commit cb9a7b1",
-          "url": "https://github.com/raastey/briefpknews-status/commit/cb9a7b1"
-        },
-        {
-          "label": "Commit c504dd5",
-          "url": "https://github.com/raastey/briefpknews-status/commit/c504dd5"
-        }
+        { "label": "Commit cb9a7b1", "url": "https://github.com/raastey/briefpknews-status/commit/cb9a7b1" },
+        { "label": "Commit c504dd5", "url": "https://github.com/raastey/briefpknews-status/commit/c504dd5" }
       ]
     },
     {
@@ -302,11 +179,7 @@
       "type": "ops",
       "title": "Continuous synthetic snapshot automation (ongoing)",
       "summary": "Recurring `chore(status): update synthetic status snapshot` commits keep public artifacts current for operations transparency.",
-      "tags": [
-        "automation",
-        "github-actions",
-        "synthetic-runs"
-      ],
+      "tags": ["automation", "github-actions", "synthetic-runs"],
       "links": []
     }
   ]
