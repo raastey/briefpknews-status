@@ -134,7 +134,6 @@ async function fetchHealthSnapshot() {
     if (!res.ok) return null;
     const body = await res.json();
     return {
-      aiRouter: body?.ai_router || null,
       loginHealth: body?.login_health ?? null
     };
   } catch {
@@ -305,7 +304,6 @@ async function main() {
   const checkedAt = new Date().toISOString();
   const baseResults = await Promise.all(services.map((svc) => probe(svc)));
   const healthSnapshot = await fetchHealthSnapshot();
-  const aiRouter = healthSnapshot?.aiRouter || null;
   const userJourneys = await probeUserJourneys();
   const inferredLoginHealth = await inferLoginHealthFallback(userJourneys);
   const loginHealth = mergeLoginHealth(healthSnapshot?.loginHealth, inferredLoginHealth);
@@ -317,7 +315,6 @@ async function main() {
     overall,
     region: "github-actions",
     services: results,
-    aiRouter,
     loginHealth,
     userJourneys
   };
@@ -328,6 +325,10 @@ async function main() {
   } catch {
     history = { runs: [] };
   }
+  history.runs = (history.runs || []).map((run) => {
+    const { aiRouter, ...safeRun } = run || {};
+    return safeRun;
+  });
   history.runs.push(latest);
   history.runs = history.runs.slice(-HISTORY_LIMIT);
 
