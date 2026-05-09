@@ -219,6 +219,41 @@
   margin-bottom: 0.32rem;
 }
 
+.release-details {
+  margin: 0.85rem 0 0;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  background: var(--bg-card-muted);
+  padding: 0.15rem 0.65rem 0.55rem;
+}
+
+.release-details-summary {
+  cursor: pointer;
+  font: 600 0.82rem var(--ui-font);
+  color: var(--accent);
+  list-style-position: outside;
+  padding: 0.35rem 0;
+}
+
+.release-full-list {
+  margin: 0.35rem 0 0;
+  padding-left: 1rem;
+  max-height: 320px;
+  overflow: auto;
+  font-size: 0.82rem;
+  color: var(--text-dim);
+  line-height: 1.45;
+}
+
+.release-full-list li {
+  margin-bottom: 0.28rem;
+}
+
+.release-full-list .rollup-more {
+  list-style: none;
+  margin-top: 0.35rem;
+}
+
 .release-tags {
   margin-top: 0.75rem;
   display: flex;

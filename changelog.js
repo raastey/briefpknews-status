@@ -103,12 +103,26 @@ function releaseImpact(entries) {
   return "Improved";
 }
 
-function monthLabel(monthKey) {
-  const [year, month] = monthKey.split("-");
-  return new Date(Number(year), Number(month) - 1, 1).toLocaleDateString(undefined, {
-    month: "long",
-    year: "numeric"
-  });
+/** Sunday YYYY-MM-DD (local) — stable sort key for a week bucket. */
+function sundayKeyFromDate(d) {
+  const t = new Date(d.getFullYear(), d.getMonth(), d.getDate());
+  const sun = new Date(t);
+  sun.setDate(t.getDate() - t.getDay());
+  const y = sun.getFullYear();
+  const m = String(sun.getMonth() + 1).padStart(2, "0");
+  const day = String(sun.getDate()).padStart(2, "0");
+  return `${y}-${m}-${day}`;
+}
+
+function weekRangeLabel(sundayKey) {
+  const [ys, ms, ds] = sundayKey.split("-");
+  const start = new Date(Number(ys), Number(ms) - 1, Number(ds));
+  const end = new Date(start);
+  end.setDate(start.getDate() + 6);
+  const o = { month: "short", day: "numeric" };
+  const a = start.toLocaleDateString(undefined, { ...o, year: "numeric" });
+  const b = end.toLocaleDateString(undefined, { ...o, year: "numeric" });
+  return `${a}–${b}`;
 }
 
 function buildReleaseNotes(entries) {
@@ -117,13 +131,13 @@ function buildReleaseNotes(entries) {
     const entry = normalizeEntryForDisplay(raw);
     const d = new Date(entry.date);
     if (!Number.isFinite(d.getTime())) continue;
-    const key = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}`;
+    const key = sundayKeyFromDate(d);
     if (!grouped.has(key)) grouped.set(key, []);
     grouped.get(key).push(entry);
   }
 
   const releaseNotes = [];
-  for (const [monthKey, items] of grouped.entries()) {
+  for (const [weekKey, items] of grouped.entries()) {
     const sorted = items.slice().sort((a, b) => new Date(b.date) - new Date(a.date));
     const typeCounts = sorted.reduce((acc, item) => {
       acc[item.type] = (acc[item.type] || 0) + 1;
@@ -132,30 +146,32 @@ function buildReleaseNotes(entries) {
     const dominantType = Object.entries(typeCounts).sort((a, b) => b[1] - a[1])[0]?.[0] || "improvement";
     const uniqueTitles = [];
     for (const item of sorted) {
-      if (item.title && !uniqueTitles.includes(item.title)) uniqueTitles.push(item.title);
-      if (uniqueTitles.length >= 4) break;
+      const display = normalizeEntryForDisplay(item);
+      if (display.title && !uniqueTitles.includes(display.title)) uniqueTitles.push(display.title);
+      if (uniqueTitles.length >= 10) break;
     }
     const tags = [...new Set(sorted.flatMap((e) => e.tags || []))]
       .filter((t) => t !== "git-history")
-      .slice(0, 5);
+      .slice(0, 8);
     const links = sorted
       .flatMap((e) => e.links || [])
       .filter((l, i, arr) => l?.url && arr.findIndex((x) => x.url === l.url) === i)
-      .slice(0, 4);
+      .slice(0, 6);
 
     releaseNotes.push({
-      id: `release-${monthKey}`,
-      monthKey,
+      id: `release-${weekKey}`,
+      weekKey,
       date: sorted[0]?.date,
       type: dominantType,
       impact: releaseImpact(sorted),
-      title: `${monthLabel(monthKey)} release notes`,
-      summary: `Delivered ${sorted.length} updates focused on ${typeLabel(dominantType)} across the BriefPK experience.`,
-      whyItMatters: `This release cycle improves reliability, product clarity, and day-to-day trust for BriefPK readers.`,
+      title: `${weekRangeLabel(weekKey)} · Release notes`,
+      summary: `Delivered ${sorted.length} updates focused on ${typeLabel(dominantType)} across the briefpk experience (status surface and news app history).`,
+      whyItMatters: `This cycle improves reliability, product clarity, and day-to-day trust for briefpk readers.`,
       highlights: uniqueTitles,
       tags,
       links,
-      totalUpdates: sorted.length
+      totalUpdates: sorted.length,
+      items: sorted
     });
   }
 
@@ -170,10 +186,10 @@ function renderHighlights(entries, mode = "release") {
     const major = releases.filter((r) => r.impact === "Major").length;
     const recent = releases[0];
     root.innerHTML = `
-      <article class="highlight-card"><div class="k">Release cycles</div><div class="v">${releases.length}</div></article>
+      <article class="highlight-card"><div class="k">Release weeks</div><div class="v">${releases.length}</div></article>
       <article class="highlight-card"><div class="k">Historical updates</div><div class="v">${entries.length}</div></article>
       <article class="highlight-card"><div class="k">Major releases</div><div class="v">${major}</div></article>
-      <article class="highlight-card"><div class="k">Latest cycle</div><div class="v">${escapeHtml(recent ? monthLabel(recent.monthKey).split(" ")[0] : "--")}</div></article>
+      <article class="highlight-card"><div class="k">Latest week</div><div class="v">${escapeHtml(recent ? weekRangeLabel(recent.weekKey).split("–")[0]?.trim() || "--" : "--")}</div></article>
     `;
     return;
   }
@@ -198,6 +214,30 @@ function entryMatches(entry, q, type) {
     ...(entry.tags || [])
   ].join(" ").toLowerCase();
   return haystack.includes(q);
+}
+
+function formatReleaseDetails(items) {
+  const counts = new Map();
+  for (const item of items) {
+    const t = normalizeEntryForDisplay(item).title || "Update";
+    counts.set(t, (counts.get(t) || 0) + 1);
+  }
+  const pairs = [...counts.entries()].sort((a, b) => {
+    if (b[1] !== a[1]) return b[1] - a[1];
+    return a[0].localeCompare(b[0]);
+  });
+  const max = 150;
+  const shown = pairs.slice(0, max);
+  const more = pairs.length - shown.length;
+  const lis = shown
+    .map(([t, c]) => {
+      const label = c > 1 ? `${escapeHtml(t)} · ×${c}` : escapeHtml(t);
+      return `<li>${label}</li>`;
+    })
+    .join("");
+  const moreLine =
+    more > 0 ? `<li class="rollup-more"><em>…and ${more} more distinct change titles</em></li>` : "";
+  return `<details class="release-details"><summary class="release-details-summary">Full change list (${items.length} updates)</summary><ul class="release-full-list">${lis}${moreLine}</ul></details>`;
 }
 
 function renderTimeline(entries) {
@@ -244,6 +284,7 @@ function renderReleaseTimeline(entries) {
         <p class="release-summary">${escapeHtml(release.summary)}</p>
         <p class="release-why"><strong>Why it matters:</strong> ${escapeHtml(release.whyItMatters)}</p>
         <ul class="release-list">${highlights}</ul>
+        ${formatReleaseDetails(release.items || [])}
         <div class="release-tags">${tags}</div>
         ${links ? `<div class="release-links">${links}</div>` : ""}
       </article>
@@ -273,7 +314,7 @@ function setMode(mode) {
   if (heading) heading.textContent = isRelease ? "Release timeline" : "Technical timeline";
   if (subhead) {
     subhead.textContent = isRelease
-      ? "Human-readable monthly releases synthesized from curated notes plus complete historical commit coverage."
+      ? "Human-readable weekly releases synthesized from curated notes plus merged git history (status site + news app)."
       : "Detailed engineering timeline with raw implementation history and references.";
   }
   if (viewCopy) {
@@ -285,7 +326,7 @@ function setMode(mode) {
 
 function renderEmptyState(isEmpty) {
   const empty = document.getElementById("emptyState");
-  if (!root || !empty) return;
+  if (!empty) return;
   empty.classList.toggle("hidden", !isEmpty);
 }
 
