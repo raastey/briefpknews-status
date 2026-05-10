@@ -1,3 +1,8 @@
+/**
+ * Builds `status-data/changelog-history.json` from `git log` (status + optional news app).
+ * That file is **not** loaded by the public changelog page — release notes use only
+ * `changelog.json`. Keep this script for optional internal archival or tooling; safe to run in CI without affecting the live site.
+ */
 import { execSync } from "node:child_process";
 import { existsSync } from "node:fs";
 import { writeFile } from "node:fs/promises";

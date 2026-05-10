@@ -1,6 +1,6 @@
 # BriefPK News Status
 
-Independent status page for BriefPK News, designed to match the BriefPK visual system and hosted on GitHub Pages.
+Independent status page for BriefPK News, designed to match the BriefPK visual system. **Hosting:** GitHub Pages (this repository), with custom domain **https://status.briefpknews.xyz** (see `CNAME`). Default Pages URL: https://raastey.github.io/briefpknews-status/
 
 ## What this includes
 
@@ -66,18 +66,12 @@ Edit `status-data/incidents.json`:
 }
 ```
 
-## Changelog workflow
+## Release notes (`changelog.html`)
 
-- Public changelog route: `./changelog.html`
-- Data source: `status-data/changelog.json`
-- Historical commit ledger: `status-data/changelog-history.json`
-- Starter schema lives in top-level `entryTemplate` in that JSON.
-- To publish a new release note:
-  1. Append an entry object to `entries` (newest-first preferred for editing convenience).
-  2. Bump `lastPublished`.
-  3. Refresh git-history ledger:
-     - `node scripts/build-changelog-history.mjs`
-  4. Commit and deploy via GitHub Pages.
+- **Public page:** `./changelog.html` (only curated entries; no git merge on load).
+- **Data source:** `status-data/changelog.json` — append to `entries`, bump `lastPublished`, deploy via GitHub Pages.
+- **Do not** add GitHub commit links; keep notes readable for customers (see main app `prod-changelog-discipline.mdc`).
+- **Optional / internal:** `node scripts/build-changelog-history.mjs` writes `status-data/changelog-history.json` from `git log`. **The live site does not use this file**; keep it only if you want a local commit ledger artifact.
 
 Example entry:
 
@@ -87,11 +81,9 @@ Example entry:
   "date": "2026-05-09",
   "type": "feature",
   "title": "My release title",
-  "summary": "What changed and why it matters.",
+  "summary": "What changed and why it matters for readers.",
   "tags": ["ui", "status"],
-  "links": [
-    { "label": "Commit abc1234", "url": "https://github.com/raastey/briefpknews-status/commit/abc1234" }
-  ]
+  "links": []
 }
 ```
 

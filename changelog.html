@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#f3f4f6">
   <meta name="color-scheme" content="light">
-  <title>briefpk changelog</title>
-  <meta name="description" content="Historical and ongoing product, platform, and status updates for briefpk.">
+  <title>brief.pk — Release notes</title>
+  <meta name="description" content="Release notes for brief.pk — curated product updates in plain language.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
@@ -17,7 +17,7 @@
   <header class="topbar">
     <div class="brand-wrap">
       <div class="main-logo">brief<span class="dot-pk">.pk</span></div>
-      <h1>Changelog</h1>
+      <h1>Release notes</h1>
     </div>
     <div class="topbar-right">
       <div class="top-actions">
@@ -29,22 +29,13 @@
 
   <main class="layout">
     <section class="status-hero changelog-hero">
-      <div class="hero-kicker">Release Intelligence</div>
-      <h2>Customer-ready release notes with full historical coverage</h2>
+      <div class="hero-kicker">Release notes</div>
+      <h2>What changed on brief.pk</h2>
       <p id="heroMeta">Loading changelog...</p>
       <div class="hero-chips">
-        <span>Customer release notes</span>
-        <span>Technical transparency</span>
-        <span>Historical backfill</span>
+        <span>Plain language</span>
+        <span>Curated updates</span>
       </div>
-    </section>
-
-    <section class="panel mode-panel">
-      <div class="view-switch" role="tablist" aria-label="Release note view">
-        <button id="releaseNotesTab" class="view-tab active" type="button" role="tab" aria-selected="true">Release Notes</button>
-        <button id="technicalTab" class="view-tab" type="button" role="tab" aria-selected="false">Technical Changelog</button>
-      </div>
-      <p class="view-copy" id="viewCopy">Release Notes are written for customers in plain language. Switch to Technical Changelog for raw implementation history.</p>
     </section>
 
     <section class="panel">
@@ -77,10 +68,9 @@
     <section class="panel">
       <div class="panel-head">
         <h2 id="timelineHeading">Release timeline</h2>
-        <p id="timelineSubhead">Human-readable monthly releases synthesized from curated notes plus complete historical commit coverage.</p>
+        <p id="timelineSubhead">Updates are grouped by week from curated release notes only.</p>
       </div>
       <div id="releaseTimeline" class="release-timeline"></div>
-      <div id="timeline" class="timeline-list hidden"></div>
       <div id="emptyState" class="empty-state hidden">No entries match your current filters.</div>
     </section>
   </main>
@@ -124,6 +114,6 @@
     </div>
   </footer>
 
-  <script src="./changelog.js?v=20260509b"></script>
+  <script src="./changelog.js?v=20260510c"></script>
 </body>
 </html>
