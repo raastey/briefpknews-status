@@ -4,24 +4,27 @@
     "id": "chg-YYYY-MM-DD-short-slug",
     "date": "YYYY-MM-DD",
     "type": "feature",
-    "title": "Short release title",
-    "summary": "One to two lines describing what changed and why it matters for readers.",
+    "major": false,
+    "title": "Short customer-facing title",
+    "summary": "A clear paragraph: what changed and why readers should care.",
+    "detail": "Optional. Extra paragraphs separated by blank lines (\\n\\n). No commits or ticket IDs.",
     "tags": [
-      "area",
       "theme"
     ],
     "links": []
   },
   "entries": [
     {
-      "id": "chg-2026-05-10-release-notes-curated-only",
+      "id": "chg-2026-05-10-release-notes-verbose",
       "date": "2026-05-10",
       "type": "improvement",
-      "title": "Status site release notes are curated-only",
-      "summary": "The public release-notes page no longer loads git history or a technical changelog tab. Entries come from changelog.json only; commit links are omitted from the page.",
+      "title": "Release notes: major milestones and fuller explanations",
+      "summary": "The public release-notes page now opens with major product chapters spelled out in depth. Weekly updates still appear below, but each item shows the full story—what changed, why it matters, and how you might notice it when using brief.pk.",
+      "detail": "You should not need an engineering background to understand this page. “Major milestones” are the big arcs of the product (for example the core dashboard, GDP History, and intelligence search). Everything else is grouped by week, and every note is written so you can read it start to finish.\n\nWe still do not show raw commit history or internal ticket numbers here—the goal is trust and clarity for readers, not a developer log.",
       "tags": [
         "changelog",
-        "release-notes"
+        "release-notes",
+        "product"
       ],
       "links": []
     },
@@ -29,13 +32,13 @@
       "id": "chg-2026-05-09-canonical-footer",
       "date": "2026-05-09",
       "type": "improvement",
-      "title": "Canonical premium footer on public app and status site",
-      "summary": "Shared multi-column footer (brand, Network, Research, Legal, Aggregated Intelligence strip) on briefpk public pages via canonical-footer.css; status index and changelog aligned to the same layout.",
+      "title": "One consistent footer across the public site and status pages",
+      "summary": "Legal links, brand context, research shortcuts, and the aggregated-intelligence credit line now follow the same layout everywhere. If you are looking for Privacy, Terms, GDP History, or how to reach the team, the footer behaves predictably no matter which page you landed on.",
+      "detail": "Small inconsistencies—different footers on different templates—make a product feel unmaintained even when the underlying data is solid. Aligning footers reduces that friction and makes compliance pages easier to find under stress.",
       "tags": [
         "footer",
         "branding",
-        "public",
-        "status-site"
+        "public"
       ],
       "links": []
     },
@@ -43,12 +46,74 @@
       "id": "chg-2026-05-09-public-hardening",
       "date": "2026-05-09",
       "type": "security",
-      "title": "Public data hardening for status surface",
-      "summary": "Removed internal AI routing/provider details from public UI and artifacts, scrubbed legacy fields, and simplified sensitive wording.",
+      "title": "Less sensitive operational detail on public status surfaces",
+      "summary": "We reviewed what the public status site should reveal about internal routing and providers. Anything that was helpful only to operators—not to readers—was removed or generalized so the surface stays trustworthy without becoming a map of our stack.",
+      "detail": "Security improvements are not always visible features. This change is about reducing accidental disclosure while keeping honest health reporting. If you rely on the status page, you should still see whether core endpoints respond—but not internal configuration trivia.",
       "tags": [
         "public",
         "security",
-        "status-data"
+        "status-site"
+      ],
+      "links": []
+    },
+    {
+      "id": "chg-2026-05-08-custom-domain",
+      "date": "2026-05-08",
+      "type": "domain",
+      "title": "Status site custom domain",
+      "summary": "Traffic for the health dashboard is served from our dedicated status domain so bookmarks, incident posts, and support emails can point to one stable URL.",
+      "detail": "Custom domains on GitHub Pages require careful DNS setup. Once in place, readers see a URL that matches the rest of the brief.pk ecosystem.",
+      "tags": [
+        "dns",
+        "github-pages",
+        "cname"
+      ],
+      "links": [
+        {
+          "label": "Status site",
+          "url": "https://status.briefpknews.xyz"
+        }
+      ]
+    },
+    {
+      "id": "chg-2026-05-08-login-health-copy",
+      "date": "2026-05-08",
+      "type": "docs",
+      "title": "Clearer status wording for sign-in paths",
+      "summary": "Login health rows on the status site use plainer language so you can tell whether magic link, Google, and the login page themselves are reachable—without jargon about implementation.",
+      "detail": "‘Reachable’ versus ‘configured’ can confuse people during an incident. Copy now matches how readers actually think about logging in.",
+      "tags": [
+        "copy",
+        "login-health",
+        "status-site"
+      ],
+      "links": []
+    },
+    {
+      "id": "chg-2026-05-08-login-health-grid",
+      "date": "2026-05-08",
+      "type": "feature",
+      "title": "Login paths tracked alongside core APIs",
+      "summary": "Magic link, Google OAuth, and the login page itself appear next to news, markets, and other components so you can see account access health in the same glance as content feeds.",
+      "detail": "Users blame ‘the site’ when sign-in fails—even if articles still load. Elevating login checks makes incidents easier to diagnose and communicate.",
+      "tags": [
+        "auth",
+        "observability",
+        "status-site"
+      ],
+      "links": []
+    },
+    {
+      "id": "chg-2026-05-08-login-telemetry-fallback",
+      "date": "2026-05-08",
+      "type": "fix",
+      "title": "More resilient login health during partial rollouts",
+      "summary": "When health payloads are mid-deploy, the status UI now degrades gracefully instead of flashing alarming states that do not match what end users experience.",
+      "detail": "Synthetic checks sometimes race ahead of production config. Fallbacks keep the dashboard honest: show uncertainty explicitly rather than guessing red.",
+      "tags": [
+        "fallback",
+        "login-health",
+        "status-site"
       ],
       "links": []
     },
@@ -56,8 +121,9 @@
       "id": "chg-2026-05-08-mobile-first",
       "date": "2026-05-08",
       "type": "improvement",
-      "title": "Mobile-first layout and touch UX refresh",
-      "summary": "Improved responsive spacing, safe-area behavior, table scrolling, and small-screen card wrapping for better phone usability.",
+      "title": "Mobile layout: easier reading on phones",
+      "summary": "Spacing, safe areas, scrollable tables, and card wrapping were tuned so the dashboard remains usable on small screens—especially when markets move and you are not at a desk.",
+      "detail": "Pakistan-heavy audiences often reach for a phone first. These refinements reduce pinch-zooming and sideways scrolling on common breakpoints without changing the underlying data.",
       "tags": [
         "mobile",
         "ui",
@@ -66,53 +132,16 @@
       "links": []
     },
     {
-      "id": "chg-2026-05-08-login-health-copy",
-      "date": "2026-05-08",
-      "type": "docs",
-      "title": "Clarified login health messaging",
-      "summary": "Updated status UI language so login health rows are easier to understand without exposing implementation details.",
-      "tags": [
-        "copy",
-        "login-health"
-      ],
-      "links": []
-    },
-    {
-      "id": "chg-2026-05-08-custom-domain",
-      "date": "2026-05-08",
-      "type": "domain",
-      "title": "Custom domain routing updated",
-      "summary": "CNAME configuration was updated to point Pages traffic to the status domain setup.",
-      "tags": [
-        "dns",
-        "github-pages",
-        "cname"
-      ],
-      "links": []
-    },
-    {
-      "id": "chg-2026-05-08-login-telemetry-fallback",
-      "date": "2026-05-08",
+      "id": "chg-2026-05-05-stability-guards",
+      "date": "2026-05-05",
       "type": "fix",
-      "title": "Login health fallback telemetry stabilized",
-      "summary": "Added resilient login health fallback and improved light theme panel behavior while upstream health payloads were rolling out.",
+      "title": "Safer rendering when payloads are incomplete",
+      "summary": "If a probe returns partial JSON, panels skip missing fields instead of blanking the whole page—especially important during deploy windows.",
+      "detail": "Defensive coding here protects readers from transient infrastructure hiccups that are not ‘outages’ in the user-facing sense.",
       "tags": [
-        "fallback",
-        "login-health",
-        "theme"
-      ],
-      "links": []
-    },
-    {
-      "id": "chg-2026-05-08-login-health-grid",
-      "date": "2026-05-08",
-      "type": "feature",
-      "title": "Login health checks integrated into core grid",
-      "summary": "Surfaced login page, magic link, and Google OAuth checks as first-class service components in status reporting.",
-      "tags": [
-        "auth",
-        "service-grid",
-        "observability"
+        "frontend",
+        "stability",
+        "status-site"
       ],
       "links": []
     },
@@ -120,24 +149,13 @@
       "id": "chg-2026-05-05-ui-overhaul",
       "date": "2026-05-05",
       "type": "feature",
-      "title": "Major status UI overhaul and branding pass",
-      "summary": "Introduced GitHub-style component grid, incident banner, uptime bars, and aligned typography/colors with the core briefpk brand.",
+      "title": "Status dashboard redesign",
+      "summary": "The public status page now mirrors how engineers think about uptime—component grid, incident banner, and per-service bars—but stays readable for non-technical stakeholders.",
+      "detail": "The goal was transparency without noise. Colour, typography, and spacing follow the same brand system as the main product so the two sites feel related.",
       "tags": [
         "design",
-        "branding",
-        "incident-ui"
-      ],
-      "links": []
-    },
-    {
-      "id": "chg-2026-05-05-stability-guards",
-      "date": "2026-05-05",
-      "type": "fix",
-      "title": "Defensive frontend null-checks for stability",
-      "summary": "Added guardrails in app rendering to prevent panel crashes when partial status payloads are returned.",
-      "tags": [
-        "frontend",
-        "stability"
+        "status-site",
+        "branding"
       ],
       "links": []
     },
@@ -145,8 +163,9 @@
       "id": "chg-2026-05-01-search-observability",
       "date": "2026-05-01",
       "type": "ops",
-      "title": "Search API included in monitoring stack documentation",
-      "summary": "Expanded runbook coverage to include merged news/search endpoint observability expectations.",
+      "title": "Search endpoint in monitoring docs",
+      "summary": "Runbooks and status expectations now treat merged search the same as core news: one more step toward consistent on-call coverage.",
+      "detail": "Documentation drifts fast on small teams. This ties observability words to what actually ships in production.",
       "tags": [
         "docs",
         "monitoring",
@@ -158,37 +177,13 @@
       "id": "chg-2026-04-29-light-theme",
       "date": "2026-04-29",
       "type": "improvement",
-      "title": "Premium light theme redesign",
-      "summary": "Shifted status presentation to a cleaner premium light theme with better visual hierarchy.",
+      "title": "Lighter visual theme for the status site",
+      "summary": "Higher contrast hierarchy and calmer backgrounds make long incident days easier on the eyes—especially on laptop screens.",
+      "detail": "Pure aesthetics sometimes support comprehension: when hierarchy is obvious, people parse severity faster.",
       "tags": [
         "theme",
-        "ui"
-      ],
-      "links": []
-    },
-    {
-      "id": "chg-2026-04-28-control-tower",
-      "date": "2026-04-28",
-      "type": "feature",
-      "title": "Mission-control analytics era launched",
-      "summary": "Introduced AI router control tower, user journey pulse, and richer synthetic component health analytics.",
-      "tags": [
-        "analytics",
-        "synthetic-checks",
-        "control-tower"
-      ],
-      "links": []
-    },
-    {
-      "id": "chg-2026-04-28-public-launch",
-      "date": "2026-04-28",
-      "type": "feature",
-      "title": "Branded briefpk status site launched on GitHub Pages",
-      "summary": "Initial public launch of the status site with component-level health reporting and uptime artifacts.",
-      "tags": [
-        "launch",
-        "github-pages",
-        "status"
+        "ui",
+        "status-site"
       ],
       "links": []
     },
@@ -196,14 +191,114 @@
       "id": "chg-ongoing-snapshot-automation",
       "date": "2026-04-29",
       "type": "ops",
-      "title": "Continuous synthetic snapshot automation (ongoing)",
-      "summary": "Recurring `chore(status): update synthetic status snapshot` commits keep public artifacts current for operations transparency.",
+      "title": "Scheduled health snapshots (ongoing)",
+      "summary": "Automation continues to commit fresh status snapshots on a regular cadence so charts and JSON history stay current without manual babysitting.",
+      "detail": "Readers rarely notice this work directly, but it keeps timelines honest when you scroll backward through incidents.",
       "tags": [
         "automation",
         "github-actions",
-        "synthetic-runs"
+        "status-site"
       ],
       "links": []
+    },
+    {
+      "id": "chg-2026-04-28-control-tower",
+      "date": "2026-04-28",
+      "type": "feature",
+      "title": "Deeper synthetic analytics in status tooling",
+      "summary": "Operator-facing panels gained journey-style signals and richer component analytics so we can see behaviour across probes—not just one green/red boolean per route.",
+      "detail": "This primarily helps the team maintain reliability; readers still see the same high-level health story, with more accuracy behind the scenes.",
+      "tags": [
+        "analytics",
+        "synthetic-checks",
+        "status-site"
+      ],
+      "links": []
+    },
+    {
+      "id": "chg-2026-04-28-public-launch",
+      "date": "2026-04-28",
+      "type": "feature",
+      "title": "Public status site on GitHub Pages",
+      "summary": "We published an always-on status dashboard with automated checks, historical JSON artifacts, and a layout aligned with brief.pk branding.",
+      "detail": "External status pages build trust: when news or markets hiccup, a neutral health surface reduces rumor and duplicate reports.",
+      "tags": [
+        "launch",
+        "github-pages",
+        "status-site"
+      ],
+      "links": [
+        {
+          "label": "Status site",
+          "url": "https://status.briefpknews.xyz"
+        }
+      ]
+    },
+    {
+      "id": "chg-2026-03-25-intelligence-search-pulse",
+      "date": "2026-03-25",
+      "type": "feature",
+      "major": true,
+      "title": "Intelligence Search and a richer Pulse experience",
+      "summary": "Header search now treats the whole Pakistan news corpus as one intelligence surface: the same merged feeds that power the main dashboard, plus fresh results when you need them, sorted with newest stories first. Pulse continues to explain “what matters now” in plain language for readers who want context without digging through dozens of headlines.",
+      "detail": "If you follow Pakistan closely, you often care about both speed (“what just broke?”) and recall (“what did we already know?”). Intelligence Search is designed for that dual need. When you type a query, results draw from the same article pool as the live news experience so your search, Pulse, and the main feed stay aligned instead of contradicting each other.\n\nResults you see can come from the core merged feed or from a short-lived supplemental lookup when the topic needs fresher headlines. The interface shows where each result came from so you can judge how to use it. We also added habits power users expect: recent queries, chips that relate to what Pulse is watching, shareable URLs with your search text, and keyboard shortcuts so you can move quickly without hunting for tiny controls.\n\nPulse sits alongside search on purpose—it is the “executive summary” layer. It aims to answer what is happening, what may unfold soon, and how confident the read is, without asking you to interpret raw model output. Together, search plus Pulse make brief.pk feel closer to a single workspace than a static headline page.",
+      "tags": [
+        "search",
+        "pulse",
+        "news",
+        "major",
+        "ux"
+      ],
+      "links": [
+        {
+          "label": "Open brief.pk",
+          "url": "https://www.briefpknews.xyz"
+        }
+      ]
+    },
+    {
+      "id": "chg-2026-01-22-gdp-history-macro",
+      "date": "2026-01-22",
+      "type": "feature",
+      "major": true,
+      "title": "Pakistan GDP History: decades of context in one research-grade view",
+      "summary": "We shipped a dedicated GDP History experience that stretches from independence through today, layers in multilateral outlooks where appropriate, and places economic turning points next to governance and crisis context so you can see why the curve moved—not just the numbers.",
+      "detail": "Macro statistics on their own are easy to misread. A GDP print or revision can look small on a chart but mean a great deal for debt, inflation, or reform timing. The GDP History module was built for readers who want the long arc: growth episodes, sharp contractions, recoveries, and how Pakistan compares to its own past.\n\nThe view combines long-run historical estimates with more recent official and multilateral series, and pairs the chart with narrative and markers so a student, journalist, or diaspora investor can understand what changed in each era. The intent is not to replace formal national accounts work—it is to give credible, well-sourced context in one place.\n\nIf you only use brief.pk for news and markets, think of GDP History as the “slow journalism” companion: fewer headlines, more framing, and numbers you can cite with confidence because the sources are documented on the page.",
+      "tags": [
+        "gdp",
+        "macro",
+        "history",
+        "research",
+        "major"
+      ],
+      "links": [
+        {
+          "label": "Pakistan GDP History",
+          "url": "https://www.briefpknews.xyz/pakistangdphistory"
+        }
+      ]
+    },
+    {
+      "id": "chg-2025-11-18-core-platform-launch",
+      "date": "2025-11-18",
+      "type": "feature",
+      "major": true,
+      "title": "The Pakistan Intelligence Dashboard: news, markets, map, and research in one hub",
+      "summary": "brief.pk launched as a single authenticated workspace for Pakistan-focused intelligence—curated news, market snapshot (including USD/PKR and PSX context), city-level map telemetry, macro and security-economy research modules, and admin-backed controls so the product can evolve without fragile hard-coding.",
+      "detail": "Most readers bounce between a news app, a broker terminal, a weather or AQI site, and scattered PDFs for macro data. The core dashboard was an explicit bet that Pakistan watchers need one reliable home screen: fast headlines when something is moving, market context when FX or equities lead the story, and research panels when the narrative is really about inflation, reserves, reform, or stability.\n\nAuth (magic link and Google) keeps the experience tailored while protecting heavier features. The admin console lets operators enable or pause sections responsibly as sources and costs change. That foundation is what later made Intelligence Search, GDP History, and deeper AI interpretation possible without splintering into unrelated micro-sites.\n\nIf you are new to brief.pk, start with the main dashboard: live news, Pulse when it is enabled for your account, markets strip, and the map. Everything else is organized as modules so you can go deep when you need to—not before.",
+      "tags": [
+        "launch",
+        "dashboard",
+        "news",
+        "markets",
+        "major"
+      ],
+      "links": [
+        {
+          "label": "Open brief.pk",
+          "url": "https://www.briefpknews.xyz"
+        }
+      ]
     }
   ]
 }

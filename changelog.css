@@ -102,6 +102,113 @@
   color: var(--text-primary);
 }
 
+.major-milestones {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  padding: 1rem;
+}
+
+.major-empty {
+  margin: 0;
+  color: var(--text-muted);
+  font: 500 0.92rem var(--ui-font);
+  line-height: 1.5;
+}
+
+.major-card {
+  border: 1px solid rgba(37, 99, 235, 0.22);
+  border-radius: 18px;
+  padding: 1.15rem 1.2rem 1.2rem;
+  background: linear-gradient(165deg, rgba(255, 255, 255, 0.99), rgba(239, 246, 255, 0.5));
+  box-shadow: var(--shadow);
+}
+
+.major-card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 0.85rem;
+}
+
+.major-eyebrow {
+  font: 700 0.62rem var(--mono-font);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: #1d4ed8;
+  margin-bottom: 0.35rem;
+}
+
+.major-card-title {
+  margin: 0;
+  font: 700 1.22rem/1.35 var(--brand-font);
+  color: var(--text-primary);
+}
+
+.major-card-meta {
+  margin-top: 0.4rem;
+  color: var(--text-muted);
+  font: 500 0.78rem var(--mono-font);
+}
+
+.type-pill-major {
+  border-radius: 999px;
+  padding: 0.26rem 0.6rem;
+  font: 700 0.62rem var(--mono-font);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border: 1px solid var(--border);
+  background: #fff;
+  white-space: nowrap;
+}
+
+.type-pill-major.type-feature {
+  background: rgba(37, 99, 235, 0.12);
+  color: #1d4ed8;
+  border-color: rgba(37, 99, 235, 0.25);
+}
+
+.major-card-body {
+  margin-top: 1rem;
+}
+
+.major-card-body .release-item {
+  border-left: none;
+  padding-left: 0;
+}
+
+.release-items-verbose {
+  margin-top: 0.85rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.release-item {
+  border-left: 3px solid rgba(37, 99, 235, 0.2);
+  padding: 0.15rem 0 0.15rem 0.85rem;
+}
+
+.release-item-title {
+  margin: 0 0 0.45rem;
+  font: 700 0.98rem/1.35 var(--ui-font);
+  color: var(--text-primary);
+}
+
+.release-item-summary {
+  margin: 0;
+  color: var(--text-dim);
+  font-size: 0.93rem;
+  line-height: 1.58;
+}
+
+.release-item-detail {
+  margin: 0.55rem 0 0;
+  color: var(--text-dim);
+  font-size: 0.9rem;
+  line-height: 1.58;
+}
+
 .release-timeline {
   display: grid;
   gap: 1rem;

@@ -71,6 +71,8 @@ Edit `status-data/incidents.json`:
 - **Public page:** `./changelog.html` (only curated entries; no git merge on load).
 - **Data source:** `status-data/changelog.json` — append to `entries`, bump `lastPublished`, deploy via GitHub Pages.
 - **Do not** add GitHub commit links; keep notes readable for customers (see main app `prod-changelog-discipline.mdc`).
+- **Major milestones:** set `"major": true` on a small number of landmark entries. They render in a dedicated section with long-form `summary` and optional `detail` (paragraphs separated by `\n\n` in JSON).
+- **Weekly notes:** everything else is grouped by calendar week. Each note shows its full `summary` and `detail` under the week header.
 - **Optional / internal:** `node scripts/build-changelog-history.mjs` writes `status-data/changelog-history.json` from `git log`. **The live site does not use this file**; keep it only if you want a local commit ledger artifact.
 
 Example entry:
@@ -80,8 +82,10 @@ Example entry:
   "id": "chg-2026-05-09-my-release",
   "date": "2026-05-09",
   "type": "feature",
+  "major": false,
   "title": "My release title",
-  "summary": "What changed and why it matters for readers.",
+  "summary": "A full paragraph for readers: what changed and why it matters.",
+  "detail": "Optional second paragraph with more context.\\n\\nOptional third paragraph.",
   "tags": ["ui", "status"],
   "links": []
 }

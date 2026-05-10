@@ -16,7 +16,6 @@ function escapeHtml(str) {
     .replaceAll('"', "&quot;");
 }
 
-/** Hide GitHub/GitLab commit URLs and “Commit …” labels from the public page. */
 function isCommitLink(link) {
   const url = String(link?.url || "");
   const label = String(link?.label || "");
@@ -30,26 +29,29 @@ function publicLinks(links) {
 }
 
 function stripCommitLinksFromEntry(entry) {
-  const links = publicLinks(entry.links);
-  return { ...entry, links };
+  return { ...entry, links: publicLinks(entry.links) };
 }
 
 function isCommitLedgerEntry(entry) {
   return String(entry?.id || "").startsWith("git-");
 }
 
+function isMajorEntry(entry) {
+  return entry?.major === true || entry?.prominence === "major";
+}
+
 function typeLabel(type) {
   return (
     {
-      feature: "feature delivery",
-      improvement: "product improvements",
-      fix: "stability fixes",
-      security: "security hardening",
+      feature: "new capabilities",
+      improvement: "quality-of-life improvements",
+      fix: "fixes and stability",
+      security: "security improvements",
       ops: "operations",
       docs: "documentation",
       domain: "platform routing"
     }
-  )[type] || "platform updates";
+  )[type] || "product updates";
 }
 
 function releaseImpact(entries) {
@@ -85,6 +87,7 @@ function weekRangeLabel(sundayKey) {
 function buildReleaseNotes(entries) {
   const grouped = new Map();
   for (const raw of entries) {
+    if (isMajorEntry(raw)) continue;
     const entry = stripCommitLinksFromEntry(raw);
     const d = new Date(entry.date);
     if (!Number.isFinite(d.getTime())) continue;
@@ -101,16 +104,32 @@ function buildReleaseNotes(entries) {
       return acc;
     }, {});
     const dominantType = Object.entries(typeCounts).sort((a, b) => b[1] - a[1])[0]?.[0] || "improvement";
-    const uniqueTitles = [];
-    for (const item of sorted) {
-      if (item.title && !uniqueTitles.includes(item.title)) uniqueTitles.push(item.title);
-      if (uniqueTitles.length >= 10) break;
-    }
     const tags = [...new Set(sorted.flatMap((e) => e.tags || []))].slice(0, 8);
     const links = sorted
       .flatMap((e) => publicLinks(e.links || []))
       .filter((l, i, arr) => l?.url && arr.findIndex((x) => x.url === l.url) === i)
       .slice(0, 6);
+
+    const previewTitles = sorted
+      .slice(0, 5)
+      .map((e) => e.title)
+      .filter(Boolean);
+    const titlePreview =
+      previewTitles.length > 0
+        ? `${previewTitles.join(" · ")}${sorted.length > previewTitles.length ? " · …" : ""}`
+        : "Updates across brief.pk";
+
+    let cardSummary;
+    if (sorted.length === 1 && sorted[0].summary) {
+      cardSummary = sorted[0].summary;
+    } else {
+      cardSummary = `This week we published ${sorted.length} ${
+        sorted.length === 1 ? "note" : "notes"
+      } focused on ${typeLabel(dominantType)}. Included: ${titlePreview}`;
+    }
+
+    const why =
+      "Each item below is written for readers: what changed, why we cared about it, and how it might affect your routine on the site.";
 
     releaseNotes.push({
       id: `release-${weekKey}`,
@@ -118,10 +137,9 @@ function buildReleaseNotes(entries) {
       date: sorted[0]?.date,
       type: dominantType,
       impact: releaseImpact(sorted),
-      title: `${weekRangeLabel(weekKey)} · Release notes`,
-      summary: `Delivered ${sorted.length} updates focused on ${typeLabel(dominantType)} across the brief.pk experience.`,
-      whyItMatters: `This cycle improves reliability, product clarity, and day-to-day trust for readers.`,
-      highlights: uniqueTitles,
+      title: `${weekRangeLabel(weekKey)} · Weekly release notes`,
+      summary: cardSummary,
+      whyItMatters: why,
       tags,
       links,
       totalUpdates: sorted.length,
@@ -132,48 +150,84 @@ function buildReleaseNotes(entries) {
   return releaseNotes.sort((a, b) => new Date(b.date) - new Date(a.date));
 }
 
-function renderHighlights(entries) {
+function formatVerboseEntryBody(item, opts = {}) {
+  const omitTitle = opts.omitTitle === true;
+  const titleHtml = omitTitle
+    ? ""
+    : `<h4 class="release-item-title">${escapeHtml(item.title || "Update")}</h4>`;
+  const summary = item.summary ? `<p class="release-item-summary">${escapeHtml(item.summary)}</p>` : "";
+  const detailParts = String(item.detail || "")
+    .trim()
+    .split(/\n\n+/)
+    .map((p) => p.trim())
+    .filter(Boolean);
+  const detailHtml = detailParts.map((p) => `<p class="release-item-detail">${escapeHtml(p)}</p>`).join("");
+  return `
+    <section class="release-item">
+      ${titleHtml}
+      ${summary}
+      ${detailHtml}
+    </section>`;
+}
+
+function renderMajorMilestones(entries) {
+  const root = document.getElementById("majorMilestones");
+  const panel = document.getElementById("majorMilestonesPanel");
+  if (!root) return;
+
+  if (!entries.length) {
+    root.innerHTML = `<p class="major-empty">No major milestones match your filters. Try clearing search or setting the type filter to “All types.”</p>`;
+    if (panel) panel.classList.remove("hidden");
+    return;
+  }
+
+  root.innerHTML = entries
+    .map((item) => {
+      const display = stripCommitLinksFromEntry(item);
+      const tags = (display.tags || []).map((t) => `<span class="release-tag">${escapeHtml(t)}</span>`).join("");
+      const links = (publicLinks(display.links) || [])
+        .map((l) => `<a href="${escapeHtml(l.url)}" target="_blank" rel="noreferrer">${escapeHtml(l.label || "Link")}</a>`)
+        .join("");
+      const body = formatVerboseEntryBody(display, { omitTitle: true });
+      return `
+      <article class="major-card">
+        <div class="major-card-top">
+          <div>
+            <div class="major-eyebrow">Major release</div>
+            <h3 class="major-card-title">${escapeHtml(display.title)}</h3>
+            <div class="major-card-meta">${fmtDate(display.date)}</div>
+          </div>
+          <span class="type-pill-major type-${escapeHtml(display.type)}">${escapeHtml(display.type)}</span>
+        </div>
+        <div class="major-card-body">${body}</div>
+        <div class="release-tags">${tags}</div>
+        ${links ? `<div class="release-links">${links}</div>` : ""}
+      </article>`;
+    })
+    .join("");
+
+  if (panel) panel.classList.remove("hidden");
+}
+
+function renderHighlights(all, majorCount) {
   const root = document.getElementById("highlights");
   if (!root) return;
-  const releases = buildReleaseNotes(entries);
-  const major = releases.filter((r) => r.impact === "Major").length;
+  const routine = all.filter((e) => !isMajorEntry(e));
+  const releases = buildReleaseNotes(routine);
   const recent = releases[0];
   root.innerHTML = `
-      <article class="highlight-card"><div class="k">Release weeks</div><div class="v">${releases.length}</div></article>
-      <article class="highlight-card"><div class="k">Release notes</div><div class="v">${entries.length}</div></article>
-      <article class="highlight-card"><div class="k">Major releases</div><div class="v">${major}</div></article>
-      <article class="highlight-card"><div class="k">Latest week</div><div class="v">${escapeHtml(recent ? weekRangeLabel(recent.weekKey).split("–")[0]?.trim() || "--" : "--")}</div></article>
+      <article class="highlight-card"><div class="k">Major milestones</div><div class="v">${majorCount}</div></article>
+      <article class="highlight-card"><div class="k">All release notes</div><div class="v">${all.length}</div></article>
+      <article class="highlight-card"><div class="k">Weeks with notes</div><div class="v">${releases.length}</div></article>
+      <article class="highlight-card"><div class="k">Latest week starts</div><div class="v">${escapeHtml(recent ? weekRangeLabel(recent.weekKey).split("–")[0]?.trim() || "--" : "--")}</div></article>
     `;
 }
 
 function entryMatches(entry, q, type) {
   if (type !== "all" && entry.type !== type) return false;
   if (!q) return true;
-  const haystack = [entry.title, entry.summary, ...(entry.tags || [])].join(" ").toLowerCase();
+  const haystack = [entry.title, entry.summary, entry.detail, ...(entry.tags || [])].join(" ").toLowerCase();
   return haystack.includes(q);
-}
-
-function formatReleaseDetails(items) {
-  const counts = new Map();
-  for (const item of items) {
-    const t = item.title || "Update";
-    counts.set(t, (counts.get(t) || 0) + 1);
-  }
-  const pairs = [...counts.entries()].sort((a, b) => {
-    if (b[1] !== a[1]) return b[1] - a[1];
-    return a[0].localeCompare(b[0]);
-  });
-  const max = 150;
-  const shown = pairs.slice(0, max);
-  const more = pairs.length - shown.length;
-  const lis = shown
-    .map(([t, c]) => {
-      const label = c > 1 ? `${escapeHtml(t)} · ×${c}` : escapeHtml(t);
-      return `<li>${label}</li>`;
-    })
-    .join("");
-  const moreLine = more > 0 ? `<li class="rollup-more"><em>…and ${more} more distinct updates</em></li>` : "";
-  return `<details class="release-details"><summary class="release-details-summary">All items this week (${items.length})</summary><ul class="release-full-list">${lis}${moreLine}</ul></details>`;
 }
 
 function renderReleaseTimeline(entries) {
@@ -183,23 +237,23 @@ function renderReleaseTimeline(entries) {
   root.innerHTML = releases
     .map((release) => {
       const tags = (release.tags || []).map((t) => `<span class="release-tag">${escapeHtml(t)}</span>`).join("");
-      const highlights = (release.highlights || []).map((h) => `<li>${escapeHtml(h)}</li>`).join("");
       const links = (release.links || [])
         .map((l) => `<a href="${escapeHtml(l.url)}" target="_blank" rel="noreferrer">${escapeHtml(l.label || "Reference")}</a>`)
         .join("");
+      const itemsHtml = (release.items || []).map((item) => formatVerboseEntryBody(stripCommitLinksFromEntry(item))).join("");
       return `
       <article class="release-card">
         <div class="release-top">
           <div>
             <h3 class="release-title">${escapeHtml(release.title)}</h3>
-            <div class="release-meta">${fmtDate(release.date)} · ${release.totalUpdates} items</div>
+            <div class="release-meta">${fmtDate(release.date)} · ${release.totalUpdates} ${
+        release.totalUpdates === 1 ? "item" : "items"}</div>
           </div>
           <span class="release-impact">${escapeHtml(release.impact)}</span>
         </div>
         <p class="release-summary">${escapeHtml(release.summary)}</p>
-        <p class="release-why"><strong>Why it matters:</strong> ${escapeHtml(release.whyItMatters)}</p>
-        <ul class="release-list">${highlights}</ul>
-        ${formatReleaseDetails(release.items || [])}
+        <p class="release-why"><strong>For readers:</strong> ${escapeHtml(release.whyItMatters)}</p>
+        <div class="release-items-verbose">${itemsHtml}</div>
         <div class="release-tags">${tags}</div>
         ${links ? `<div class="release-links">${links}</div>` : ""}
       </article>
@@ -218,9 +272,14 @@ function applyFilters() {
   const q = (document.getElementById("searchInput")?.value || "").trim().toLowerCase();
   const type = document.getElementById("typeFilter")?.value || "all";
   const filtered = allEntries.filter((e) => entryMatches(e, q, type));
-  renderHighlights(filtered);
-  renderReleaseTimeline(filtered);
-  renderEmptyState(!buildReleaseNotes(filtered).length);
+  const majors = filtered.filter(isMajorEntry).sort((a, b) => new Date(b.date) - new Date(a.date));
+  const routine = filtered.filter((e) => !isMajorEntry(e));
+
+  renderMajorMilestones(majors);
+  renderHighlights(filtered, majors.length);
+  renderReleaseTimeline(routine);
+  const weeks = buildReleaseNotes(routine);
+  renderEmptyState(weeks.length === 0 && majors.length === 0);
 }
 
 async function loadChangelog() {
@@ -234,13 +293,14 @@ async function loadChangelog() {
     .sort((a, b) => new Date(b.date) - new Date(a.date));
 
   const heroMeta = document.getElementById("heroMeta");
+  const majorN = allEntries.filter(isMajorEntry).length;
   if (heroMeta) {
-    heroMeta.textContent = `${allEntries.length} release notes · Last updated ${fmtDate(body.lastPublished || allEntries[0]?.date)}`;
+    heroMeta.textContent = `${majorN} major milestone${majorN === 1 ? "" : "s"} · ${
+      allEntries.length
+    } release notes · Last updated ${fmtDate(body.lastPublished || allEntries[0]?.date)}`;
   }
 
-  renderHighlights(allEntries);
-  renderReleaseTimeline(allEntries);
-  renderEmptyState(!buildReleaseNotes(allEntries).length);
+  applyFilters();
 }
 
 document.getElementById("searchInput")?.addEventListener("input", applyFilters);
