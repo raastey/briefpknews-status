@@ -15,6 +15,28 @@
   },
   "entries": [
     {
+      "id": "chg-2026-05-11-policy-tracker",
+      "date": "2026-05-11",
+      "type": "feature",
+      "major": true,
+      "title": "Pakistan Policy Tracker: every government rule that matters, in one place",
+      "summary": "We added a live registry of Pakistan's policy moves across eight domains—fiscal, monetary, trade, energy, regulatory, social, foreign, and security. Each entry is sourced, dated, and traceable back to an original SBP statement, FBR notification, NEPRA determination, IMF release, or World Bank indicator. The page sits inside the signed-in research hub alongside GDP History.",
+      "detail": "Pakistan's policy environment moves fast and across many regulators. Following the State Bank's monetary stance, NEPRA tariff decisions, FBR notifications, the latest IMF review, and BISP coverage usually means watching half a dozen websites and trying to remember what each agency last announced. The Policy Tracker collects those moves into one filterable view so you can read across them rather than chasing each in isolation.\n\nThree audience presets shape the page differently. Investors and operators see fiscal, monetary, and trade policy first, with currency and energy decisions surfaced as recent moves. Researchers and journalists get a registry-first view with sourcing and dates emphasized. Policy professionals see the full domain matrix with status flags for live, draft, pending, and amended rules.\n\nEvery record links back to the original document we built the entry from—an SBP statement, an FBR SRO, a NEPRA determination, an IMF press release, or a World Bank indicator series. We refuse to cite anything we cannot point you to. A methodology panel on the page explains how we pick what to track and how we summarize.\n\nThis is a Phase 1 release with eight curated records seeded across seven of the eight domains; trade will populate as current actions are announced. A more automated ingestion pipeline is in flight and will gradually widen coverage without changing the page experience for readers.",
+      "tags": [
+        "policy",
+        "research",
+        "registry",
+        "launch",
+        "major"
+      ],
+      "links": [
+        {
+          "label": "Open Policy Tracker",
+          "url": "https://www.briefpknews.xyz/policies"
+        }
+      ]
+    },
+    {
       "id": "chg-2026-05-11-sign-in-restored",
       "date": "2026-05-11",
       "type": "fix",
