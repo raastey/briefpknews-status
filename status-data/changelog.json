@@ -1,5 +1,5 @@
 {
-  "lastPublished": "2026-05-10",
+  "lastPublished": "2026-05-11",
   "entryTemplate": {
     "id": "chg-YYYY-MM-DD-short-slug",
     "date": "YYYY-MM-DD",
@@ -14,6 +14,20 @@
     "links": []
   },
   "entries": [
+    {
+      "id": "chg-2026-05-11-sign-in-restored",
+      "date": "2026-05-11",
+      "type": "fix",
+      "title": "Sign-in restored and protected by a new automated check",
+      "summary": "Sign-in is working again on every page. A recent layout change accidentally removed a tiny element the sign-in page expected to find, which silently stopped the Google button and the magic-link email form from responding. Accounts were never at risk—the page just couldn’t wire itself up.",
+      "detail": "We patched the page to tolerate the missing element so the same shape of bug cannot block sign-in again.\n\nBeyond the patch, we added a dedicated automated check to the status pipeline that opens a real incident the moment any required element on the sign-in (or paid-access) page goes missing, or any inline script tries to use an element that is not in the page. That means the public status page will now reflect this class of regression instead of staying green while users are stuck.\n\nThank you to everyone who noticed and reported it.",
+      "tags": [
+        "auth",
+        "reliability",
+        "monitoring"
+      ],
+      "links": []
+    },
     {
       "id": "chg-2026-05-10-release-notes-verbose",
       "date": "2026-05-10",

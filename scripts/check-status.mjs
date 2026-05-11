@@ -7,6 +7,31 @@ const HISTORY_LIMIT = 2016; // one week at 5-minute intervals
 const TIMEOUT_MS = 12000;
 const BASE = "https://www.briefpknews.xyz";
 
+/**
+ * DOM contract probes: catch client-side regressions that HTTP-level probes
+ * cannot see (e.g. an inline `getElementById('x').textContent = …` that throws
+ * because `x` was removed from the markup, taking the rest of the script — and
+ * thus the auth flow — with it).
+ *
+ * Each contract lists the IDs that MUST exist for the page's wiring to work.
+ * The probe also scans inline <script> blocks for unguarded chained access
+ * like `getElementById('foo').something` and fails if `id="foo"` is missing.
+ */
+const domContracts = [
+  {
+    key: "loginContract",
+    name: "Login Page Wiring",
+    url: `${BASE}/login.html`,
+    requiredIds: ["googleBtn", "form", "email", "submit", "err", "card"]
+  },
+  {
+    key: "paidAccessContract",
+    name: "Paid Access Page Wiring",
+    url: `${BASE}/paid-access-coming.html`,
+    requiredIds: ["form", "email", "submit", "card"]
+  }
+];
+
 const services = [
   {
     key: "site",
@@ -252,6 +277,100 @@ function aggregateOverall(results) {
   return "operational";
 }
 
+/** True if the HTML contains an element with this id attribute. */
+function htmlHasId(html, id) {
+  const re = new RegExp(`\\bid\\s*=\\s*(?:"${id}"|'${id}')`);
+  return re.test(html);
+}
+
+/** Extract inline <script> bodies (skip external <script src=…>). */
+function extractInlineScripts(html) {
+  const out = [];
+  const re = /<script\b([^>]*)>([\s\S]*?)<\/script>/gi;
+  let m;
+  while ((m = re.exec(html))) {
+    const attrs = m[1] || "";
+    if (/\bsrc\s*=/i.test(attrs)) continue;
+    out.push(m[2] || "");
+  }
+  return out;
+}
+
+/**
+ * Detect unguarded `document.getElementById('foo').something` patterns inside
+ * inline scripts (these throw immediately if the element is missing and abort
+ * the rest of the script — exactly the auth-flow regression class).
+ */
+function findChainedGetElementByIdIds(scripts) {
+  const ids = new Set();
+  const re = /document\.getElementById\(\s*['"]([^'"]+)['"]\s*\)\s*\.\s*[A-Za-z_$]/g;
+  for (const body of scripts) {
+    let m;
+    while ((m = re.exec(body))) {
+      ids.add(m[1]);
+    }
+  }
+  return [...ids];
+}
+
+async function probeDomContract(contract) {
+  const ctrl = new AbortController();
+  const timer = setTimeout(() => ctrl.abort(), TIMEOUT_MS);
+  const start = Date.now();
+  try {
+    const res = await fetch(contract.url, {
+      method: "GET",
+      signal: ctrl.signal,
+      headers: { "cache-control": "no-cache" }
+    });
+    const latencyMs = Date.now() - start;
+    if (res.status !== 200) {
+      return {
+        key: contract.key,
+        name: contract.name,
+        url: contract.url,
+        state: "outage",
+        statusCode: res.status,
+        latencyMs,
+        contract: { missing: [], chainedMissing: [], reason: `status ${res.status}` }
+      };
+    }
+    const html = await res.text();
+    const missing = contract.requiredIds.filter((id) => !htmlHasId(html, id));
+    const chainedIds = findChainedGetElementByIdIds(extractInlineScripts(html));
+    const chainedMissing = chainedIds.filter((id) => !htmlHasId(html, id));
+    const ok = missing.length === 0 && chainedMissing.length === 0;
+    const state = ok ? serviceState(true, latencyMs) : "outage";
+    return {
+      key: contract.key,
+      name: contract.name,
+      url: contract.url,
+      state,
+      statusCode: res.status,
+      latencyMs,
+      contract: {
+        missing,
+        chainedMissing,
+        reason: ok
+          ? "all required ids and inline-script references resolved"
+          : `missing required ids: [${missing.join(", ")}]; unguarded script references missing in DOM: [${chainedMissing.join(", ")}]`
+      }
+    };
+  } catch (err) {
+    return {
+      key: contract.key,
+      name: contract.name,
+      url: contract.url,
+      state: "outage",
+      statusCode: 0,
+      latencyMs: null,
+      contract: { missing: [], chainedMissing: [], reason: `fetch failed: ${err?.message || "unknown"}` }
+    };
+  } finally {
+    clearTimeout(timer);
+  }
+}
+
 function loginHealthToServices(loginHealth) {
   if (!loginHealth) return [];
 
@@ -302,7 +421,11 @@ function loginHealthToServices(loginHealth) {
 
 async function main() {
   const checkedAt = new Date().toISOString();
-  const baseResults = await Promise.all(services.map((svc) => probe(svc)));
+  const httpResults = await Promise.all(services.map((svc) => probe(svc)));
+  const contractResults = await Promise.all(domContracts.map((c) => probeDomContract(c)));
+  // Contract failures are treated as core service problems (they directly
+  // break user-visible flows like sign-in), so they count toward overall state.
+  const baseResults = [...httpResults, ...contractResults];
   const healthSnapshot = await fetchHealthSnapshot();
   const userJourneys = await probeUserJourneys();
   const inferredLoginHealth = await inferLoginHealthFallback(userJourneys);

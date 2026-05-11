@@ -1,6 +1,24 @@
 {
   "items": [
     {
+      "id": "manual-2026-05-11-login-wiring",
+      "title": "Sign-in temporarily unavailable",
+      "state": "resolved",
+      "startedAt": "2026-05-09T18:43:00.000Z",
+      "resolvedAt": "2026-05-11T11:55:00.000Z",
+      "affectedServices": ["Login Page Wiring", "Google OAuth Health", "Magic Link Health"],
+      "updates": [
+        {
+          "at": "2026-05-09T18:43:00.000Z",
+          "message": "A shared layout change removed a small element the sign-in page expected to find. As a result the Google sign-in button and the magic-link email form did not respond when clicked. Account servers were unaffected."
+        },
+        {
+          "at": "2026-05-11T11:55:00.000Z",
+          "message": "Resolved. The sign-in page was patched to tolerate the missing element, and a new automated check has been added to catch this class of regression going forward."
+        }
+      ]
+    },
+    {
       "id": "auto-1778339178811",
       "title": "Service Degradation Detected",
       "state": "resolved",
