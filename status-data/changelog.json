@@ -15,6 +15,26 @@
   },
   "entries": [
     {
+      "id": "chg-2026-05-11-consistent-nav",
+      "date": "2026-05-11",
+      "type": "improvement",
+      "major": false,
+      "title": "One header, three pages — Dashboard, Pakistan Economy, and Policy Tracker are now one click apart",
+      "summary": "Every signed-in page now shows the same navigation strip at the top: Dashboard · Pakistan Economy · Policy Tracker. Wherever you are, the same three pills tell you what exists and the active one tells you where you are. The brand logo on every page is now also a clickable shortcut back to the dashboard.",
+      "detail": "Until tonight, the dashboard didn't advertise that Pakistan Economy or the Policy Tracker existed at all — you had to know the URL. The two subpages had a navigation strip, but they were the only ones. Three pages, three different header treatments.\n\nThat's fixed. The dashboard now carries the same three-pill nav as the subpages, with Dashboard highlighted as the active page. The visual language (red active pill, white inactive pill, hover state) is identical across all three pages so the muscle memory transfers. The brief.pk wordmark, top-left, is now a link back to the dashboard from anywhere in the app.\n\nMobile readers see the nav as a horizontally-scrollable strip directly under the brand, with tap targets sized for fingers (≥36px tall). On narrower phones the strip tightens up automatically. On desktop the three pills sit inline with a thin dot separator between them.\n\nWe also brought the light/dark theme toggle to the dashboard — it was previously only on the subpages, which felt inconsistent. Click the sun/moon icon in the header on any page; your choice persists across pages and reloads.",
+      "tags": [
+        "ux",
+        "navigation",
+        "design-system"
+      ],
+      "links": [
+        {
+          "label": "Open Dashboard",
+          "url": "https://www.briefpknews.xyz/"
+        }
+      ]
+    },
+    {
       "id": "chg-2026-05-11-policy-tracker-phase-2",
       "date": "2026-05-11",
       "type": "feature",
