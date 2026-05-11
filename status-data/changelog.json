@@ -15,6 +15,27 @@
   },
   "entries": [
     {
+      "id": "chg-2026-05-11-policy-tracker-phase-2",
+      "date": "2026-05-11",
+      "type": "feature",
+      "major": true,
+      "title": "Policy Tracker: news lane goes live and the page now reads from two registry layers",
+      "summary": "The Policy Tracker's \"Live news lane\" is now actually live. Headlines from the news feed (Dawn, The News, Business Recorder, Reuters, FT, Bloomberg, and 20+ more outlets) are matched in real time to each tracked policy, so when something moves on a rule we're following you see the coverage on the same page as the rule itself.",
+      "detail": "When we launched the Policy Tracker earlier today, the news lane was a placeholder — each policy showed which keywords we'd be watching for. That placeholder is gone. The lane now pulls live from the same news feed that powers the dashboard, runs each policy's keyword set against every recent headline, and surfaces the most recent matches next to the policy they touch. Click through goes straight to the original outlet. We don't summarize, paraphrase, or rerank by tone.\n\nUnderneath the page, the registry now reads from two layers instead of one. The first is the editor-curated fixture you already saw: eight cited records across the eight domains, written by us. The second is an automated layer produced by our ingestion pipeline. Today the automated layer contributes mostly transparency (which official sources our pipeline reached, what it found) — it doesn't add records to the registry yet. As we wire each adapter and stand up the structured-extraction step, those records will start flowing into the auto layer. The editor-curated layer always wins on conflict, so the records you trust today will not get overwritten by anything machine-derived. Records the pipeline does contribute will carry a small \"Auto-ingested\" badge so you can always tell what came from where.\n\nA daily scheduled run now refreshes the auto layer at 08:00 PKT. Anything the pipeline cannot reach is logged in the file itself; no broken sources hide silently.\n\nFor what's still ahead: the IMF press-release feed needs rediscovery (their RSS endpoint was retired and we won't ship brittle scraping), the State Bank's monetary-policy index needs a stable source endpoint, and the structured-extraction step for less-structured documents (FBR notifications, NEPRA tariffs, SECP circulars) requires a separate decision on the LLM provider we'll use. Those land in subsequent Phase 2 releases without disrupting anything you see today.",
+      "tags": [
+        "policy",
+        "automation",
+        "news",
+        "research"
+      ],
+      "links": [
+        {
+          "label": "Open Policy Tracker",
+          "url": "https://www.briefpknews.xyz/policies"
+        }
+      ]
+    },
+    {
       "id": "chg-2026-05-11-policy-tracker",
       "date": "2026-05-11",
       "type": "feature",
