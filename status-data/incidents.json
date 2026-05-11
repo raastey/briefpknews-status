@@ -1,6 +1,22 @@
 {
   "items": [
     {
+      "id": "auto-1778533028526",
+      "title": "Service Outage Detected",
+      "state": "outage",
+      "startedAt": "2026-05-11T20:57:03.506Z",
+      "resolvedAt": null,
+      "affectedServices": [
+        "Policy Tracker Page"
+      ],
+      "updates": [
+        {
+          "at": "2026-05-11T20:57:03.506Z",
+          "message": "Automatic detection: overall status flipped to outage."
+        }
+      ]
+    },
+    {
       "id": "manual-2026-05-11-login-wiring",
       "title": "Sign-in temporarily unavailable",
       "state": "resolved",
