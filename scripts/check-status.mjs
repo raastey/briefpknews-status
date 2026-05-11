@@ -65,6 +65,29 @@ const dataSourceContracts = [
   }
 ];
 
+/**
+ * JSON-asset contracts: catch shape regressions inside a publicly served
+ * JSON file that an HTTP 200 probe would miss. An empty array, a missing
+ * top-level key, or a malformed structure would all return 200 but render
+ * a broken page on the client.
+ *
+ * Each contract declares: a publicly reachable URL, the top-level keys that
+ * must exist, optional minLengths to enforce non-empty collections, and
+ * optional nested presence checks.
+ */
+const jsonAssetContracts = [
+  {
+    key: "policiesFixture",
+    name: "Policy Tracker Fixture Shape",
+    url: `${BASE}/data/pakistan-policies.fixture.json`,
+    requiredTopLevel: ["policies", "filterPresets", "domains"],
+    minLengths: { policies: 1 },
+    requiredNested: {
+      filterPresets: ["investor", "researcher", "policyPro"]
+    }
+  }
+];
+
 const services = [
   {
     key: "site",
@@ -137,6 +160,26 @@ const services = [
     name: "Macro Insight API",
     url: `${BASE}/api/pakistan-macro-insight`,
     expectedStatuses: [200, 401]
+  },
+  {
+    // Policy Tracker page is auth-gated (requirePage middleware) so an
+    // unauthenticated probe must see a redirect to /login.html. A 200 here
+    // would mean the gate has regressed and an anon user can read the
+    // page chrome; a 5xx means the route handler crashed. Both are bad.
+    key: "policies",
+    name: "Policy Tracker Page",
+    url: `${BASE}/policies`,
+    expectedStatuses: [301, 302, 303, 307]
+  },
+  {
+    // Public fixture JSON powering the Policy Tracker page. The page is
+    // gated but the data is open-source posture by design, so this asset
+    // must be reachable without auth. A 404 here means the deploy is
+    // missing a file; a 5xx means express.static is misconfigured.
+    key: "policiesData",
+    name: "Policy Tracker Fixture Data",
+    url: `${BASE}/data/pakistan-policies.fixture.json`,
+    expectedStatuses: [200]
   }
 ];
 
@@ -452,6 +495,74 @@ async function probeDataSource(contract) {
   }
 }
 
+async function probeJsonAsset(contract) {
+  const ctrl = new AbortController();
+  const timer = setTimeout(() => ctrl.abort(), TIMEOUT_MS);
+  const start = Date.now();
+  const result = (state, statusCode, latencyMs, reason, extras = {}) => ({
+    key: contract.key,
+    name: contract.name,
+    url: contract.url,
+    state,
+    statusCode,
+    latencyMs,
+    asset: { reason, ...extras }
+  });
+  try {
+    const res = await fetch(contract.url, {
+      method: "GET",
+      signal: ctrl.signal,
+      headers: { "cache-control": "no-cache", accept: "application/json" }
+    });
+    const latencyMs = Date.now() - start;
+    if (res.status !== 200) {
+      return result("outage", res.status, latencyMs, `non-200 status ${res.status}`);
+    }
+    let body;
+    try {
+      body = await res.json();
+    } catch (err) {
+      return result("outage", res.status, latencyMs, `JSON parse failed: ${err?.message || "unknown"}`);
+    }
+
+    const missingTop = (contract.requiredTopLevel || []).filter((k) => body[k] === undefined);
+    if (missingTop.length) {
+      return result("outage", res.status, latencyMs,
+        `missing required top-level keys: [${missingTop.join(", ")}]`);
+    }
+
+    const lengthBreaches = [];
+    for (const [key, minLen] of Object.entries(contract.minLengths || {})) {
+      const v = body[key];
+      const len = Array.isArray(v) ? v.length : (v && typeof v === "object" ? Object.keys(v).length : 0);
+      if (len < minLen) lengthBreaches.push(`${key} has ${len}, need ${minLen}`);
+    }
+    if (lengthBreaches.length) {
+      return result("degraded", res.status, latencyMs,
+        `collection min-length breaches: [${lengthBreaches.join("; ")}]`);
+    }
+
+    const missingNested = [];
+    for (const [parent, requiredChildren] of Object.entries(contract.requiredNested || {})) {
+      const node = body[parent] || {};
+      for (const child of requiredChildren) {
+        if (node[child] === undefined) missingNested.push(`${parent}.${child}`);
+      }
+    }
+    if (missingNested.length) {
+      return result("degraded", res.status, latencyMs,
+        `missing required nested keys: [${missingNested.join(", ")}]`);
+    }
+
+    return result(serviceState(true, latencyMs), res.status, latencyMs,
+      "shape OK", { topLevelKeys: Object.keys(body) });
+  } catch (err) {
+    return result("outage", 0, null, `fetch failed: ${err?.message || "unknown"}`);
+  } finally {
+    clearTimeout(timer);
+  }
+}
+
 async function probeDomContract(contract) {
   const ctrl = new AbortController();
   const timer = setTimeout(() => ctrl.abort(), TIMEOUT_MS);
@@ -563,10 +674,12 @@ async function main() {
   const httpResults = await Promise.all(services.map((svc) => probe(svc)));
   const contractResults = await Promise.all(domContracts.map((c) => probeDomContract(c)));
   const dataSourceResults = await Promise.all(dataSourceContracts.map((c) => probeDataSource(c)));
-  // Contract and data-source failures are treated as core service problems
-  // (they directly break user-visible flows like sign-in or the live KSE-100
-  // tile), so they count toward overall state.
-  const baseResults = [...httpResults, ...contractResults, ...dataSourceResults];
+  const jsonAssetResults = await Promise.all(jsonAssetContracts.map((c) => probeJsonAsset(c)));
+  // Contract, data-source and JSON-asset failures are treated as core service
+  // problems (they directly break user-visible flows like sign-in, the live
+  // KSE-100 tile, or the Policy Tracker page), so they count toward overall
+  // state.
+  const baseResults = [...httpResults, ...contractResults, ...dataSourceResults, ...jsonAssetResults];
   const healthSnapshot = await fetchHealthSnapshot();
   const userJourneys = await probeUserJourneys();
   const inferredLoginHealth = await inferLoginHealthFallback(userJourneys);
