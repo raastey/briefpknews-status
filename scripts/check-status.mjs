@@ -32,6 +32,39 @@ const domContracts = [
   }
 ];
 
+/**
+ * Upstream data-source contracts: catch *feed-side* regressions before they
+ * manifest as silent staleness on the dashboard. HTTP-level service probes
+ * pass even when the underlying source feed has changed shape or stopped
+ * updating, because our app serves the last cached value indefinitely.
+ *
+ * Each contract probes a third-party feed the dashboard depends on, checks
+ * the page still contains the markers our parser relies on, and validates
+ * basic freshness from any embedded "as of" stamp.
+ */
+const dataSourceContracts = [
+  {
+    key: "psxDpsKse100",
+    name: "PSX DPS — KSE-100 Upstream Feed",
+    url: "https://dps.psx.com.pk/indices",
+    // Match our backend parsePsxIndicesFromHtml: page must contain the
+    // indicesTable container, a KSE100 row, and at least 3 numeric data-order
+    // attributes (high / low / current / change / % — we treat ≥3 as the
+    // floor that lets us still recover a current price).
+    requiredMarkers: ["indicesTable", "KSE100"],
+    minDataOrderCount: 3,
+    // PSX trades Mon–Fri. 72h covers the worst case (Fri close → Mon morning
+    // before the next session opens). Anything older signals a stalled feed.
+    maxAgeHours: 72,
+    fetchHeaders: {
+      referer: "https://dps.psx.com.pk/",
+      origin: "https://dps.psx.com.pk",
+      "user-agent": "briefpk-status/0.1 (+https://status.briefpknews.xyz; contact: team@brief.pk)",
+      "cache-control": "no-cache"
+    }
+  }
+];
+
 const services = [
   {
     key: "site",
@@ -313,6 +346,112 @@ function findChainedGetElementByIdIds(scripts) {
   return [...ids];
 }
 
+/**
+ * Parse a PSX "As of Month DD, YYYY H:MM AM/PM" stamp (which is PKT, UTC+5)
+ * into an ISO timestamp. Returns null if the page format has drifted.
+ */
+function parsePsxAsOf(html) {
+  if (!html) return null;
+  const m = html.match(/As of\s+([A-Za-z]+\s+\d{1,2},?\s+\d{4}\s+\d{1,2}:\d{2}\s*(?:AM|PM))/i);
+  if (!m) return null;
+  // Build the same wall-clock instant in UTC, then subtract 5h to land in true UTC.
+  const utcWallClock = new Date(`${m[1]} UTC`);
+  if (Number.isNaN(utcWallClock.getTime())) return null;
+  return new Date(utcWallClock.getTime() - 5 * 60 * 60 * 1000).toISOString();
+}
+
+/**
+ * Find the row in PSX `indicesTable` for a given symbol code (e.g. "KSE100")
+ * and return the count of numeric `data-order` cells in it. Returns 0 if the
+ * row is missing or the markup has drifted.
+ */
+function countDataOrderCells(html, code) {
+  if (!html || !code) return 0;
+  const tbody = html.match(/id="indicesTable"[\s\S]*?<tbody[^>]*>([\s\S]*?)<\/tbody>/i);
+  if (!tbody) return 0;
+  const rowRe = /<tr[^>]*>([\s\S]*?)<\/tr>/gi;
+  let m;
+  while ((m = rowRe.exec(tbody[1])) !== null) {
+    if (new RegExp(`data-code=["']${code}["']`, "i").test(m[1])) {
+      const orders = [...m[1].matchAll(/<td[^>]*data-order=["']([^"']+)["'][^>]*>/gi)]
+        .map((x) => parseFloat(x[1]))
+        .filter((v) => Number.isFinite(v));
+      return orders.length;
+    }
+  }
+  return 0;
+}
+
+async function probeDataSource(contract) {
+  const ctrl = new AbortController();
+  const timer = setTimeout(() => ctrl.abort(), TIMEOUT_MS);
+  const start = Date.now();
+  const baseResult = (state, statusCode, latencyMs, reason, extras = {}) => ({
+    key: contract.key,
+    name: contract.name,
+    url: contract.url,
+    state,
+    statusCode,
+    latencyMs,
+    dataSource: { reason, ...extras }
+  });
+  try {
+    const res = await fetch(contract.url, {
+      method: "GET",
+      signal: ctrl.signal,
+      headers: contract.fetchHeaders || { "cache-control": "no-cache" }
+    });
+    const latencyMs = Date.now() - start;
+    if (res.status !== 200) {
+      return baseResult("outage", res.status, latencyMs, `upstream returned status ${res.status}`);
+    }
+    const html = await res.text();
+    if (html.length < 500) {
+      return baseResult("outage", res.status, latencyMs, `upstream body suspiciously small (${html.length} bytes)`);
+    }
+    const missingMarkers = (contract.requiredMarkers || []).filter((mk) => !html.includes(mk));
+    if (missingMarkers.length) {
+      return baseResult("outage", res.status, latencyMs,
+        `required markers missing from upstream HTML: [${missingMarkers.join(", ")}]`);
+    }
+
+    // Symbol-row data-order count check (schema regression detector)
+    const symbol = (contract.requiredMarkers || []).find((mk) => /^[A-Z0-9]+$/.test(mk)) || "KSE100";
+    const dataOrderCount = countDataOrderCells(html, symbol);
+    const cellsOk = dataOrderCount >= (contract.minDataOrderCount || 3);
+
+    // Freshness check (PSX wall-clock → UTC)
+    const asOfIso = parsePsxAsOf(html);
+    const ageHours = asOfIso ? Math.round((Date.now() - new Date(asOfIso).getTime()) / 3.6e6) : null;
+    const freshOk = ageHours === null
+      ? true // can't parse the stamp; don't fail on it — markers already passed
+      : ageHours <= (contract.maxAgeHours || 72);
+
+    if (!cellsOk && !freshOk) {
+      return baseResult("degraded", res.status, latencyMs,
+        `schema regression (data-order count ${dataOrderCount}<${contract.minDataOrderCount}) AND stale feed (${ageHours}h old)`,
+        { symbol, dataOrderCount, asOfIso, ageHours });
+    }
+    if (!cellsOk) {
+      return baseResult("degraded", res.status, latencyMs,
+        `partial schema match: ${symbol} row has ${dataOrderCount} numeric cells (need ${contract.minDataOrderCount})`,
+        { symbol, dataOrderCount, asOfIso, ageHours });
+    }
+    if (!freshOk) {
+      return baseResult("degraded", res.status, latencyMs,
+        `upstream feed stale: last update ${ageHours}h ago (threshold ${contract.maxAgeHours}h)`,
+        { symbol, dataOrderCount, asOfIso, ageHours });
+    }
+    return baseResult(serviceState(true, latencyMs), res.status, latencyMs,
+      `upstream healthy: ${symbol} present with ${dataOrderCount} numeric cells; last update ${ageHours ?? "?"}h ago`,
+      { symbol, dataOrderCount, asOfIso, ageHours });
+  } catch (err) {
+    return baseResult("outage", 0, null, `fetch failed: ${err?.message || "unknown"}`);
+  } finally {
+    clearTimeout(timer);
+  }
+}
+
 async function probeDomContract(contract) {
   const ctrl = new AbortController();
   const timer = setTimeout(() => ctrl.abort(), TIMEOUT_MS);
@@ -423,9 +562,11 @@ async function main() {
   const checkedAt = new Date().toISOString();
   const httpResults = await Promise.all(services.map((svc) => probe(svc)));
   const contractResults = await Promise.all(domContracts.map((c) => probeDomContract(c)));
-  // Contract failures are treated as core service problems (they directly
-  // break user-visible flows like sign-in), so they count toward overall state.
-  const baseResults = [...httpResults, ...contractResults];
+  const dataSourceResults = await Promise.all(dataSourceContracts.map((c) => probeDataSource(c)));
+  // Contract and data-source failures are treated as core service problems
+  // (they directly break user-visible flows like sign-in or the live KSE-100
+  // tile), so they count toward overall state.
+  const baseResults = [...httpResults, ...contractResults, ...dataSourceResults];
   const healthSnapshot = await fetchHealthSnapshot();
   const userJourneys = await probeUserJourneys();
   const inferredLoginHealth = await inferLoginHealthFallback(userJourneys);
