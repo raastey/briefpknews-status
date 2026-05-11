@@ -6,7 +6,11 @@
       "state": "resolved",
       "startedAt": "2026-05-09T18:43:00.000Z",
       "resolvedAt": "2026-05-11T11:55:00.000Z",
-      "affectedServices": ["Login Page Wiring", "Google OAuth Health", "Magic Link Health"],
+      "affectedServices": [
+        "Login Page Wiring",
+        "Google OAuth Health",
+        "Magic Link Health"
+      ],
       "updates": [
         {
           "at": "2026-05-09T18:43:00.000Z",
