@@ -66,6 +66,29 @@ const dataSourceContracts = [
 ];
 
 /**
+ * Redirect-target contracts: catch redirect handlers that 302 successfully
+ * but to the wrong destination. The canonical example is /api/auth/google:
+ * if GOOGLE_CLIENT_ID is unset or wrong, the route can still respond with a
+ * non-302 (503 "OAuth not configured" or a 302 to /login.html?error=…), and
+ * a pure status-code probe would either flag it as a 503 with no detail or
+ * miss the fact that the redirect doesn't actually point at Google.
+ *
+ * Each contract probes a URL with `redirect: manual`, asserts the response
+ * status equals `expectedStatusCode`, and asserts the `Location` header host
+ * matches `expectedLocationHost` (a substring check; `expectedLocationHost`
+ * can list multiple acceptable hosts).
+ */
+const redirectContracts = [
+  {
+    key: "googleOAuthStart",
+    name: "Google OAuth Start Route",
+    url: `${BASE}/api/auth/google`,
+    expectedStatusCode: 302,
+    expectedLocationHost: ["accounts.google.com"]
+  }
+];
+
+/**
  * JSON-asset contracts: catch shape regressions inside a publicly served
  * JSON file that an HTTP 200 probe would miss. An empty array, a missing
  * top-level key, or a malformed structure would all return 200 but render
@@ -495,6 +518,55 @@ async function probeDataSource(contract) {
   }
 }
 
+async function probeRedirectContract(contract) {
+  const ctrl = new AbortController();
+  const timer = setTimeout(() => ctrl.abort(), TIMEOUT_MS);
+  const start = Date.now();
+  const result = (state, statusCode, latencyMs, reason, extras = {}) => ({
+    key: contract.key,
+    name: contract.name,
+    url: contract.url,
+    state,
+    statusCode,
+    latencyMs,
+    redirect: { reason, ...extras }
+  });
+  try {
+    const res = await fetch(contract.url, {
+      method: "GET",
+      signal: ctrl.signal,
+      redirect: "manual",
+      headers: { "cache-control": "no-cache" }
+    });
+    const latencyMs = Date.now() - start;
+    const expectedStatus = contract.expectedStatusCode ?? 302;
+    if (res.status !== expectedStatus) {
+      return result("outage", res.status, latencyMs,
+        `expected status ${expectedStatus}, got ${res.status}`);
+    }
+    const location = res.headers.get("location") || "";
+    if (!location) {
+      return result("outage", res.status, latencyMs,
+        "missing Location header on redirect");
+    }
+    const acceptable = (contract.expectedLocationHost || []).some((h) =>
+      location.includes(h));
+    if (!acceptable) {
+      // Truncate the location so we never log a full OAuth state in case it
+      // shows up in a future redirect target. The host check is what matters.
+      const safeSnippet = location.slice(0, 80);
+      return result("outage", res.status, latencyMs,
+        `Location host not in expected list [${contract.expectedLocationHost.join(", ")}]; got '${safeSnippet}…'`);
+    }
+    return result(serviceState(true, latencyMs), res.status, latencyMs,
+      "redirect target OK", { locationHost: contract.expectedLocationHost.find((h) => location.includes(h)) });
+  } catch (err) {
+    return result("outage", 0, null, `fetch failed: ${err?.message || "unknown"}`);
+  } finally {
+    clearTimeout(timer);
+  }
+}
+
 async function probeJsonAsset(contract) {
   const ctrl = new AbortController();
   const timer = setTimeout(() => ctrl.abort(), TIMEOUT_MS);
@@ -675,11 +747,18 @@ async function main() {
   const contractResults = await Promise.all(domContracts.map((c) => probeDomContract(c)));
   const dataSourceResults = await Promise.all(dataSourceContracts.map((c) => probeDataSource(c)));
   const jsonAssetResults = await Promise.all(jsonAssetContracts.map((c) => probeJsonAsset(c)));
-  // Contract, data-source and JSON-asset failures are treated as core service
-  // problems (they directly break user-visible flows like sign-in, the live
-  // KSE-100 tile, or the Policy Tracker page), so they count toward overall
-  // state.
-  const baseResults = [...httpResults, ...contractResults, ...dataSourceResults, ...jsonAssetResults];
+  const redirectResults = await Promise.all(redirectContracts.map((c) => probeRedirectContract(c)));
+  // Contract, data-source, JSON-asset and redirect-target failures are all
+  // treated as core service problems (they directly break user-visible flows
+  // like sign-in, the live KSE-100 tile, the Policy Tracker page, or the
+  // Google OAuth start route), so they count toward overall state.
+  const baseResults = [
+    ...httpResults,
+    ...contractResults,
+    ...dataSourceResults,
+    ...jsonAssetResults,
+    ...redirectResults
+  ];
   const healthSnapshot = await fetchHealthSnapshot();
   const userJourneys = await probeUserJourneys();
   const inferredLoginHealth = await inferLoginHealthFallback(userJourneys);
