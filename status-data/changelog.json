@@ -15,6 +15,31 @@
   },
   "entries": [
     {
+      "id": "chg-2026-05-12-detail-tray-close-button-visible",
+      "date": "2026-05-12",
+      "type": "fix",
+      "major": false,
+      "title": "Fix: the close button on Constitution and Policy article trays is now actually visible",
+      "summary": "We shipped a fix earlier today that was supposed to keep the close X on Constitution Tracker and Policy Tracker article trays pinned to the top-right of the tray, even while you scroll. A paying customer noticed the X was still missing in practice. The reason: the tray was sliding in at the very top of the screen, which meant the top sixty pixels of the tray (the exact strip where the close X lives) ended up underneath the sticky top navigation header — directly behind the LOGOUT button. The X was rendered the whole time; it was just hidden. The tray now opens just below the header instead of behind it, so the close X is fully visible and clickable. Backdrop click-to-close and Escape continue to work as before.",
+      "detail": "Same fix applies on mobile: the header collapses to two rows there, so the tray on phones opens about a hundred pixels from the top to clear that taller header. The header pills remain visible above the tray so you can still navigate away to a different page without closing the article first.",
+      "tags": [
+        "constitution-tracker",
+        "policy-tracker",
+        "fix",
+        "accessibility"
+      ],
+      "links": [
+        {
+          "label": "Open Constitution Tracker",
+          "url": "https://www.briefpknews.xyz/constitution"
+        },
+        {
+          "label": "Open Policy Tracker",
+          "url": "https://www.briefpknews.xyz/policies"
+        }
+      ]
+    },
+    {
       "id": "chg-2026-05-12-psx-news-stays-on-topic",
       "date": "2026-05-12",
       "type": "fix",
