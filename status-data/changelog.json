@@ -1,5 +1,5 @@
 {
-  "lastPublished": "2026-05-11",
+  "lastPublished": "2026-05-12",
   "entryTemplate": {
     "id": "chg-YYYY-MM-DD-short-slug",
     "date": "YYYY-MM-DD",
@@ -14,6 +14,26 @@
     "links": []
   },
   "entries": [
+    {
+      "id": "chg-2026-05-12-policy-tracker-climate",
+      "date": "2026-05-12",
+      "type": "feature",
+      "major": true,
+      "title": "Policy Tracker now covers climate — nine domains, real records on every one",
+      "summary": "The Policy Tracker grew a ninth domain: climate. Four real policies are live on day one — Pakistan's Updated NDC 2021, the National Climate Change Policy 2021, the Living Indus Initiative, and the Carbon Market Policy 2024 draft. Each one carries the same sourcing, dates, key milestones, and audience-specific impact notes you already see on every other policy in the registry.",
+      "detail": "Climate policy was the most glaring gap in the original tracker. Pakistan's climate exposure is structural — the 2022 super-floods, the Indus basin's water stress, and the country's outsized share of global climate-finance asks all sit upstream of investment, fiscal, and energy decisions. Leaving climate uncovered made the tracker incomplete in a way that mattered.\n\nThis release adds the climate domain end-to-end. Climate gets its own filter chip on the registry, its own accent color (a deep green that's distinct from the existing eight), and its own live news lane match rules so headlines about the NDC, MoCC, Article 6 carbon credits, Living Indus, and Pakistan's climate-finance pledges now surface against the right policy record automatically.\n\nThe four day-one records are: (1) Pakistan's Updated Nationally Determined Contribution submitted to UNFCCC in October 2021, with its 50% emission-reduction target and 60% renewable electricity goal by 2030; (2) the National Climate Change Policy 2021, the federal framework that operationalizes climate-screening of public investments; (3) the Living Indus Initiative, the government's umbrella programme for Indus Basin climate resilience launched after the 2022 floods; and (4) the Carbon Market Policy 2024 draft, which would let Pakistan formally trade carbon credits under Paris Agreement Article 6.\n\nThe investor preset on the Policy Tracker now defaults to including climate alongside fiscal, monetary, trade, and energy — because climate-screening at the federal investment-approval stage and the renewable electricity ceiling on new fossil generation are first-order facts for anyone building or financing in Pakistan today.",
+      "tags": [
+        "policy-tracker",
+        "climate",
+        "feature"
+      ],
+      "links": [
+        {
+          "label": "Open Policy Tracker",
+          "url": "https://www.briefpknews.xyz/policies"
+        }
+      ]
+    },
     {
       "id": "chg-2026-05-11-consistent-nav",
       "date": "2026-05-11",
