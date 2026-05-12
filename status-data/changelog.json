@@ -15,6 +15,26 @@
   },
   "entries": [
     {
+      "id": "chg-2026-05-12-constitution-colonial-continuity-essay",
+      "date": "2026-05-12",
+      "type": "feature",
+      "major": false,
+      "title": "Constitution Tracker: new editorial read on colonial legal continuity — with sources",
+      "summary": "The Constitution page now opens with a short editorial essay that explains, in plain language, how much of Pakistan’s everyday legal machinery still traces to Crown-era statutes and administration — and why that is framed as unfinished decolonisation rather than praise for old drafting. The piece includes a careful caveat around rough percentage shorthand used in legal circles, plus a numbered “Sources & further reading” section linking to an Oxford University Press constitutional history, the original Government of India Act 1935 as enacted in the UK statute archive, and an open-access Utah Law Review article on post-colonial common law and early constitutional breakdowns.",
+      "detail": "The registry of articles, amendments, and judgments below the essay is unchanged: it remains built from primary materials. The essay is labelled interpretive so readers can tell editorial voice from documentary entries.",
+      "tags": [
+        "constitution-tracker",
+        "feature",
+        "editorial"
+      ],
+      "links": [
+        {
+          "label": "Open Constitution Tracker",
+          "url": "https://www.briefpknews.xyz/constitution"
+        }
+      ]
+    },
+    {
       "id": "chg-2026-05-12-detail-tray-close-button-visible",
       "date": "2026-05-12",
       "type": "fix",
