@@ -15,6 +15,28 @@
   },
   "entries": [
     {
+      "id": "chg-2026-05-12-psx-news-card-headline-fix",
+      "date": "2026-05-12",
+      "type": "fix",
+      "major": false,
+      "title": "Fix: PSX News card on the dashboard now actually shows the headlines",
+      "summary": "The PSX News card on the home dashboard had a layout bug that made the headline text invisible \u2014 you'd see the ticker chips, the time, and the source name, but the actual headline between them was clipped out by the browser. Headlines are now visible (and given proper visual weight as the hero of each row), the rows are denser and easier to scan, and the card is taller so four to five stories fit without scrolling.",
+      "detail": "What you'll see now. Each PSX news row reads top-to-bottom as: a chip strip for the tickers the story touches on the left with the time on the right, then a clear bold headline, then the source. The headline is bigger and gets a red highlight on hover so it's obvious where to click. The card itself fits a few more stories without forcing a scroll.\n\nThe bug. The previous card used a layout combination that, on certain widths, told the browser to clamp the headline to two lines AND to honour the parent column's width constraints \u2014 and the two instructions disagreed about how wide the headline was allowed to be. The browser resolved that disagreement by giving the headline zero width and hiding the text. Tickers, time, and source were on their own layout track and rendered fine, which is why the card looked structurally present but content-less.\n\nThe fix. The headline now sits in its own block element with an explicit full-width directive that defeats the collapse condition, plus the supporting CSS was rewritten to make the headline the visual hero of each row rather than equal-weight to the chrome around it. As a side benefit the row design is now closer to what a journalism card should look like."
+      ,
+      "tags": [
+        "psx-news",
+        "fix",
+        "dashboard",
+        "customer-feedback"
+      ],
+      "links": [
+        {
+          "label": "Open the dashboard",
+          "url": "https://www.briefpknews.xyz/"
+        }
+      ]
+    },
+    {
       "id": "chg-2026-05-12-global-nav-mobile-burger",
       "date": "2026-05-12",
       "type": "improvement",
