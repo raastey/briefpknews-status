@@ -15,6 +15,31 @@
   },
   "entries": [
     {
+      "id": "chg-2026-05-12-psx-news-stays-on-topic",
+      "date": "2026-05-12",
+      "type": "fix",
+      "major": false,
+      "title": "PSX news now stays on-topic, and three new feeds added for deeper equity coverage",
+      "summary": "A few of you flagged that the PSX news surface was occasionally surfacing stories that weren't about the stock market at all \u2014 most obviously cricket articles mentioning the HBL PSL, because HBL (Habib Bank) is the title sponsor and the same shorthand happens to be a real KSE-100 ticker. Same pattern occurred on a few textile-industry stories that mentioned 'PTC' without referring to Pakistan Tobacco Company. Both leaks are now closed. Separately, we added three dedicated equity-coverage feeds (KSE-100 sessions, PSX earnings and dividends, and a Business Recorder PSX scope), so corporate filings, dividend announcements, and market session wraps surface faster on the dashboard PSX card and on the dedicated PSX news page.",
+      "detail": "What was going wrong. The PSX feed identifies stocks by looking for ticker symbols inside news headlines and descriptions. A bare ticker match is not specific enough on its own: HBL is both Habib Bank Limited (a real listed company) and the shorthand used by every Pakistani cricket outlet when they write about the HBL Pakistan Super League. PTC is both Pakistan Tobacco Company and the abbreviation used in textile-sector pieces referencing the Pakistan Textile Council. So cricket and textile stories were occasionally bleeding into the PSX surface.\n\nWhat changed. A ticker mention in a headline must now also carry a financial signal somewhere in the story \u2014 either an event we already detect (earnings, dividend, M&A, listing, regulatory action) or one of a set of confirm words like profit, dividend, equity, share price, market cap, EPS, IPO, AGM, EGM, NCCPL, balance sheet, quarterly results, and similar. If a headline mentions HBL but the body is about cricket and there's no financial language anywhere, it doesn't get classified as PSX news. Real corporate news continues to flow through because journalism convention means earnings and dividend stories almost always carry at least one of those words.\n\nThree new feeds. We also widened the ingestion pool with three additional sources focused specifically on equity coverage: a KSE-100 session feed, a PSX earnings and dividends feed, and a Business Recorder PSX feed. These ride the same 90-second cache pipeline as the existing feeds and start contributing immediately.\n\nWhat to expect. Within roughly 90 seconds of this going live, the dashboard PSX card and the PSX news page begin pulling from a cleaner, denser pool. Cricket and textile-only stories should stop appearing; real corporate filings, dividend announcements, and KSE-100 session wraps should appear faster.",
+      "tags": [
+        "psx-news",
+        "fix",
+        "data-quality",
+        "ingestion"
+      ],
+      "links": [
+        {
+          "label": "Open PSX News",
+          "url": "https://www.briefpknews.xyz/psx-news"
+        },
+        {
+          "label": "Open Dashboard",
+          "url": "https://www.briefpknews.xyz/"
+        }
+      ]
+    },
+    {
       "id": "chg-2026-05-12-detail-panel-close-and-coied-source-fix",
       "date": "2026-05-12",
       "type": "fix",
