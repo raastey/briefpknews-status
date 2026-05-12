@@ -15,6 +15,28 @@
   },
   "entries": [
     {
+      "id": "chg-2026-05-12-policy-tracker-provincial-coverage",
+      "date": "2026-05-12",
+      "type": "feature",
+      "major": true,
+      "title": "Policy Tracker — provincial coverage is live (Punjab, Sindh, KP, Balochistan, ICT, AJK, Gilgit-Baltistan)",
+      "summary": "The Pakistan Policy Tracker now covers policy across all four provinces, Islamabad Capital Territory, and Pakistan's two autonomous territories (Azad Jammu & Kashmir and Gilgit-Baltistan) — not just federal regulators and the IMF programme. Sixteen new sub-federal records are tracked, the registry grew from 12 to 28 policies, and the page picked up a new Jurisdiction filter so you can narrow the view to a single province or any combination you care about.",
+      "detail": "Until today the tracker was federal-only — IMF, SBP, FBR, NEPRA, FATF, NDC, MoITT, MoCC. That misses most of what actually governs Pakistanis day to day, because the 18th Amendment moved a lot of the rulebook (sales tax on services, education, health, environment, agriculture, mining, urban planning, local government) to the provinces. The first sub-federal wave goes live in this release.\n\nWhat's added:\n\n• Punjab (3 records) — PRA Sales Tax on Services Act 2012, the Punjab FY25–26 budget, and the Punjab Information Technology Board (PITB) framework that underpins citizen-facing digital services across the province.\n\n• Sindh (3) — SRB Sales Tax on Services Act 2011, the Sindh FY25–26 budget, and the Sindh Environmental Protection Act 2014 that gates industrial and infrastructure approvals in Karachi and the rest of the province.\n\n• Khyber Pakhtunkhwa (3) — the KP Revenue Authority's sales-tax-on-services regime, the KP FY25–26 budget (including the Sehat Card Plus envelope and the merged-districts development line), and the KP Mines & Minerals Act 2017 that governs the province's chromite, copper, marble and coal concessions.\n\n• Balochistan (2) — the BRA Sales Tax on Services Act 2015 and the Balochistan FY25–26 budget.\n\n• Islamabad Capital Territory (1) — the CDA master-plan and zoning framework that controls Islamabad's land use, commercial conversions, and Margalla Hills enforcement.\n\n• Azad Jammu & Kashmir (2) — the AJK FY25–26 budget and the AJK Interim Constitution Act 1974 (as amended in 2018), which is the foundational legal framework governing AJK's relationship with the federation.\n\n• Gilgit-Baltistan (2) — the GB FY25–26 budget and the Gilgit-Baltistan Order 2018, which replaced the 2009 Self-Governance Order and remains the live legal anchor underneath the recurring provisional-province debate.\n\nEvery record carries the editor-curated trust block that the rest of the tracker uses: a plain-English summary, a one-paragraph impact note, audience-specific commentary for investors, researchers and policy professionals, a dated change log, and at least one canonical source URL (with an archive fallback link beside it if the source ever goes offline or geo-blocks you).\n\nWhat's new on the page:\n\nEvery card and detail panel now shows a jurisdiction pill in the same row as the domain — Federal, Punjab, Sindh, KP, BAL, ICT, AJK, or GB — colour-coded so you can scan a long list quickly. Federal records get a softer treatment so they don't drown out the rest.\n\nA new \"Jurisdiction\" filter row sits on the filter bar with one chip per jurisdiction plus an \"All jurisdictions\" reset. Pick Punjab and Sindh and the registry narrows to just those two; clear it and you're back to everything. The filter is stored in the URL (?jurisdictions=punjab,ajk for example) so a link or bookmark reproduces the view. Jurisdiction works alongside the existing Domain and Status filters and the three audience presets (Investor, Researcher, Policy Pro) — picking a jurisdiction doesn't reset your audience preset.\n\nWhat hasn't changed: every existing federal record continues to render and filter exactly as before. The data lives in the same registry file the page has always read from, every new source URL has been retrieved and dated, and the API contract underneath the page is unchanged. This is purely additive coverage plus the surface to make it usable.",
+      "tags": [
+        "policy-tracker",
+        "feature",
+        "provincial-coverage",
+        "ajk",
+        "gilgit-baltistan"
+      ],
+      "links": [
+        {
+          "label": "Open Policy Tracker",
+          "url": "https://www.briefpknews.xyz/policies"
+        }
+      ]
+    },
+    {
       "id": "chg-2026-05-12-imf-outlook-restored",
       "date": "2026-05-12",
       "type": "fix",
