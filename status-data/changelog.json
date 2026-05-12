@@ -15,6 +15,27 @@
   },
   "entries": [
     {
+      "id": "chg-2026-05-12-constitution-tracker-source-links-fix",
+      "date": "2026-05-12",
+      "type": "fix",
+      "major": false,
+      "title": "Fix: Constitution Tracker source links now all resolve from outside Pakistan",
+      "summary": "Several source citations on the Constitution Tracker pointed to documents on Pakistan government domains (National Assembly, Senate, education and research portals) that, while perfectly accessible from inside Pakistan, were geo-fenced or bot-blocked for readers browsing from elsewhere in the world. We've replaced every affected URL — across all 27 amendments, the 1973 Constitution full text, the implementation-gap evidence on Articles 25A, 29 and 38, and the historical-breach citations — with verified working alternatives. Every source link now resolves to the right page on the first click regardless of where you are reading from.",
+      "detail": "The original Constitution Tracker shipped with primary sources pointing to the National Assembly's hosted PDFs for each amendment, plus a handful of research-organisation publication pages and a few news-archive links. Reader-side that meant: National Assembly PDFs returned a network error for anyone outside Pakistan; the Senate archive page worked but did not deep-link to anything specific; a couple of research portals (ASER, PIDE) blocked routine web requests; and four violation-source entries had been seeded with a placeholder dawn.com root URL that didn't go anywhere useful.\n\nWhat we did. Every amendment from the 1st (1974) through the 21st (2015) now cites the pakistani.org annotated mirror, which has a dedicated page for each of those amendments and serves correctly from anywhere. The 22nd, 23rd, 24th and 25th amendments (2016–2018) — which pakistani.org has not yet mirrored individually — now cite the Dawn news article that documented each one's passage. The 1973 Constitution's full-text link now points to the pakistani.org consolidation rather than the National Assembly's geo-fenced PDF.\n\nThe contested 26th and 27th Amendments (October 2024 and November 2025) each get a richer set of citations than before — four 27th-Amendment-specific Dawn articles covering the Federal Constitutional Court structure explainer, the National Assembly passage, the Senate passage, and the presidential assent, plus a pakistani.org pointer to the new FCC chapter (Part VII, Chapter 1A) for primary text. Two 26th-Amendment-specific Dawn articles replace the previous senate.gov.pk pointer and a single Dawn URL that had been getting bot-challenged.\n\nImplementation-gap evidence on the Fundamental Rights articles is now drawn from internationally-accessible sources where the previous source was bot-blocked: UNICEF Pakistan and the UNESCO Institute for Statistics for the out-of-school-children measure under the right-to-education article (Article 25A), the World Bank's Pakistan Gini indicator for the income-inequality measure under the principles-of-policy article (Article 38), and PILDAT for the legislative-monitoring measure under the freedom-of-association article (Article 29). The original Pakistani sources remain referenced in the underlying editorial notes; only the public link target changed.\n\nFour breach entries — the 1969 abrogation under Yahya Khan, the 1988 dismissal of the Junejo government, the 1990 dismissal of the first Benazir government, and the 1993 Supreme Court restoration of the first Sharif government — had been carrying placeholder URLs to the Dawn homepage. They now cite specific Dawn historical-archive articles for each event, plus a pakistani.org pointer to the 1969 martial law proclamation alongside the Dawn coverage.\n\nWhat we changed about how we work. For any future tracker page that is heavy on citations, we now require that every source URL be tested from at least one non-Pakistan vantage point before the page ships. That discipline note is now part of the Constitution Tracker's own editorial annotations and will be applied to the next data-heavy surface from the start.\n\nThank you to the reader who flagged this. The fix is live now.",
+      "tags": [
+        "constitution-tracker",
+        "fix",
+        "data-quality",
+        "customer-feedback"
+      ],
+      "links": [
+        {
+          "label": "Open Constitution Tracker",
+          "url": "https://www.briefpknews.xyz/constitution"
+        }
+      ]
+    },
+    {
       "id": "chg-2026-05-12-psx-news-launch",
       "date": "2026-05-12",
       "type": "feature",
