@@ -15,6 +15,26 @@
   },
   "entries": [
     {
+      "id": "chg-2026-05-12-psx-news-spotlight-feed-clarity",
+      "date": "2026-05-12",
+      "type": "fix",
+      "major": false,
+      "title": "PSX News: the feed now shows which rows can pin the ticker spotlight",
+      "summary": "On the dedicated PSX News page, some headlines looked like every row should open the company panel on the right — but index-wide market stories do not carry a single listable stock ticker in our dictionary, so there was nothing meaningful to pin. Rows that can spotlight a company now behave like buttons (pointer and hover), while index-wide rows stay visually quiet and include a short note telling you to use the blue headline link to read the story. Ticker chips that are only editorial tags (not dictionary symbols) appear as muted labels instead of fake buttons, and the page copy explains the difference up front.",
+      "detail": "The home-page PSX card was unchanged in this pass. If you mostly read KSE-100 session wraps, you will spend more time in the headline link; when a story names a bank, oil company, or other listed line, clicking the row or its ticker chip still opens the same live price, disclosures, and news archive on the right as before.",
+      "tags": [
+        "psx-news",
+        "fix",
+        "ux"
+      ],
+      "links": [
+        {
+          "label": "Open PSX News",
+          "url": "https://www.briefpknews.xyz/psx-news"
+        }
+      ]
+    },
+    {
       "id": "chg-2026-05-12-constitution-colonial-continuity-essay",
       "date": "2026-05-12",
       "type": "feature",
