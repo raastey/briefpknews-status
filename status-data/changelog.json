@@ -15,6 +15,26 @@
   },
   "entries": [
     {
+      "id": "chg-2026-05-12-economy-charts-blank-fix",
+      "date": "2026-05-12",
+      "type": "fix",
+      "major": false,
+      "title": "Pakistan Economy page — three charts now render correctly on first load",
+      "summary": "Three charts on the Pakistan Economy page were rendering as empty boxes on first load: \"The Long Decline\" (GDP growth 1947 → today), \"The Divergence\" (Pakistan vs Bangladesh, India, Vietnam, Sri Lanka GDP per capita since 1971), and \"The Great Divergence\" (Pakistan vs India vs Bangladesh indexed to 100 at 1947). All three now draw correctly the moment the page loads — no clicking required.",
+      "detail": "The Long Decline and Great Divergence charts were silently bailing out before drawing because of a stale data path that pointed at an empty source first instead of falling through to the World Bank data that actually has the numbers. The Divergence peer chart was rendering its axes and grid but skipping every country line on first paint — clicking a country toggle below the chart made each one appear, but the default state on page load was a blank chart with axis labels and nothing else.\n\nAll three are fixed in this release. On a fresh load of the Pakistan Economy page you should now see: a full 79-year GDP growth line with the political-event markers, IMF programme dashes and military / civilian / IMF-era background shading on The Long Decline; all five country lines drawn on The Divergence (Pakistan, Bangladesh, India, Vietnam, Sri Lanka) along with the \"BGD overtakes PAK\" marker and the read-out beneath the chart; and the indexed 1947-to-today comparison for Pakistan, India, and Bangladesh on The Great Divergence with the parity baseline at 100.\n\nNo data changed — only the rendering. If you had previously bookmarked or refreshed the page and only ever saw empty chart boxes for these three sections, a hard reload will pick up the fix.",
+      "tags": [
+        "pakistan-economy",
+        "fix",
+        "charts"
+      ],
+      "links": [
+        {
+          "label": "Open Pakistan Economy",
+          "url": "https://www.briefpknews.xyz/pakistangdphistory"
+        }
+      ]
+    },
+    {
       "id": "chg-2026-05-12-policy-tracker-climate",
       "date": "2026-05-12",
       "type": "feature",
