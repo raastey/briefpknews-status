@@ -15,6 +15,50 @@
   },
   "entries": [
     {
+      "id": "chg-2026-05-12-psx-news-card-headline-fix",
+      "date": "2026-05-12",
+      "type": "fix",
+      "major": false,
+      "title": "Fix: PSX News card on the dashboard now actually shows the headlines",
+      "summary": "The PSX News card on the home dashboard had a layout bug that made the headline text invisible \u2014 you'd see the ticker chips, the time, and the source name, but the actual headline between them was clipped out by the browser. Headlines are now visible (and given proper visual weight as the hero of each row), the rows are denser and easier to scan, and the card is taller so four to five stories fit without scrolling.",
+      "detail": "What you'll see now. Each PSX news row reads top-to-bottom as: a chip strip for the tickers the story touches on the left with the time on the right, then a clear bold headline, then the source. The headline is bigger and gets a red highlight on hover so it's obvious where to click. The card itself fits a few more stories without forcing a scroll.\n\nThe bug. The previous card used a layout combination that, on certain widths, told the browser to clamp the headline to two lines AND to honour the parent column's width constraints \u2014 and the two instructions disagreed about how wide the headline was allowed to be. The browser resolved that disagreement by giving the headline zero width and hiding the text. Tickers, time, and source were on their own layout track and rendered fine, which is why the card looked structurally present but content-less.\n\nThe fix. The headline now sits in its own block element with an explicit full-width directive that defeats the collapse condition, plus the supporting CSS was rewritten to make the headline the visual hero of each row rather than equal-weight to the chrome around it. As a side benefit the row design is now closer to what a journalism card should look like."
+      ,
+      "tags": [
+        "psx-news",
+        "fix",
+        "dashboard",
+        "customer-feedback"
+      ],
+      "links": [
+        {
+          "label": "Open the dashboard",
+          "url": "https://www.briefpknews.xyz/"
+        }
+      ]
+    },
+    {
+      "id": "chg-2026-05-12-global-nav-mobile-burger",
+      "date": "2026-05-12",
+      "type": "improvement",
+      "major": false,
+      "title": "Header redesign: every page now shares the same navigation, and mobile gets a proper menu",
+      "summary": "Two things just got better. (1) Every primary page on brief.pk — the dashboard, Pakistan Economy, Policy Tracker, Constitution, and PSX News — now reads from one single source of truth for navigation, so any tab we add appears everywhere at once. No more 'why doesn't this link show up on page X' moments. (2) On phones and small screens, the cramped horizontal-scroll pill row has been replaced with a proper menu button (the three-line icon on the left of the brand). Tap it and a clean side drawer slides in with every section listed at a comfortable tap size.",
+      "detail": "What changed for you on desktop. Nothing visible — the same five-pill nav bar across the top of every page. The change is structural: the nav is now generated from one configuration file instead of being hand-copied into each page's HTML. The next time we add a section (the constitution court tracker, a Punjab budget watch, whatever) it will appear on every page in the same release. The reason this matters is that PSX News quietly went live with the link missing from three pages last week, because someone had to remember to update five different files. That class of mistake is now structurally impossible.\n\nWhat changed for you on mobile. The horizontal-scroll strip of nav pills below the brand is gone. In its place there's a single menu button (three horizontal lines) to the left of the brief.pk wordmark. Tap it and a panel slides in from the left of the screen with every section listed vertically at a generous tap size. Tap the section you want and the drawer closes and the page opens. Tap anywhere outside the drawer to dismiss. Press Escape on a Bluetooth keyboard to dismiss. The button animates from three lines into an X while the drawer is open so it's obvious where to tap to close it. The page underneath doesn't scroll while the drawer is open, so you won't lose your place.\n\nWhy we did it. Five sections in a horizontal pill row at the top of a phone screen already meant you couldn't see them all without scrolling — and most people don't realise the bar is scrollable horizontally. A proper menu button and a side drawer is the pattern every other mobile-first product uses for a reason: it's discoverable, it's roomy, and it scales as we add more sections without each one stealing a little more space from the next.\n\nNothing else changes. Same links, same destinations, same colours, same dark mode behaviour, same active-page highlight. This is plumbing made visible only where it makes the experience better."
+      ,
+      "tags": [
+        "navigation",
+        "mobile",
+        "improvement",
+        "design"
+      ],
+      "links": [
+        {
+          "label": "Open the dashboard",
+          "url": "https://www.briefpknews.xyz/"
+        }
+      ]
+    },
+    {
       "id": "chg-2026-05-12-constitution-tracker-source-links-fix",
       "date": "2026-05-12",
       "type": "fix",
