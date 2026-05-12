@@ -3,9 +3,9 @@
     {
       "id": "auto-1778533028526",
       "title": "Service Outage Detected",
-      "state": "outage",
+      "state": "resolved",
       "startedAt": "2026-05-11T20:57:03.506Z",
-      "resolvedAt": null,
+      "resolvedAt": "2026-05-12T11:19:25.836Z",
       "affectedServices": [
         "Policy Tracker Page"
       ],
@@ -13,6 +13,10 @@
         {
           "at": "2026-05-11T20:57:03.506Z",
           "message": "Automatic detection: overall status flipped to outage."
+        },
+        {
+          "at": "2026-05-12T11:19:25.836Z",
+          "message": "Automatic resolution: all services operational."
         }
       ]
     },
