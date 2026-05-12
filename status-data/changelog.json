@@ -15,6 +15,28 @@
   },
   "entries": [
     {
+      "id": "chg-2026-05-12-psx-news-launch",
+      "date": "2026-05-12",
+      "type": "feature",
+      "major": true,
+      "title": "New: PSX News — a Pakistan-stock-focused news lane, built in response to your feedback",
+      "summary": "PSX News is a new section that pulls only news affecting Pakistan-listed companies — KSE-100 and KSE-30 names, with every headline tagged to the ticker and sector it touches. You'll find it as a card on the home dashboard right next to the Live Signal Matrix, and as a dedicated /psx-news subpage with sector and event-type filters, a ticker spotlight (live price + recent corporate disclosures + recent news on that company), and three audience lenses — investor, analyst, and civic — that pre-apply the filter combinations each one tends to want.",
+      "detail": "Why we built this. A paying customer wrote in: 'I love the sorting of news as per subject such as Energy and Governance and Politics. Could you also add one that is purely PSX. Since Markets seems to be quite internationally broad. If we can have a dedicated PSX tab that allows us to see news especially local that affects PSX companies that would be great. Similar to what you have done with the live signal matrix but news focused.' The complaint was specific: the existing Markets category was being polluted by global stocks coverage, so the Pakistan-listed-company signal was getting drowned out. PSX News fixes that.\n\nHow the tagging works. We built a Pakistan Stock Exchange dictionary of large- and mid-cap names — the union of KSE-100 and KSE-30 — with each symbol mapped to its company name, its aliases (so 'Engro Corporation' matches ENGRO, 'Habib Bank' matches HBL, 'K-Electric' matches KEL), and its sector under PSX's own sectoral classification. Every article in our news pool gets scanned against the dictionary. If a ticker or alias matches with word-boundary discipline, the article is tagged with that ticker AND its sector AND any event types it carries (earnings, dividends, regulatory, M&A, macro, foreign flows, index changes). The category PSX is hoisted above the generic Markets bucket — so if a story matches a ticker, it never falls through into Markets.\n\nWhat ships in this first release. (1) A home-page PSX News card, sibling of the Live Signal Matrix, showing the most recent PSX-tagged headlines with their ticker chips, source, and time. Clicking a ticker chip deep-links to the dedicated subpage filtered on that ticker. (2) A /psx-news subpage with: a hero showing the current KSE-100 level, today's PSX-tagged headline count, the top three mentioned tickers, and the dictionary size; three audience lens tiles that pre-apply event-type filters; a sector chip strip showing today's most-active sectors at a glance; a ticker search box; a two-pane feed where you click any headline (or any ticker chip) to spotlight that company on the right — with its live price, change percent, index membership badges, last seven corporate disclosures pulled from the PSX intel feed, and last seven recent news items on that ticker. (3) A 'N news' cross-link badge on every Live Signal Matrix row that has matching news, deep-linking back to the PSX News subpage filtered on that ticker. The two surfaces are designed to feel like one.\n\nThe taxonomy is PSX's. We use Pakistan Stock Exchange's own sectoral classification verbatim (e.g. COMMERCIAL BANKS, OIL & GAS EXPLORATION COMPANIES, POWER GENERATION & DISTRIBUTION). The display labels in the UI are friendlier ('Banking', 'Oil & Gas (E&P)', 'Power'), but the underlying authority is whatever PSX publishes. We don't invent sectors.\n\nWhat's open. The dictionary at v0.1.0 captures large/mid-cap names that are stable across most quarterly KSE-100 reviews; small-cap rotation members may not be tagged. We'll regenerate the dictionary from the official PSX listings page on a recurring schedule in a near-term pass. The 'Suggest a ticker' flow lives in the methodology section of the subpage as a direct email link to the team for now — a formal feedback capture pipeline is parked while we keep handling these requests informally. Information, not investment advice — we classify, we don't recommend.\n\nThank you to the customer whose suggestion triggered this whole surface. We read every piece of feedback that comes in, and the ones that point at a real, specific gap get built fast.",
+      "tags": [
+        "psx-news",
+        "feature",
+        "launch",
+        "customer-feedback",
+        "markets"
+      ],
+      "links": [
+        {
+          "label": "Open PSX News",
+          "url": "https://www.briefpknews.xyz/psx-news"
+        }
+      ]
+    },
+    {
       "id": "chg-2026-05-12-constitution-tracker-launch",
       "date": "2026-05-12",
       "type": "feature",
