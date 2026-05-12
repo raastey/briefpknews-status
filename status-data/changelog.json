@@ -15,6 +15,26 @@
   },
   "entries": [
     {
+      "id": "chg-2026-05-12-imf-outlook-restored",
+      "date": "2026-05-12",
+      "type": "fix",
+      "major": false,
+      "title": "Pakistan Economy page — IMF Outlook 2025–2031 section is back, now on the April 2026 WEO",
+      "summary": "The IMF Outlook section on the Pakistan Economy page (six KPI tiles, six mini-charts, and the forecast verdict) was rendering empty. It now shows the latest IMF World Economic Outlook (April 2026) figures for Pakistan: real GDP growth, CPI inflation, government debt, current-account balance, GDP per capita PPP, and unemployment — with the forecast years out to 2031 drawn as dashed lines on each sparkline.",
+      "detail": "Last week's automated refresh of IMF data didn't make it through; the section ended up holding empty arrays instead of forecasts, which is why every tile and chart in that block looked blank. This release re-runs the IMF data fetch against the latest WEO vintage and ships the populated payload alongside the page.\n\nThe source note under the section now correctly reads \"April 2026\" — the vintage of the figures actually on screen. Forecast lines (2026 onward) continue to be drawn dashed to make the actual-vs-projected boundary obvious, and the headline KPI tiles include a small up / down / unchanged indicator comparing each first-forecast-year value against the latest historical year.\n\nWhile we were in there, we also locked the two long-horizon comparison charts above (\"The Long Decline\" and \"The Great Divergence\") to their World Bank sources explicitly, so they continue to show the full 1947–today story regardless of how the IMF dataset evolves week to week. No change to those charts is visible — this is a safety net to prevent a silent regression as the IMF data flow comes back online.",
+      "tags": [
+        "pakistan-economy",
+        "fix",
+        "imf-outlook"
+      ],
+      "links": [
+        {
+          "label": "Open Pakistan Economy",
+          "url": "https://www.briefpknews.xyz/pakistangdphistory"
+        }
+      ]
+    },
+    {
       "id": "chg-2026-05-12-economy-charts-blank-fix",
       "date": "2026-05-12",
       "type": "fix",
