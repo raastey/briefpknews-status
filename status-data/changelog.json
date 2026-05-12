@@ -15,6 +15,28 @@
   },
   "entries": [
     {
+      "id": "chg-2026-05-12-global-nav-mobile-burger",
+      "date": "2026-05-12",
+      "type": "improvement",
+      "major": false,
+      "title": "Header redesign: every page now shares the same navigation, and mobile gets a proper menu",
+      "summary": "Two things just got better. (1) Every primary page on brief.pk — the dashboard, Pakistan Economy, Policy Tracker, Constitution, and PSX News — now reads from one single source of truth for navigation, so any tab we add appears everywhere at once. No more 'why doesn't this link show up on page X' moments. (2) On phones and small screens, the cramped horizontal-scroll pill row has been replaced with a proper menu button (the three-line icon on the left of the brand). Tap it and a clean side drawer slides in with every section listed at a comfortable tap size.",
+      "detail": "What changed for you on desktop. Nothing visible — the same five-pill nav bar across the top of every page. The change is structural: the nav is now generated from one configuration file instead of being hand-copied into each page's HTML. The next time we add a section (the constitution court tracker, a Punjab budget watch, whatever) it will appear on every page in the same release. The reason this matters is that PSX News quietly went live with the link missing from three pages last week, because someone had to remember to update five different files. That class of mistake is now structurally impossible.\n\nWhat changed for you on mobile. The horizontal-scroll strip of nav pills below the brand is gone. In its place there's a single menu button (three horizontal lines) to the left of the brief.pk wordmark. Tap it and a panel slides in from the left of the screen with every section listed vertically at a generous tap size. Tap the section you want and the drawer closes and the page opens. Tap anywhere outside the drawer to dismiss. Press Escape on a Bluetooth keyboard to dismiss. The button animates from three lines into an X while the drawer is open so it's obvious where to tap to close it. The page underneath doesn't scroll while the drawer is open, so you won't lose your place.\n\nWhy we did it. Five sections in a horizontal pill row at the top of a phone screen already meant you couldn't see them all without scrolling — and most people don't realise the bar is scrollable horizontally. A proper menu button and a side drawer is the pattern every other mobile-first product uses for a reason: it's discoverable, it's roomy, and it scales as we add more sections without each one stealing a little more space from the next.\n\nNothing else changes. Same links, same destinations, same colours, same dark mode behaviour, same active-page highlight. This is plumbing made visible only where it makes the experience better."
+      ,
+      "tags": [
+        "navigation",
+        "mobile",
+        "improvement",
+        "design"
+      ],
+      "links": [
+        {
+          "label": "Open the dashboard",
+          "url": "https://www.briefpknews.xyz/"
+        }
+      ]
+    },
+    {
       "id": "chg-2026-05-12-constitution-tracker-source-links-fix",
       "date": "2026-05-12",
       "type": "fix",
