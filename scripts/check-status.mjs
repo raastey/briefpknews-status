@@ -217,10 +217,15 @@ async function probe(service) {
   const timer = setTimeout(() => ctrl.abort(), TIMEOUT_MS);
   const start = Date.now();
   try {
+    // Use manual redirect handling so probes can assert on the *first* response
+    // status. Default `fetch` follows 30x redirects and reports the final
+    // status, which makes auth-gated pages (e.g. /policies → /login.html)
+    // appear to return 200 even though the gate is working correctly.
     const res = await fetch(service.url, {
       method: "GET",
       signal: ctrl.signal,
-      headers: { "cache-control": "no-cache" }
+      headers: { "cache-control": "no-cache" },
+      redirect: "manual"
     });
     const latencyMs = Date.now() - start;
     const ok = service.expectedStatuses.includes(res.status);
