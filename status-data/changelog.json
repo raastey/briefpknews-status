@@ -15,6 +15,31 @@
   },
   "entries": [
     {
+      "id": "chg-2026-05-14-pulse-trends-deltas-and-watch-list",
+      "date": "2026-05-14",
+      "type": "improvement",
+      "major": false,
+      "title": "brief's Pulse: tiny trend lines, change-since-last read, and a fuller \"what to watch\" list",
+      "summary": "The six Pulse score cards now carry a slim sparkline so you can see direction at a glance, plus a small badge that says how many points each pillar moved since the last time the grid refreshed — helpful when you are glancing between meetings and want velocity, not just a static number. When one pillar is clearly the weakest and the score is in worrying territory, that card picks up a gentle warning accent so your eye lands in the right corner without us turning the whole dashboard red. The forward-looking watch area can show up to three concrete lines when the read supports it, stacked so secondary watches still read cleanly instead of hiding behind the first line.",
+      "detail": "Behind the scenes the Pulse read is also nudged toward more specific language in the headline signals and the country snapshot — fewer vague \"developments\" lines, more names, numbers, and dates when the wires actually carry them. That is the same Pulse panel you already use; it should feel a little more opinionated and a little less samey across slow news days.\n\nSparklines and deltas depend on having a prior snapshot to compare against; the first load after a long absence may look quieter until the next refresh establishes a baseline.",
+      "tags": [
+        "pulse",
+        "dashboard",
+        "ux",
+        "improvement"
+      ],
+      "links": [
+        {
+          "label": "Open brief.pk",
+          "url": "https://www.briefpknews.xyz/"
+        },
+        {
+          "label": "Release notes",
+          "url": "https://status.briefpknews.xyz/changelog.html"
+        }
+      ]
+    },
+    {
       "id": "chg-2026-05-14-dashboard-saved-articles-tabs-and-drawer-shortcuts",
       "date": "2026-05-14",
       "type": "feature",
