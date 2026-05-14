@@ -15,6 +15,34 @@
   },
   "entries": [
     {
+      "id": "chg-2026-05-14-dashboard-saved-articles-tabs-and-drawer-shortcuts",
+      "date": "2026-05-14",
+      "type": "feature",
+      "major": false,
+      "title": "Home dashboard: saved articles in one place, quick jumps between topics, and a smarter article drawer",
+      "summary": "A bookmark icon in the header now opens a panel of everything you have saved with a star, shows how many you have at a glance, and lets you remove a story or tap straight back into the reader drawer without hunting the feed. When several topic sections are on the page, a slim row of pills appears so you can scroll straight to the block you care about instead of finger‑flicking past everything else. After a background news refresh, genuinely new headlines earn a short-lived \"New\" hint so fresh wires stand out without cluttering the page forever. Inside the article drawer, you can jump straight into headline search with one tap, or browse a few more stories from the same topic without closing the panel first.",
+      "detail": "Saved articles still live on your device the way they always have — this release is about finding and revisiting them faster, not about syncing bookmarks to the cloud.\n\nIf the \"New\" ribbon disappears after about a minute and a half, that is intentional: it is meant as a gentle freshness signal, not a permanent label.",
+      "tags": [
+        "dashboard",
+        "bookmarks",
+        "navigation",
+        "news",
+        "search",
+        "ux",
+        "feature"
+      ],
+      "links": [
+        {
+          "label": "Open brief.pk",
+          "url": "https://www.briefpknews.xyz/"
+        },
+        {
+          "label": "Release notes",
+          "url": "https://status.briefpknews.xyz/changelog.html"
+        }
+      ]
+    },
+    {
       "id": "chg-2026-05-14-dashboard-live-feeds-and-psx-card-smarts",
       "date": "2026-05-14",
       "type": "improvement",
