@@ -15,6 +15,32 @@
   },
   "entries": [
     {
+      "id": "chg-2026-05-14-pulse-watch-lines-stay-contextual",
+      "date": "2026-05-14",
+      "type": "fix",
+      "major": false,
+      "title": "brief's Pulse: \"What to watch\" lines no longer yank you into headline search",
+      "summary": "The stacked watch lines under Pulse are meant as forward-looking context — what deserves attention in the next day or two — not as another way to open the full intelligence search panel. They had been wired like buttons, which on phones especially felt broken: the sheet leapt open far from where you tapped and blurred the story you were trying to read. Those lines are now plain text chips again. When you do want to dig into a topic, use the header search bar the same way you always have.",
+      "detail": "Nothing changes about how Pulse scores, sparklines, or the side detail panel work — only how the watch copy behaves when you touch it.\n\nIf you liked one-tap search from a watch line, type or paste the same phrase into search; you keep full control over when the heavier panel appears.",
+      "tags": [
+        "pulse",
+        "dashboard",
+        "search",
+        "mobile",
+        "fix"
+      ],
+      "links": [
+        {
+          "label": "Open brief.pk",
+          "url": "https://www.briefpknews.xyz/"
+        },
+        {
+          "label": "Release notes",
+          "url": "https://status.briefpknews.xyz/changelog.html"
+        }
+      ]
+    },
+    {
       "id": "chg-2026-05-14-pulse-trends-deltas-and-watch-list",
       "date": "2026-05-14",
       "type": "improvement",
