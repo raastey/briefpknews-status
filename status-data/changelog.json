@@ -15,6 +15,32 @@
   },
   "entries": [
     {
+      "id": "chg-2026-05-14-pulse-watch-tap-inline-headlines",
+      "date": "2026-05-14",
+      "type": "feature",
+      "major": false,
+      "title": "brief's Pulse: tap \"what to watch\" for a tiny headline list — right where you are",
+      "summary": "After we stopped watch lines from opening the full intelligence search sheet, there was still a missing link between a forward-looking watch sentence and the live wires on the page. Now, when you tap one of the watch chips, a compact list of up to five related headlines unfolds directly under the Pulse strip, pulled from the same headline pool you are already reading. Each row shows the outlet, the title, and how fresh the story is; tap a row to open it in the article reader. Tap the same watch chip again to tuck the list away. If nothing in the current feed matches yet, you get a short honest empty state instead of a blank hole.",
+      "detail": "Matching is keyword-based from the watch phrase, so very short or generic watch lines may surface fewer hits until the feed catches up — that is expected, not a broken panel.\n\nThis stays inside the Pulse lane: the page grows a little taller while the list is open rather than opening a separate overlay that covers half the screen.",
+      "tags": [
+        "pulse",
+        "dashboard",
+        "news",
+        "ux",
+        "feature"
+      ],
+      "links": [
+        {
+          "label": "Open brief.pk",
+          "url": "https://www.briefpknews.xyz/"
+        },
+        {
+          "label": "Release notes",
+          "url": "https://status.briefpknews.xyz/changelog.html"
+        }
+      ]
+    },
+    {
       "id": "chg-2026-05-14-pulse-watch-lines-stay-contextual",
       "date": "2026-05-14",
       "type": "fix",
