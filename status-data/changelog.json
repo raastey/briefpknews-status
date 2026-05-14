@@ -1,5 +1,5 @@
 {
-  "lastPublished": "2026-05-13",
+  "lastPublished": "2026-05-14",
   "entryTemplate": {
     "id": "chg-YYYY-MM-DD-short-slug",
     "date": "YYYY-MM-DD",
@@ -14,6 +14,46 @@
     "links": []
   },
   "entries": [
+    {
+      "id": "chg-2026-05-14-trackers-search-shareable-links",
+      "date": "2026-05-14",
+      "type": "improvement",
+      "major": false,
+      "title": "Trackers and PSX News: find things faster, share exact links, and fresher headlines on the stocks page",
+      "summary": "The Constitution Tracker, Policy Tracker, and Accountability pages each grew a proper search box so you can narrow long lists without hunting by eye. On Constitution and Policy, opening an article or policy now updates the address bar — you can copy the URL, send it to a colleague, or bookmark it and land straight back on the same detail when you return. Constitution’s three audience tiles (legal, research, civic) now genuinely filter the registry instead of only scrolling it, with a clear highlight on whichever lens is active. Accountability’s table uses plain-language labels for where a row came from instead of internal jargon. On PSX News, the feed quietly refreshes on a steady rhythm while you keep the page open, picks up again when you return after the tab has been in the background a while, and your light-or-dark theme choice now sticks the same way it does on the home page.",
+      "detail": "Search waits a fraction of a second after you stop typing so the page stays responsive on slower phones; Escape clears the box, and each page’s reset control clears it too. Shareable links use simple query patterns you can recognise in the address bar when a detail panel is open. None of this changes who can see paid sections or how your account works — it is navigation, filtering, and presentation.\n\nIf a link someone sends you does not open the right panel, ask them to copy the address again after the panel has fully opened, then refresh once. Cached copies of older JavaScript can occasionally lag a single deploy behind; a normal reload picks up the new behaviour.",
+      "tags": [
+        "constitution-tracker",
+        "policy-tracker",
+        "accountability",
+        "psx-news",
+        "search",
+        "ux",
+        "improvement"
+      ],
+      "links": [
+        {
+          "label": "Open Constitution Tracker",
+          "url": "https://www.briefpknews.xyz/constitution"
+        },
+        {
+          "label": "Open Policy Tracker",
+          "url": "https://www.briefpknews.xyz/policies"
+        },
+        {
+          "label": "Open Accountability",
+          "url": "https://www.briefpknews.xyz/accountability"
+        },
+        {
+          "label": "Open PSX News",
+          "url": "https://www.briefpknews.xyz/psx-news"
+        },
+        {
+          "label": "Release notes",
+          "url": "https://status.briefpknews.xyz/changelog.html"
+        }
+      ]
+    },
     {
       "id": "chg-2026-05-13-mobile-navigation-native-feel",
       "date": "2026-05-13",
