@@ -15,6 +15,83 @@
   },
   "entries": [
     {
+      "id": "chg-2026-05-14-dashboard-live-feeds-and-psx-card-smarts",
+      "date": "2026-05-14",
+      "type": "improvement",
+      "major": false,
+      "title": "Home dashboard: headlines stay fresher, and the PSX strip knows when the market is open",
+      "summary": "News on the home page now checks in with the server more often in the background, so new stories drift in without you hitting refresh, while the heavier economic datasets still refresh on the calmer schedule they always had. Timestamps on the breaking, briefing, and stock rows quietly update every minute so a \"just now\" label does not sit there until you reload. The PSX strip gained a small market-hours signal in plain language, a colour accent that hints how fresh the session data feels, and a \"New\" badge when a headline is truly hot off the wire. When the market is closed, the card says so in one line so you are not guessing why prices look quiet. If there are not enough PSX-tagged stories at that moment, the card can blend in carefully labelled economy and market coverage so the strip never looks half-empty.",
+      "detail": "If you leave brief.pk hidden in another tab for a long stretch and come back, the page refetches news right away after a lengthy absence, and picks up a broader refresh when the whole dashboard has grown stale. That trades a little more background network chatter on active reading days for headlines that feel closer to live.\n\nNone of this changes billing, log-in, or paywall rules — it is how often the read surface refreshes and how honestly the PSX card explains its own freshness.",
+      "tags": [
+        "dashboard",
+        "news",
+        "psx-news",
+        "markets",
+        "improvement"
+      ],
+      "links": [
+        {
+          "label": "Open brief.pk",
+          "url": "https://www.briefpknews.xyz/"
+        },
+        {
+          "label": "Release notes",
+          "url": "https://status.briefpknews.xyz/changelog.html"
+        }
+      ]
+    },
+    {
+      "id": "chg-2026-05-14-briefs-pulse-side-panel",
+      "date": "2026-05-14",
+      "type": "improvement",
+      "major": false,
+      "title": "brief's Pulse: tap a pillar to read the story without being thrown down the page",
+      "summary": "The six Pulse tiles on the home dashboard are still the quick scan of Pakistan across economy, security, politics, prices, diplomacy, and governance. Now, when you tap one, a focused panel slides open right beside the grid instead of jumping you halfway down the page to the category list. The panel keeps the score and trend, spells out the citizen impact in plain words, and threads in a handful of related headlines drawn from the live feed. When you are done, one tap takes you back to the full grid. The forward-looking watch line works like a button: it fills the search field so you can keep exploring in the intelligence panel. The headline-and-source line at the top of Pulse can expand to show which outlets dominate your current view so the numbers feel grounded rather than mysterious.",
+      "detail": "Because the exploration stays inside the Pulse section, you lose less scroll position on long home sessions — especially on a phone where a sudden jump used to feel disorienting.\n\nIf you had been using Pulse purely as a shortcut into the category sections below, use search or your normal category navigation for that path; Pulse now prioritises explainability in place over teleporting the page.",
+      "tags": [
+        "pulse",
+        "dashboard",
+        "search",
+        "ux",
+        "improvement"
+      ],
+      "links": [
+        {
+          "label": "Open brief.pk",
+          "url": "https://www.briefpknews.xyz/"
+        },
+        {
+          "label": "Release notes",
+          "url": "https://status.briefpknews.xyz/changelog.html"
+        }
+      ]
+    },
+    {
+      "id": "chg-2026-05-14-search-steadier-on-mobile",
+      "date": "2026-05-14",
+      "type": "improvement",
+      "major": false,
+      "title": "Header search feels steadier on phones — and clearer when something goes wrong",
+      "summary": "The intelligence search sheet on small screens now clears the thumb-height tab bar on installed phones instead of sliding underneath it. When the server cannot complete a search, you see a plain-language explanation instead of a cryptic error, and a Try again path that does not force a full page reload. Typing in the search box picks up a slightly faster rhythm: the query waits a beat after you pause, shows an honest loading state while it thinks, and always checks whatever you actually typed last so half-finished words do not send the wrong request.",
+      "detail": "These are quality-of-life fixes for the same search experience you already had on the desktop layout; large screens keep their anchored panel behaviour.\n\nIf you still see an old, cramped sheet briefly after a deploy, one refresh usually picks up the latest layout files from the edge cache.",
+      "tags": [
+        "search",
+        "mobile",
+        "ux",
+        "improvement"
+      ],
+      "links": [
+        {
+          "label": "Open brief.pk",
+          "url": "https://www.briefpknews.xyz/"
+        },
+        {
+          "label": "Release notes",
+          "url": "https://status.briefpknews.xyz/changelog.html"
+        }
+      ]
+    },
+    {
       "id": "chg-2026-05-14-trackers-search-shareable-links",
       "date": "2026-05-14",
       "type": "improvement",
