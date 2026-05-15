@@ -1,5 +1,5 @@
 {
-  "lastPublished": "2026-05-14",
+  "lastPublished": "2026-05-15",
   "entryTemplate": {
     "id": "chg-YYYY-MM-DD-short-slug",
     "date": "YYYY-MM-DD",
@@ -14,6 +14,86 @@
     "links": []
   },
   "entries": [
+    {
+      "id": "chg-2026-05-15-mobile-home-puts-headlines-first",
+      "date": "2026-05-15",
+      "type": "improvement",
+      "major": false,
+      "title": "Home dashboard on phones and tablets: headlines lead again, and the source strip behaves like a modern app",
+      "summary": "On smaller screens the page used to stack the big “sources” rail ahead of the live headline column, which made the home feed feel buried under filters. The main news lane now comes first so you see wires immediately when you open brief.pk. Source outlets sit in a tidy horizontal chip row you can flick sideways instead of a tall block that pushed everything down. The short “today’s briefing” strip steps aside on mobile where Pulse already gives you the same morning scan, and duplicate social icons in the header hide on the narrowest phones because the footer already carries them.",
+      "detail": "Padding on the home grid is slightly tighter on very small screens so more of the first headline fits above the fold.\n\nIf you mostly read on a large monitor, you will not notice a layout change — this is tuned for tablet and phone widths.",
+      "tags": [
+        "dashboard",
+        "mobile",
+        "news",
+        "ux",
+        "improvement"
+      ],
+      "links": [
+        {
+          "label": "Open brief.pk",
+          "url": "https://www.briefpknews.xyz/"
+        },
+        {
+          "label": "Release notes",
+          "url": "https://status.briefpknews.xyz/changelog.html"
+        }
+      ]
+    },
+    {
+      "id": "chg-2026-05-15-accountability-and-policy-speak-plainly",
+      "date": "2026-05-15",
+      "type": "improvement",
+      "major": false,
+      "title": "Accountability and Policy trackers: less jargon, clearer headings, and honest lines when a row came from an RSS wire",
+      "summary": "Both trackers now read more like something an editor would hand to a colleague: section labels describe intent instead of sounding like internal workflow steps, filter summaries sound conversational, and empty states tell you what to do next without acronyms. On Accountability, the side panel renames its blocks so “what is this?” and “what does it mean?” match how people actually ask questions. Rows that were filled automatically from open RSS feeds no longer repeat robotic boilerplate about “matching a feed” — new ingested items point you politely to the original publisher instead. Policy’s audience tiles use friendlier subheads so investors, researchers, and civic readers each know which lens is active.",
+      "detail": "Some older Accountability rows may still show legacy phrasing until those records are refreshed through the normal ingest cycle — behaviour for brand-new wires is what changed first.\n\nNone of this alters who can see paid sections or the underlying registry data — it is copy, headings, and how we describe machine-assisted rows.",
+      "tags": [
+        "accountability",
+        "policy-tracker",
+        "ux",
+        "improvement"
+      ],
+      "links": [
+        {
+          "label": "Open Accountability Tracker",
+          "url": "https://www.briefpknews.xyz/accountability"
+        },
+        {
+          "label": "Open Policy Tracker",
+          "url": "https://www.briefpknews.xyz/policies"
+        },
+        {
+          "label": "Release notes",
+          "url": "https://status.briefpknews.xyz/changelog.html"
+        }
+      ]
+    },
+    {
+      "id": "chg-2026-05-15-economy-born-in-timeline-from-1947",
+      "date": "2026-05-15",
+      "type": "fix",
+      "major": false,
+      "title": "Pakistan Economy: the “born in” timeline now respects 1947 onward — not a 1971-only story",
+      "summary": "The generational lane on the economy page is meant to anchor your life years against Pakistan’s macro history. It had drifted toward language that only made sense if you were born in 1971, and it skipped the rich pre-1971 decades entirely. The lane now opens with independence and partition-era milestones through the 1950s and 1960s, then carries forward, and the 1971 chapter is written as national history rather than as if it were everyone’s personal birth year. Age-specific quips that assumed a single cohort were removed in favour of the neutral timeline copy the page already shows beside each event.",
+      "detail": "If you are using the lane for classroom or newsroom teaching, you should see a fuller arc from state formation to modern stress points without the widget implying readers share one birth vintage.\n\nCharts and KPI tiles elsewhere on the economy page are unchanged.",
+      "tags": [
+        "gdp-history",
+        "economy",
+        "ux",
+        "fix"
+      ],
+      "links": [
+        {
+          "label": "Open Pakistan Economy",
+          "url": "https://www.briefpknews.xyz/pakistangdphistory"
+        },
+        {
+          "label": "Release notes",
+          "url": "https://status.briefpknews.xyz/changelog.html"
+        }
+      ]
+    },
     {
       "id": "chg-2026-05-14-pulse-watch-tap-inline-headlines",
       "date": "2026-05-14",
