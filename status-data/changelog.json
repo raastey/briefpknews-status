@@ -15,6 +15,32 @@
   },
   "entries": [
     {
+      "id": "chg-2026-05-15-no-more-sideways-page-scroll-on-mobile",
+      "date": "2026-05-15",
+      "type": "fix",
+      "major": false,
+      "title": "Phones and tablets: the page should no longer drift sideways when Pulse or charts get busy",
+      "summary": "Some layouts were letting a single wide block — a long Pulse sentence, a market chart strip, or a sparkline on a score card — stretch the whole page wider than your screen, which forced annoying horizontal scrolling everywhere. We tightened how the dashboard grid shares space, clamped Pulse and headline cards so long text wraps instead of pushing the edges, and refreshed the mobile stylesheet version so your browser actually picks up the fix. If you still see the old behaviour once, a normal refresh usually clears cached CSS.",
+      "detail": "This builds on earlier mobile layout work (headlines leading the home feed, and so on). The goal here was specifically to stop the entire page from acting wider than the viewport.\n\nDesktop layouts are unchanged unless you resize the window to phone widths.",
+      "tags": [
+        "dashboard",
+        "mobile",
+        "pulse",
+        "ux",
+        "fix"
+      ],
+      "links": [
+        {
+          "label": "Open brief.pk",
+          "url": "https://www.briefpknews.xyz/"
+        },
+        {
+          "label": "Release notes",
+          "url": "https://status.briefpknews.xyz/changelog.html"
+        }
+      ]
+    },
+    {
       "id": "chg-2026-05-15-mobile-home-puts-headlines-first",
       "date": "2026-05-15",
       "type": "improvement",
