@@ -15,6 +15,31 @@
   },
   "entries": [
     {
+      "id": "chg-2026-05-15-accountability-tracker-polish",
+      "date": "2026-05-15",
+      "type": "improvement",
+      "major": false,
+      "title": "Accountability Tracker: clearer wording, steadier navigation, and a cleaner incident list",
+      "summary": "The Accountability page now reads in plain editorial language from the hero through the methodology notes, so it is easier to scan without internal jargon. The section jump bar stays tucked under the main header instead of sliding underneath it when you scroll. Broken feed-ingest placeholders no longer appear in the searchable incident table, and the pillar columns on phones should stop forcing the page sideways when headlines run long.",
+      "detail": "If you relied on seeing technical feed-error rows in the registry, those are hidden from the public table on purpose — they were never meant as incidents readers could act on.\n\nPolicy Tracker and Constitution Tracker are unchanged in this pass.",
+      "tags": [
+        "accountability",
+        "mobile",
+        "ux",
+        "improvement"
+      ],
+      "links": [
+        {
+          "label": "Open Accountability Tracker",
+          "url": "https://www.briefpknews.xyz/accountability"
+        },
+        {
+          "label": "Release notes",
+          "url": "https://status.briefpknews.xyz/changelog.html"
+        }
+      ]
+    },
+    {
       "id": "chg-2026-05-15-no-more-sideways-page-scroll-on-mobile",
       "date": "2026-05-15",
       "type": "fix",
