@@ -3,9 +3,9 @@
     {
       "id": "auto-1779061284040",
       "title": "Service Degradation Detected",
-      "state": "degraded",
+      "state": "resolved",
       "startedAt": "2026-05-17T23:41:15.496Z",
-      "resolvedAt": null,
+      "resolvedAt": "2026-05-18T00:07:17.579Z",
       "affectedServices": [
         "Security Economy API",
         "Security Insight API",
@@ -18,6 +18,10 @@
         {
           "at": "2026-05-17T23:41:15.496Z",
           "message": "Automatic detection: overall status flipped to degraded."
+        },
+        {
+          "at": "2026-05-18T00:07:17.579Z",
+          "message": "Automatic resolution: all services operational."
         }
       ]
     },
