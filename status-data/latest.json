@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-05-19T22:25:53.616Z",
+  "checkedAt": "2026-05-19T22:52:19.208Z",
   "overall": "outage",
   "region": "github-actions",
   "services": [
@@ -125,7 +125,7 @@
       "contract": {
         "missing": [],
         "chainedMissing": [],
-        "reason": "fetch failed: This operation was aborted"
+        "reason": "fetch failed: fetch failed"
       }
     },
     {
@@ -147,7 +147,7 @@
       "url": "https://dps.psx.com.pk/indices",
       "state": "operational",
       "statusCode": 200,
-      "latencyMs": 1462,
+      "latencyMs": 2151,
       "dataSource": {
         "reason": "upstream healthy: KSE100 present with 5 numeric cells; last update 12h ago",
         "symbol": "KSE100",
@@ -164,7 +164,7 @@
       "statusCode": 0,
       "latencyMs": null,
       "asset": {
-        "reason": "fetch failed: This operation was aborted"
+        "reason": "fetch failed: fetch failed"
       }
     },
     {
@@ -175,7 +175,7 @@
       "statusCode": 0,
       "latencyMs": null,
       "redirect": {
-        "reason": "fetch failed: This operation was aborted"
+        "reason": "fetch failed: fetch failed"
       }
     },
     {
