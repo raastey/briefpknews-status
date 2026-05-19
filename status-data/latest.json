@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-05-19T23:21:00.064Z",
+  "checkedAt": "2026-05-19T23:46:43.904Z",
   "overall": "outage",
   "region": "github-actions",
   "services": [
@@ -147,7 +147,7 @@
       "url": "https://dps.psx.com.pk/indices",
       "state": "operational",
       "statusCode": 200,
-      "latencyMs": 1386,
+      "latencyMs": 2431,
       "dataSource": {
         "reason": "upstream healthy: KSE100 present with 5 numeric cells; last update 13h ago",
         "symbol": "KSE100",
