@@ -3,9 +3,9 @@
     {
       "id": "auto-1779229699440",
       "title": "Service Outage Detected",
-      "state": "outage",
+      "state": "resolved",
       "startedAt": "2026-05-19T22:25:53.616Z",
-      "resolvedAt": null,
+      "resolvedAt": "2026-05-20T04:56:36.477Z",
       "affectedServices": [
         "Main Website",
         "Public Health API",
@@ -30,6 +30,10 @@
         {
           "at": "2026-05-19T22:25:53.616Z",
           "message": "Automatic detection: overall status flipped to outage."
+        },
+        {
+          "at": "2026-05-20T04:56:36.477Z",
+          "message": "Automatic resolution: all services operational."
         }
       ]
     },
