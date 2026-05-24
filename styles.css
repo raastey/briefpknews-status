@@ -338,6 +338,68 @@ h1 {
   color: var(--text-dim);
 }
 
+/* ── Subscriber delivery panel ─────────────────────── */
+.panel-delivery .delivery-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1rem;
+  padding: 1rem;
+}
+.delivery-card {
+  background: var(--bg-card-2);
+  border: 1px solid var(--border);
+  border-radius: calc(var(--r) - 2px);
+  padding: 1rem 1.1rem;
+}
+.delivery-card h3 {
+  margin: 0 0 0.35rem;
+  font: 600 1rem var(--sans-font);
+  color: var(--text-primary);
+}
+.delivery-card > p:not(.delivery-status) {
+  margin: 0 0 0.85rem;
+  font-size: 0.88rem;
+  line-height: 1.55;
+  color: var(--text-muted);
+}
+.delivery-status {
+  display: inline-block;
+  margin: 0 0 0.65rem;
+  font: 700 0.65rem var(--mono-font);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 0.2rem 0.5rem;
+  border-radius: 999px;
+}
+.delivery-status--live {
+  color: #11693c;
+  background: #e9f8ef;
+  border: 1px solid #95d8af;
+}
+.delivery-meta {
+  margin: 0;
+  font-size: 0.82rem;
+}
+.delivery-meta > div {
+  display: grid;
+  grid-template-columns: 6.5rem 1fr;
+  gap: 0.5rem;
+  padding: 0.35rem 0;
+  border-top: 1px solid var(--border);
+}
+.delivery-meta dt {
+  margin: 0;
+  font: 600 0.68rem var(--mono-font);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-dim);
+}
+.delivery-meta dd {
+  margin: 0;
+  color: var(--text-muted);
+  line-height: 1.45;
+}
+
 /* ── Unified Status Grid ────────────────────────────── */
 .status-grid {
   display: grid;

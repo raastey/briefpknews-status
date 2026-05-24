@@ -185,6 +185,12 @@ const services = [
     expectedStatuses: [200, 401]
   },
   {
+    key: "pulseArchive",
+    name: "Pulse Archive API",
+    url: `${BASE}/api/pulse-archive?days=7`,
+    expectedStatuses: [200, 401]
+  },
+  {
     // Policy Tracker page is auth-gated (requirePage middleware) so an
     // unauthenticated probe must see a redirect to /login.html. A 200 here
     // would mean the gate has regressed and an anon user can read the

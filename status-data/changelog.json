@@ -1,5 +1,5 @@
 {
-  "lastPublished": "2026-05-15",
+  "lastPublished": "2026-05-25",
   "entryTemplate": {
     "id": "chg-YYYY-MM-DD-short-slug",
     "date": "YYYY-MM-DD",
@@ -14,6 +14,57 @@
     "links": []
   },
   "entries": [
+    {
+      "id": "chg-2026-05-25-weekly-intelligence-email",
+      "date": "2026-05-25",
+      "type": "feature",
+      "major": true,
+      "title": "Your week in Pakistan — a Monday intelligence email for every subscriber",
+      "summary": "brief.pk now sends a Weekly Intelligence Brief to every paid member, automatically, every Monday. One email distils the past seven days in Pakistan: Brief’s Pulse status, the six-lane scoreboard, how the week moved versus Monday open, markets at a glance, headlines grouped by lane (finance, security, politics, diplomacy, society), a lead story, and a short desk synthesis — Pakistan only, no global noise.",
+      "detail": "If you already subscribe, you do not need to opt in. The brief goes to the inbox tied to your account on Monday mornings US Eastern time (midday in Pakistan). Open the live dashboard from the email anytime during the week for fresh Pulse, markets, and telemetry.\n\nYou can reply UNSUBSCRIBE to stop the weekly email while keeping dashboard access.\n\nNew readers: paid access includes both the dashboard and the Monday brief.",
+      "tags": [
+        "email",
+        "pulse",
+        "intelligence",
+        "subscribers",
+        "feature"
+      ],
+      "links": [
+        {
+          "label": "Open brief.pk",
+          "url": "https://www.briefpknews.xyz/"
+        },
+        {
+          "label": "Release notes",
+          "url": "https://status.briefpknews.xyz/changelog.html"
+        }
+      ]
+    },
+    {
+      "id": "chg-2026-05-25-past-pulse-briefs",
+      "date": "2026-05-25",
+      "type": "feature",
+      "major": false,
+      "title": "Past Pulse briefs — browse earlier daily snapshots on the dashboard",
+      "summary": "Brief’s Pulse now keeps a rolling archive of daily Pakistan snapshots. Tap Past briefs on the home dashboard to browse earlier days: status label, score, that day’s three-bullet brief, watch list, scoreboard, and synthesis — all in Pakistan time (PKT).",
+      "detail": "Snapshots are saved once per day after Pulse runs. The archive keeps roughly the last ninety days.\n\nThis history also powers week-over-week context in the Monday email when a week-open snapshot is available.",
+      "tags": [
+        "pulse",
+        "archive",
+        "dashboard",
+        "feature"
+      ],
+      "links": [
+        {
+          "label": "Open brief.pk",
+          "url": "https://www.briefpknews.xyz/"
+        },
+        {
+          "label": "Release notes",
+          "url": "https://status.briefpknews.xyz/changelog.html"
+        }
+      ]
+    },
     {
       "id": "chg-2026-05-15-accountability-tracker-polish",
       "date": "2026-05-15",

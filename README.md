@@ -23,9 +23,21 @@ The GitHub Actions workflow probes production `GET` routes (see `scripts/check-s
 | `news` | `/api/news` — merged RSS + Google News corpus |
 | `search` | `/api/search` — headline search over the same merged pool + supplemental Google News per query |
 | `intel` | `/api/intelligence` — Brief’s Pulse (uses merged headlines + AI) |
+| `pulseArchive` | `/api/pulse-archive` — daily Pulse snapshot archive (paid; probe expects 401 without session) |
 | `market`, `map`, `macro`, `macroInsight`, `security`, `securityInsight` | Domain feeds |
 
 All authenticated APIs may return **401** when the probe has no session cookie; that still counts as “endpoint reachable.”
+
+## Subscriber delivery (product)
+
+Documented on the status dashboard **Subscriber delivery** panel (not probed as a single HTTP route):
+
+| Surface | Schedule | Audience |
+|---------|----------|----------|
+| **Weekly Intelligence Brief** | Every **Monday 4:00 AM US Eastern** (~2:00 PM PKT) | All **paid, active** subscribers — automatic email via GitHub Actions |
+| **Past Pulse briefs** | Daily snapshot after Pulse runs | Paid dashboard — **Past briefs** panel (~90 days, PKT) |
+
+Release notes for both ship in `status-data/changelog.json` (see below).
 
 ## Login health telemetry
 
