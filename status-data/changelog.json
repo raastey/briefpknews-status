@@ -15,6 +15,33 @@
   },
   "entries": [
     {
+      "id": "chg-2026-05-25-may-dashboard-upgrade",
+      "date": "2026-05-25",
+      "type": "feature",
+      "major": true,
+      "title": "May dashboard upgrade — topic pages, story clusters, saved search alerts, and a sharper mobile Markets sheet",
+      "summary": "brief.pk picked up a dense May release aimed at analysts who live in the dashboard: save a keyword search and get email when matching headlines land; dedicated topic pages for IMF, CPEC, and SBP; related headlines grouped into story clusters with a breaking badge when several outlets move together; an official macro strip for SBP and PBS figures; optional flood-risk and power-stress layers on the Pakistan telemetry map; a What's new panel so you can see recent product changes without leaving the app; and on phones a Markets bottom sheet for telemetry, PSX, and macro without losing your place on the home feed.",
+      "detail": "Saved search alerts live in the intelligence search flow — name a query, save it, and brief.pk emails you when fresh wires match (paid subscribers; respects your existing email preferences).\n\nTopic pages pull headlines and Pulse context for major themes. Start from the research hub or open /topic/imf, /topic/cpec, or /topic/sbp when you are signed in.\n\nStory clusters sit above the breaking block when several outlets are covering the same angle. A breaking badge appears when three or more sources pick up the same story within half an hour.\n\nThe SBP/PBS strip shows policy rate, reserves, CPI, and trade with source attribution and freshness labels. Flood and power map layers are indicative v1 overlays — useful for seasonal context, with operational forecasting planned next.\n\nOn viewports about tablet width and below, tap Markets (bottom-right) to open telemetry, PSX, and macro in a thumb-friendly sheet.\n\nTap What's new in the header when you see the dot — it mirrors the public release notes in plain language.",
+      "tags": [
+        "dashboard",
+        "search",
+        "pulse",
+        "macro",
+        "mobile",
+        "feature"
+      ],
+      "links": [
+        {
+          "label": "Open brief.pk",
+          "url": "https://www.briefpknews.xyz/"
+        },
+        {
+          "label": "Release notes",
+          "url": "https://status.briefpknews.xyz/changelog.html"
+        }
+      ]
+    },
+    {
       "id": "chg-2026-05-25-weekly-intelligence-email",
       "date": "2026-05-25",
       "type": "feature",
