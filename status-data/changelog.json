@@ -15,6 +15,30 @@
   },
   "entries": [
     {
+      "id": "chg-2026-05-25-desktop-nav-strip",
+      "date": "2026-05-25",
+      "type": "improvement",
+      "major": false,
+      "title": "Clearer desktop navigation on brief.pk",
+      "summary": "On laptop and desktop, your main tabs — Dashboard, Economy, Policy, Accountability, Constitution, and PSX News — now sit in a dedicated bar below the header so they are easier to scan and tap. Your current page stays highlighted. Phones and tablets are unchanged.",
+      "detail": "The header keeps brand, search, and tools; navigation no longer crowds the same row as the logo. When you scroll, the header and tab bar stay together at the top of the screen.",
+      "tags": [
+        "navigation",
+        "desktop",
+        "ux"
+      ],
+      "links": [
+        {
+          "label": "Open brief.pk",
+          "url": "https://www.briefpknews.xyz/"
+        },
+        {
+          "label": "Release notes",
+          "url": "https://status.briefpknews.xyz/changelog.html"
+        }
+      ]
+    },
+    {
       "id": "chg-2026-05-25-may-dashboard-upgrade",
       "date": "2026-05-25",
       "type": "feature",
