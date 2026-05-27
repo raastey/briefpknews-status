@@ -3,9 +3,9 @@
     {
       "id": "auto-1779914309438",
       "title": "Service Degradation Detected",
-      "state": "degraded",
+      "state": "resolved",
       "startedAt": "2026-05-27T20:38:13.230Z",
-      "resolvedAt": null,
+      "resolvedAt": "2026-05-27T21:20:51.007Z",
       "affectedServices": [
         "Pulse Archive API",
         "Policy Tracker Page",
@@ -15,6 +15,10 @@
         {
           "at": "2026-05-27T20:38:13.230Z",
           "message": "Automatic detection: overall status flipped to degraded."
+        },
+        {
+          "at": "2026-05-27T21:20:51.007Z",
+          "message": "Automatic resolution: all services operational."
         }
       ]
     },
