@@ -1,6 +1,36 @@
 {
   "items": [
     {
+      "id": "auto-1780169312183",
+      "title": "Service Degradation Detected",
+      "state": "degraded",
+      "startedAt": "2026-05-30T19:28:24.579Z",
+      "resolvedAt": null,
+      "affectedServices": [
+        "Main Website",
+        "Public Health API",
+        "Auth Endpoint",
+        "News API",
+        "Search API",
+        "Intelligence API",
+        "Market API",
+        "Pakistan Map API",
+        "Security Economy API",
+        "Security Insight API",
+        "Pakistan Macro API",
+        "Macro Insight API",
+        "Pulse Archive API",
+        "Policy Tracker Page",
+        "Policy Tracker Fixture Data"
+      ],
+      "updates": [
+        {
+          "at": "2026-05-30T19:28:24.579Z",
+          "message": "Automatic detection: overall status flipped to degraded."
+        }
+      ]
+    },
+    {
       "id": "auto-1779969225616",
       "title": "Service Degradation Detected",
       "state": "resolved",
