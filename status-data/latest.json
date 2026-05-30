@@ -1,127 +1,127 @@
 {
-  "checkedAt": "2026-05-30T19:28:24.579Z",
-  "overall": "degraded",
+  "checkedAt": "2026-05-30T19:57:18.048Z",
+  "overall": "operational",
   "region": "github-actions",
   "services": [
     {
       "key": "site",
       "name": "Main Website",
       "url": "https://www.briefpknews.xyz/",
-      "state": "degraded",
+      "state": "operational",
       "statusCode": 302,
-      "latencyMs": 3704
+      "latencyMs": 714
     },
     {
       "key": "health",
       "name": "Public Health API",
       "url": "https://www.briefpknews.xyz/api/health",
-      "state": "degraded",
+      "state": "operational",
       "statusCode": 200,
-      "latencyMs": 3649
+      "latencyMs": 677
     },
     {
       "key": "auth",
       "name": "Auth Endpoint",
       "url": "https://www.briefpknews.xyz/api/auth/me",
-      "state": "degraded",
+      "state": "operational",
       "statusCode": 200,
-      "latencyMs": 3688
+      "latencyMs": 692
     },
     {
       "key": "news",
       "name": "News API",
       "url": "https://www.briefpknews.xyz/api/news",
-      "state": "degraded",
+      "state": "operational",
       "statusCode": 401,
-      "latencyMs": 3689
+      "latencyMs": 694
     },
     {
       "key": "search",
       "name": "Search API",
       "url": "https://www.briefpknews.xyz/api/search?q=test&limit=3",
-      "state": "degraded",
+      "state": "operational",
       "statusCode": 401,
-      "latencyMs": 3740
+      "latencyMs": 743
     },
     {
       "key": "intel",
       "name": "Intelligence API",
       "url": "https://www.briefpknews.xyz/api/intelligence",
-      "state": "degraded",
+      "state": "operational",
       "statusCode": 401,
-      "latencyMs": 3729
+      "latencyMs": 729
     },
     {
       "key": "market",
       "name": "Market API",
       "url": "https://www.briefpknews.xyz/api/market",
-      "state": "degraded",
+      "state": "operational",
       "statusCode": 401,
-      "latencyMs": 3880
+      "latencyMs": 777
     },
     {
       "key": "map",
       "name": "Pakistan Map API",
       "url": "https://www.briefpknews.xyz/api/pakistan-map",
-      "state": "degraded",
+      "state": "operational",
       "statusCode": 401,
-      "latencyMs": 3874
+      "latencyMs": 811
     },
     {
       "key": "security",
       "name": "Security Economy API",
       "url": "https://www.briefpknews.xyz/api/security-economy",
-      "state": "degraded",
+      "state": "operational",
       "statusCode": 401,
-      "latencyMs": 3836
+      "latencyMs": 841
     },
     {
       "key": "securityInsight",
       "name": "Security Insight API",
       "url": "https://www.briefpknews.xyz/api/security-economy-insight",
-      "state": "degraded",
+      "state": "operational",
       "statusCode": 401,
-      "latencyMs": 3838
+      "latencyMs": 818
     },
     {
       "key": "macro",
       "name": "Pakistan Macro API",
       "url": "https://www.briefpknews.xyz/api/pakistan-macro",
-      "state": "degraded",
+      "state": "operational",
       "statusCode": 401,
-      "latencyMs": 3927
+      "latencyMs": 882
     },
     {
       "key": "macroInsight",
       "name": "Macro Insight API",
       "url": "https://www.briefpknews.xyz/api/pakistan-macro-insight",
-      "state": "degraded",
+      "state": "operational",
       "statusCode": 401,
-      "latencyMs": 3956
+      "latencyMs": 836
     },
     {
       "key": "pulseArchive",
       "name": "Pulse Archive API",
       "url": "https://www.briefpknews.xyz/api/pulse-archive?days=7",
-      "state": "degraded",
+      "state": "operational",
       "statusCode": 401,
-      "latencyMs": 4068
+      "latencyMs": 924
     },
     {
       "key": "policies",
       "name": "Policy Tracker Page",
       "url": "https://www.briefpknews.xyz/policies",
-      "state": "degraded",
+      "state": "operational",
       "statusCode": 302,
-      "latencyMs": 4061
+      "latencyMs": 934
     },
     {
       "key": "policiesData",
       "name": "Policy Tracker Fixture Data",
       "url": "https://www.briefpknews.xyz/data/pakistan-policies.fixture.json",
-      "state": "degraded",
+      "state": "operational",
       "statusCode": 200,
-      "latencyMs": 4094
+      "latencyMs": 990
     },
     {
       "key": "loginContract",
@@ -129,7 +129,7 @@
       "url": "https://www.briefpknews.xyz/login.html",
       "state": "operational",
       "statusCode": 200,
-      "latencyMs": 116,
+      "latencyMs": 180,
       "contract": {
         "missing": [],
         "chainedMissing": [],
@@ -142,7 +142,7 @@
       "url": "https://www.briefpknews.xyz/paid-access-coming.html",
       "state": "operational",
       "statusCode": 200,
-      "latencyMs": 118,
+      "latencyMs": 181,
       "contract": {
         "missing": [],
         "chainedMissing": [],
@@ -155,7 +155,7 @@
       "url": "https://dps.psx.com.pk/indices",
       "state": "operational",
       "statusCode": 200,
-      "latencyMs": 1372,
+      "latencyMs": 2294,
       "dataSource": {
         "reason": "upstream healthy: KSE100 present with 5 numeric cells; last update 32h ago",
         "symbol": "KSE100",
@@ -170,7 +170,7 @@
       "url": "https://www.briefpknews.xyz/data/pakistan-policies.fixture.json",
       "state": "operational",
       "statusCode": 200,
-      "latencyMs": 117,
+      "latencyMs": 180,
       "asset": {
         "reason": "shape OK",
         "topLevelKeys": [
@@ -190,7 +190,7 @@
       "url": "https://www.briefpknews.xyz/api/auth/google",
       "state": "operational",
       "statusCode": 302,
-      "latencyMs": 117,
+      "latencyMs": 182,
       "redirect": {
         "reason": "redirect target OK",
         "locationHost": "accounts.google.com"
@@ -238,18 +238,18 @@
       "name": "Guest Landing Flow",
       "state": "operational",
       "score": 100,
-      "avgLatencyMs": 118,
+      "avgLatencyMs": 181,
       "steps": [
         {
           "label": "Load home shell",
           "statusCode": 302,
-          "latencyMs": 116,
+          "latencyMs": 181,
           "ok": true
         },
         {
           "label": "Reach login page",
           "statusCode": 200,
-          "latencyMs": 120,
+          "latencyMs": 180,
           "ok": true
         }
       ]
@@ -259,18 +259,18 @@
       "name": "Auth Gate Integrity",
       "state": "operational",
       "score": 100,
-      "avgLatencyMs": 117,
+      "avgLatencyMs": 233,
       "steps": [
         {
           "label": "Protected /api/news blocks guest",
           "statusCode": 401,
-          "latencyMs": 116,
+          "latencyMs": 179,
           "ok": true
         },
         {
           "label": "Session probe returns auth state",
           "statusCode": 200,
-          "latencyMs": 117,
+          "latencyMs": 286,
           "ok": true
         }
       ]
@@ -280,18 +280,18 @@
       "name": "Reader Core Journey",
       "state": "operational",
       "score": 100,
-      "avgLatencyMs": 116,
+      "avgLatencyMs": 181,
       "steps": [
         {
           "label": "Public health endpoint",
           "statusCode": 200,
-          "latencyMs": 115,
+          "latencyMs": 180,
           "ok": true
         },
         {
           "label": "Intelligence endpoint reachable",
           "statusCode": 401,
-          "latencyMs": 116,
+          "latencyMs": 181,
           "ok": true
         }
       ]
