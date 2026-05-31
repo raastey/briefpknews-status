@@ -3,8 +3,13 @@ const CHANGELOG_PATH = "./status-data/changelog.json";
 let allEntries = [];
 
 function fmtDate(iso) {
-  const d = new Date(iso);
-  if (!Number.isFinite(d.getTime())) return iso || "--";
+  if (!iso) return "--";
+  const raw = String(iso).trim();
+  const dateOnly = raw.match(/^(\d{4})-(\d{2})-(\d{2})$/);
+  const d = dateOnly
+    ? new Date(Number(dateOnly[1]), Number(dateOnly[2]) - 1, Number(dateOnly[3]))
+    : new Date(raw);
+  if (!Number.isFinite(d.getTime())) return raw;
   return d.toLocaleDateString(undefined, { year: "numeric", month: "short", day: "numeric" });
 }
 
@@ -190,7 +195,7 @@ function renderMajorMilestones(entries) {
         .join("");
       const body = formatVerboseEntryBody(display, { omitTitle: true });
       return `
-      <article class="major-card">
+      <article class="major-card" id="${escapeHtml(display.id || "")}">
         <div class="major-card-top">
           <div>
             <div class="major-eyebrow">Major release</div>
