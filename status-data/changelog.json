@@ -1,5 +1,5 @@
 {
-  "lastPublished": "2026-05-25",
+  "lastPublished": "2026-05-31",
   "entryTemplate": {
     "id": "chg-YYYY-MM-DD-short-slug",
     "date": "YYYY-MM-DD",
@@ -14,6 +14,32 @@
     "links": []
   },
   "entries": [
+    {
+      "id": "chg-2026-05-31-terminal-hero-live",
+      "date": "2026-05-31",
+      "type": "feature",
+      "major": true,
+      "title": "Terminal Hero — live Pulse and markets at the top of your dashboard",
+      "summary": "When you open the home dashboard, a new Terminal Hero sits at the top: today's Pulse straight answer, live KSE-100 and macro figures (CPI, policy rate, USD/PKR, reserves, GDP), and the fastest breaking headlines as tappable pills. Tap a headline to read the story; tap a watch chip to see matching wires in place — the same flow you already use on Pulse.",
+      "detail": "The hero replaces a stack of duplicate strips with one split view: narrative on the left, market KPIs on the right. Numbers refresh with your dashboard — not placeholder copy — and breaking pills link straight to source articles.\n\nPakistan Research Hub now lives at its own page (/research-hub) so the home feed stays focused on what moved today. Your existing Breaking News lane below the hero is unchanged if you prefer the full queue.\n\nRolling out on UAT first; production follows after sign-off.",
+      "tags": [
+        "dashboard",
+        "pulse",
+        "markets",
+        "mobile",
+        "feature"
+      ],
+      "links": [
+        {
+          "label": "Open brief.pk",
+          "url": "https://www.briefpknews.xyz/"
+        },
+        {
+          "label": "Release notes",
+          "url": "https://status.briefpknews.xyz/changelog.html"
+        }
+      ]
+    },
     {
       "id": "chg-2026-05-25-desktop-nav-strip",
       "date": "2026-05-25",
