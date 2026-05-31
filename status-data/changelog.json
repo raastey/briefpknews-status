@@ -15,17 +15,17 @@
   },
   "entries": [
     {
-      "id": "chg-2026-05-31-terminal-hero-live",
+      "id": "chg-2026-05-31-live-wire-dashboard",
       "date": "2026-05-31",
       "type": "feature",
       "major": true,
-      "title": "Terminal Hero — live Pulse and markets at the top of your dashboard",
-      "summary": "When you open the home dashboard, a new Terminal Hero sits at the top: today's Pulse straight answer, live KSE-100 and macro figures (CPI, policy rate, USD/PKR, reserves, GDP), and the fastest breaking headlines as tappable pills. Tap a headline to read the story; tap a watch chip to see matching wires in place — the same flow you already use on Pulse.",
-      "detail": "The hero replaces a stack of duplicate strips with one split view: narrative on the left, market KPIs on the right. Numbers refresh with your dashboard — not placeholder copy — and breaking pills link straight to source articles.\n\nPakistan Research Hub now lives at its own page (/research-hub) so the home feed stays focused on what moved today. Your existing Breaking News lane below the hero is unchanged if you prefer the full queue.\n\nRolling out on UAT first; production follows after sign-off.",
+      "title": "Live Wire hero — breaking headlines and live markets at the top of your dashboard",
+      "summary": "The home dashboard now opens with a Live Wire split view: the fastest Pakistan headlines on the left (four tappable wire pills), live KSE-100 and macro KPIs on the right, and brief's Pulse unchanged below for the straight answer and watch list. Pakistan Intelligence Scan sits directly under Pulse so the AI scoreboard follows the daily snapshot. Research Hub lives at /research-hub.",
+      "detail": "Live Wire is separate from Pulse — it surfaces breaking headlines and market data, not the same synthesis line twice. Tap any wire pill to open the source story. KSE-100, USD/PKR, CPI, policy rate, reserves, and GDP refresh with your session.\n\nBelow the hero: brief's Pulse (six-lane scoreboard, watch chips, Past briefs), then Pakistan Intelligence Scan (Today in Pakistan, indicator cards, What to watch). Breaking News and Today's Briefing lanes are unchanged if you prefer the full queue.\n\nOn phones the hero stacks cleanly; wire pills scroll horizontally when needed.",
       "tags": [
         "dashboard",
-        "pulse",
         "markets",
+        "pulse",
         "mobile",
         "feature"
       ],
