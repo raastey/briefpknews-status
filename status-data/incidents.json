@@ -1,6 +1,22 @@
 {
   "items": [
     {
+      "id": "auto-1780280689350",
+      "title": "Service Outage Detected",
+      "state": "outage",
+      "startedAt": "2026-06-01T02:24:44.647Z",
+      "resolvedAt": null,
+      "affectedServices": [
+        "PSX DPS — KSE-100 Upstream Feed"
+      ],
+      "updates": [
+        {
+          "at": "2026-06-01T02:24:44.647Z",
+          "message": "Automatic detection: overall status flipped to outage."
+        }
+      ]
+    },
+    {
       "id": "auto-1780169312183",
       "title": "Service Degradation Detected",
       "state": "resolved",
