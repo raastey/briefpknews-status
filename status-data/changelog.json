@@ -1,5 +1,5 @@
 {
-  "lastPublished": "2026-05-31",
+  "lastPublished": "2026-06-13",
   "entryTemplate": {
     "id": "chg-YYYY-MM-DD-short-slug",
     "date": "YYYY-MM-DD",
@@ -14,6 +14,30 @@
     "links": []
   },
   "entries": [
+    {
+      "id": "chg-2026-06-13-budget-page-real-figures",
+      "date": "2026-06-13",
+      "type": "feature",
+      "major": true,
+      "title": "Budget page rebuilt on official government figures, with a five-year trend and an IMF tracker",
+      "summary": "The Budget page now runs entirely on official Ministry of Finance numbers covering the last five fiscal years, instead of estimates. You can see how this year's budget compares to the previous four at a glance with a new trend chart, follow where the country stands on its IMF programme review schedule, and see how funds are split between the federal government and the provinces.",
+      "detail": "There's also a new \"Download Verdict Card\" button that lets you save a shareable image summarising our take on the budget, and budget-related items in the news feed are now tagged when they touch on IMF conditions.\n\nThe analysis and verdict writing throughout the page has also been sharpened to focus more directly on whether government claims hold up.",
+      "tags": [
+        "budget",
+        "feature",
+        "data"
+      ],
+      "links": [
+        {
+          "label": "Open Budget page",
+          "url": "https://www.briefpknews.xyz/budget.html"
+        },
+        {
+          "label": "Release notes",
+          "url": "https://status.briefpknews.xyz/changelog.html"
+        }
+      ]
+    },
     {
       "id": "chg-2026-05-31-live-wire-dashboard",
       "date": "2026-05-31",
