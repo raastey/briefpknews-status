@@ -1,6 +1,30 @@
 {
   "items": [
     {
+      "id": "auto-1781342104646",
+      "title": "Service Degradation Detected",
+      "state": "degraded",
+      "startedAt": "2026-06-13T09:14:52.583Z",
+      "resolvedAt": null,
+      "affectedServices": [
+        "Market API",
+        "Pakistan Map API",
+        "Security Economy API",
+        "Security Insight API",
+        "Pakistan Macro API",
+        "Macro Insight API",
+        "Pulse Archive API",
+        "Policy Tracker Page",
+        "Policy Tracker Fixture Data"
+      ],
+      "updates": [
+        {
+          "at": "2026-06-13T09:14:52.583Z",
+          "message": "Automatic detection: overall status flipped to degraded."
+        }
+      ]
+    },
+    {
       "id": "auto-1781179131551",
       "title": "Service Outage Detected",
       "state": "resolved",
