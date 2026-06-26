@@ -3,9 +3,9 @@
     {
       "id": "auto-1782505891795",
       "title": "Service Degradation Detected",
-      "state": "degraded",
+      "state": "resolved",
       "startedAt": "2026-06-26T20:31:21.421Z",
-      "resolvedAt": null,
+      "resolvedAt": "2026-06-26T21:07:27.896Z",
       "affectedServices": [
         "News API"
       ],
@@ -13,6 +13,10 @@
         {
           "at": "2026-06-26T20:31:21.421Z",
           "message": "Automatic detection: overall status flipped to degraded."
+        },
+        {
+          "at": "2026-06-26T21:07:27.896Z",
+          "message": "Automatic resolution: all services operational."
         }
       ]
     },
