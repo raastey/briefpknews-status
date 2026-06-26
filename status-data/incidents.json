@@ -1,6 +1,22 @@
 {
   "items": [
     {
+      "id": "auto-1782505891795",
+      "title": "Service Degradation Detected",
+      "state": "degraded",
+      "startedAt": "2026-06-26T20:31:21.421Z",
+      "resolvedAt": null,
+      "affectedServices": [
+        "News API"
+      ],
+      "updates": [
+        {
+          "at": "2026-06-26T20:31:21.421Z",
+          "message": "Automatic detection: overall status flipped to degraded."
+        }
+      ]
+    },
+    {
       "id": "auto-1782421900357",
       "title": "Service Degradation Detected",
       "state": "resolved",
