@@ -1,6 +1,22 @@
 {
   "items": [
     {
+      "id": "auto-1782522938217",
+      "title": "Service Degradation Detected",
+      "state": "degraded",
+      "startedAt": "2026-06-27T01:15:30.275Z",
+      "resolvedAt": null,
+      "affectedServices": [
+        "Macro Insight API"
+      ],
+      "updates": [
+        {
+          "at": "2026-06-27T01:15:30.275Z",
+          "message": "Automatic detection: overall status flipped to degraded."
+        }
+      ]
+    },
+    {
       "id": "auto-1782505891795",
       "title": "Service Degradation Detected",
       "state": "resolved",
