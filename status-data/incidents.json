@@ -3,9 +3,9 @@
     {
       "id": "auto-1783027942520",
       "title": "Service Degradation Detected",
-      "state": "degraded",
+      "state": "resolved",
       "startedAt": "2026-07-02T21:32:00.864Z",
-      "resolvedAt": null,
+      "resolvedAt": "2026-07-02T22:41:28.012Z",
       "affectedServices": [
         "Main Website",
         "Security Insight API",
@@ -15,6 +15,10 @@
         {
           "at": "2026-07-02T21:32:00.864Z",
           "message": "Automatic detection: overall status flipped to degraded."
+        },
+        {
+          "at": "2026-07-02T22:41:28.012Z",
+          "message": "Automatic resolution: all services operational."
         }
       ]
     },
