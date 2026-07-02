@@ -1,6 +1,24 @@
 {
   "items": [
     {
+      "id": "auto-1783027942520",
+      "title": "Service Degradation Detected",
+      "state": "degraded",
+      "startedAt": "2026-07-02T21:32:00.864Z",
+      "resolvedAt": null,
+      "affectedServices": [
+        "Main Website",
+        "Security Insight API",
+        "Paid Access Page Wiring"
+      ],
+      "updates": [
+        {
+          "at": "2026-07-02T21:32:00.864Z",
+          "message": "Automatic detection: overall status flipped to degraded."
+        }
+      ]
+    },
+    {
       "id": "auto-1782559269933",
       "title": "Service Degradation Detected",
       "state": "resolved",
