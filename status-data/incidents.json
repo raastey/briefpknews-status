@@ -3,9 +3,9 @@
     {
       "id": "auto-1783957680807",
       "title": "Service Degradation Detected",
-      "state": "degraded",
+      "state": "resolved",
       "startedAt": "2026-07-13T15:47:50.787Z",
-      "resolvedAt": null,
+      "resolvedAt": "2026-07-13T17:44:49.764Z",
       "affectedServices": [
         "Pakistan Macro API",
         "Macro Insight API",
@@ -17,6 +17,10 @@
         {
           "at": "2026-07-13T15:47:50.787Z",
           "message": "Automatic detection: overall status flipped to degraded."
+        },
+        {
+          "at": "2026-07-13T17:44:49.764Z",
+          "message": "Automatic resolution: all services operational."
         }
       ]
     },
