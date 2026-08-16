@@ -1,6 +1,22 @@
 {
   "items": [
     {
+      "id": "auto-1786879705947",
+      "title": "Service Degradation Detected",
+      "state": "degraded",
+      "startedAt": "2026-08-16T11:28:20.937Z",
+      "resolvedAt": null,
+      "affectedServices": [
+        "PSX DPS — KSE-100 Upstream Feed"
+      ],
+      "updates": [
+        {
+          "at": "2026-08-16T11:28:20.937Z",
+          "message": "Automatic detection: overall status flipped to degraded."
+        }
+      ]
+    },
+    {
       "id": "auto-1786793227945",
       "title": "Service Degradation Detected",
       "state": "resolved",
