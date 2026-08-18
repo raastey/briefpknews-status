@@ -3,9 +3,9 @@
     {
       "id": "auto-1787043535111",
       "title": "Service Degradation Detected",
-      "state": "degraded",
+      "state": "resolved",
       "startedAt": "2026-08-18T08:58:46.155Z",
-      "resolvedAt": null,
+      "resolvedAt": "2026-08-18T09:40:12.078Z",
       "affectedServices": [
         "Main Website",
         "Public Health API",
@@ -27,6 +27,10 @@
         {
           "at": "2026-08-18T08:58:46.155Z",
           "message": "Automatic detection: overall status flipped to degraded."
+        },
+        {
+          "at": "2026-08-18T09:40:12.078Z",
+          "message": "Automatic resolution: all services operational."
         }
       ]
     },
