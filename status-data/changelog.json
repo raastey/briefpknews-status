@@ -1,5 +1,5 @@
 {
-  "lastPublished": "2026-06-13",
+  "lastPublished": "2026-08-31",
   "entryTemplate": {
     "id": "chg-YYYY-MM-DD-short-slug",
     "date": "YYYY-MM-DD",
@@ -14,6 +14,53 @@
     "links": []
   },
   "entries": [
+    {
+      "id": "chg-2026-08-31-water-ipp-tracker",
+      "date": "2026-08-31",
+      "type": "feature",
+      "major": true,
+      "title": "New Water & IPP Crisis tracker: storage deficit, Diamer Bhasha, and what capacity payments cost you",
+      "summary": "A new page at /water sets Pakistan's 28-day water storage against the 120-day global safe minimum, follows the Indus from river inflow to the water that actually reaches a crop, and lays out the decision to decouple the 4,500 MW hydel powerhouse from Diamer Bhasha Dam alongside the take-or-pay capacity payments now owed to private thermal producers whether or not they generate.",
+      "detail": "Every figure on the page is bound to a single sourced dataset, so the numbers in the headline cards, the tables, and the calculator cannot drift apart.\n\nThe reservoir siltation table carries its own provenance. Each reservoir states the date of its reading, what kind of measurement it is, and a link to the WAPDA or survey source behind it, because Tarbela, Mangla and Chashma are surveyed on different cycles and a single snapshot would misrepresent all three. Mangla is the one reservoir where siltation was reversed rather than absorbed, and the table now says so instead of reporting a loss that the 2009 raising had already undone.\n\nA bill calculator lets you set your monthly consumption and see how much of the total is idle capacity surcharge, next to what the same units would cost on a hydro-dominant grid. Its rates, method, and sources are stated on the page rather than buried in code.\n\nThere is also a searchable dossier archive covering Diamer Bhasha, Kalabagh, K-IV Karachi, the CPEC coal contracts, the 1994 power policy, and the Greater Thal Canal, filterable by category or free text.",
+      "tags": [
+        "water",
+        "energy",
+        "ipp",
+        "data",
+        "feature"
+      ],
+      "links": [
+        {
+          "label": "Open Water & IPP Crisis tracker",
+          "url": "https://www.briefpknews.xyz/water"
+        },
+        {
+          "label": "Release notes",
+          "url": "https://status.briefpknews.xyz/changelog.html"
+        }
+      ]
+    },
+    {
+      "id": "chg-2026-08-31-navigation-rebuild",
+      "date": "2026-08-31",
+      "type": "improvement",
+      "major": false,
+      "title": "Navigation rebuilt around four clusters, with a searchable directory on phones",
+      "summary": "Trackers are now grouped into Overview, Economy & Markets, Governance & Rights, and Resources & Sectors. On desktop each cluster opens a menu that describes what every tracker covers, so you can tell the Policy Tracker from the Accountability Registry before clicking. On phones the bottom bar keeps five destinations and a Directory button opens the full list with a filter box.",
+      "detail": "Press the / key anywhere to jump straight to search.\n\nThe theme you choose now carries across every page and survives a reload, which it did not on some pages before.",
+      "tags": [
+        "navigation",
+        "mobile",
+        "accessibility",
+        "improvement"
+      ],
+      "links": [
+        {
+          "label": "Open brief.pk",
+          "url": "https://www.briefpknews.xyz/"
+        }
+      ]
+    },
     {
       "id": "chg-2026-06-13-budget-page-real-figures",
       "date": "2026-06-13",
