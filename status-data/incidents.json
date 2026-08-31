@@ -1,6 +1,726 @@
 {
   "items": [
     {
+      "id": "auto-1787759742790",
+      "title": "Service Outage Detected",
+      "state": "resolved",
+      "startedAt": "2026-08-26T15:55:39.336Z",
+      "resolvedAt": "2026-08-26T16:45:44.771Z",
+      "affectedServices": [
+        "PSX DPS — KSE-100 Upstream Feed"
+      ],
+      "updates": [
+        {
+          "at": "2026-08-26T15:55:39.336Z",
+          "message": "Automatic detection: overall status flipped to outage."
+        },
+        {
+          "at": "2026-08-26T16:45:44.771Z",
+          "message": "Automatic resolution: all services operational."
+        }
+      ]
+    },
+    {
+      "id": "auto-1787741244346",
+      "title": "Service Outage Detected",
+      "state": "resolved",
+      "startedAt": "2026-08-26T10:47:21.304Z",
+      "resolvedAt": "2026-08-26T11:14:52.204Z",
+      "affectedServices": [
+        "PSX DPS — KSE-100 Upstream Feed"
+      ],
+      "updates": [
+        {
+          "at": "2026-08-26T10:47:21.304Z",
+          "message": "Automatic detection: overall status flipped to outage."
+        },
+        {
+          "at": "2026-08-26T11:14:52.204Z",
+          "message": "Automatic resolution: all services operational."
+        }
+      ]
+    },
+    {
+      "id": "auto-1787568548274",
+      "title": "Service Outage Detected",
+      "state": "resolved",
+      "startedAt": "2026-08-24T10:49:05.297Z",
+      "resolvedAt": "2026-08-24T11:14:40.404Z",
+      "affectedServices": [
+        "PSX DPS — KSE-100 Upstream Feed"
+      ],
+      "updates": [
+        {
+          "at": "2026-08-24T10:49:05.297Z",
+          "message": "Automatic detection: overall status flipped to outage."
+        },
+        {
+          "at": "2026-08-24T11:14:40.404Z",
+          "message": "Automatic resolution: all services operational."
+        }
+      ]
+    },
+    {
+      "id": "auto-1787524296901",
+      "title": "Service Degradation Detected",
+      "state": "resolved",
+      "startedAt": "2026-08-23T22:31:30.575Z",
+      "resolvedAt": "2026-08-23T22:52:00.954Z",
+      "affectedServices": [
+        "PSX DPS — KSE-100 Upstream Feed"
+      ],
+      "updates": [
+        {
+          "at": "2026-08-23T22:31:30.575Z",
+          "message": "Automatic detection: overall status flipped to degraded."
+        },
+        {
+          "at": "2026-08-23T22:52:00.954Z",
+          "message": "Automatic resolution: all services operational."
+        }
+      ]
+    },
+    {
+      "id": "auto-1787495431695",
+      "title": "Service Outage Detected",
+      "state": "resolved",
+      "startedAt": "2026-08-23T14:30:28.065Z",
+      "resolvedAt": "2026-08-23T14:52:45.129Z",
+      "affectedServices": [
+        "PSX DPS — KSE-100 Upstream Feed"
+      ],
+      "updates": [
+        {
+          "at": "2026-08-23T14:30:28.065Z",
+          "message": "Automatic detection: overall status flipped to outage."
+        },
+        {
+          "at": "2026-08-23T14:52:45.129Z",
+          "message": "Automatic resolution: all services operational."
+        }
+      ]
+    },
+    {
+      "id": "auto-1787471817382",
+      "title": "Service Outage Detected",
+      "state": "resolved",
+      "startedAt": "2026-08-23T07:56:53.966Z",
+      "resolvedAt": "2026-08-23T08:31:56.166Z",
+      "affectedServices": [
+        "PSX DPS — KSE-100 Upstream Feed"
+      ],
+      "updates": [
+        {
+          "at": "2026-08-23T07:56:53.966Z",
+          "message": "Automatic detection: overall status flipped to outage."
+        },
+        {
+          "at": "2026-08-23T08:31:56.166Z",
+          "message": "Automatic resolution: all services operational."
+        }
+      ]
+    },
+    {
+      "id": "auto-1787406993340",
+      "title": "Service Outage Detected",
+      "state": "resolved",
+      "startedAt": "2026-08-22T13:56:30.029Z",
+      "resolvedAt": "2026-08-22T14:21:55.535Z",
+      "affectedServices": [
+        "PSX DPS — KSE-100 Upstream Feed"
+      ],
+      "updates": [
+        {
+          "at": "2026-08-22T13:56:30.029Z",
+          "message": "Automatic detection: overall status flipped to outage."
+        },
+        {
+          "at": "2026-08-22T14:21:55.535Z",
+          "message": "Automatic resolution: all services operational."
+        }
+      ]
+    },
+    {
+      "id": "auto-1787217341497",
+      "title": "Service Outage Detected",
+      "state": "resolved",
+      "startedAt": "2026-08-20T09:15:37.997Z",
+      "resolvedAt": "2026-08-20T09:52:14.448Z",
+      "affectedServices": [
+        "PSX DPS — KSE-100 Upstream Feed"
+      ],
+      "updates": [
+        {
+          "at": "2026-08-20T09:15:37.997Z",
+          "message": "Automatic detection: overall status flipped to outage."
+        },
+        {
+          "at": "2026-08-20T09:52:14.448Z",
+          "message": "Automatic resolution: all services operational."
+        }
+      ]
+    },
+    {
+      "id": "auto-1787043535111",
+      "title": "Service Degradation Detected",
+      "state": "resolved",
+      "startedAt": "2026-08-18T08:58:46.155Z",
+      "resolvedAt": "2026-08-18T09:40:12.078Z",
+      "affectedServices": [
+        "Main Website",
+        "Public Health API",
+        "Auth Endpoint",
+        "News API",
+        "Search API",
+        "Intelligence API",
+        "Market API",
+        "Pakistan Map API",
+        "Security Economy API",
+        "Security Insight API",
+        "Pakistan Macro API",
+        "Macro Insight API",
+        "Pulse Archive API",
+        "Policy Tracker Page",
+        "Policy Tracker Fixture Data"
+      ],
+      "updates": [
+        {
+          "at": "2026-08-18T08:58:46.155Z",
+          "message": "Automatic detection: overall status flipped to degraded."
+        },
+        {
+          "at": "2026-08-18T09:40:12.078Z",
+          "message": "Automatic resolution: all services operational."
+        }
+      ]
+    },
+    {
+      "id": "auto-1786985709267",
+      "title": "Service Outage Detected",
+      "state": "resolved",
+      "startedAt": "2026-08-17T16:55:04.819Z",
+      "resolvedAt": "2026-08-17T17:23:23.368Z",
+      "affectedServices": [
+        "PSX DPS — KSE-100 Upstream Feed"
+      ],
+      "updates": [
+        {
+          "at": "2026-08-17T16:55:04.819Z",
+          "message": "Automatic detection: overall status flipped to outage."
+        },
+        {
+          "at": "2026-08-17T17:23:23.368Z",
+          "message": "Automatic resolution: all services operational."
+        }
+      ]
+    },
+    {
+      "id": "auto-1786971550979",
+      "title": "Service Outage Detected",
+      "state": "resolved",
+      "startedAt": "2026-08-17T12:59:06.750Z",
+      "resolvedAt": "2026-08-17T13:44:16.957Z",
+      "affectedServices": [
+        "PSX DPS — KSE-100 Upstream Feed"
+      ],
+      "updates": [
+        {
+          "at": "2026-08-17T12:59:06.750Z",
+          "message": "Automatic detection: overall status flipped to outage."
+        },
+        {
+          "at": "2026-08-17T13:44:16.957Z",
+          "message": "Automatic resolution: all services operational."
+        }
+      ]
+    },
+    {
+      "id": "auto-1786879705947",
+      "title": "Service Degradation Detected",
+      "state": "resolved",
+      "startedAt": "2026-08-16T11:28:20.937Z",
+      "resolvedAt": "2026-08-17T02:36:04.916Z",
+      "affectedServices": [
+        "PSX DPS — KSE-100 Upstream Feed"
+      ],
+      "updates": [
+        {
+          "at": "2026-08-16T11:28:20.937Z",
+          "message": "Automatic detection: overall status flipped to degraded."
+        },
+        {
+          "at": "2026-08-17T02:36:04.916Z",
+          "message": "Automatic resolution: all services operational."
+        }
+      ]
+    },
+    {
+      "id": "auto-1786793227945",
+      "title": "Service Degradation Detected",
+      "state": "resolved",
+      "startedAt": "2026-08-15T11:26:59.306Z",
+      "resolvedAt": "2026-08-15T11:46:01.464Z",
+      "affectedServices": [
+        "PSX DPS — KSE-100 Upstream Feed"
+      ],
+      "updates": [
+        {
+          "at": "2026-08-15T11:26:59.306Z",
+          "message": "Automatic detection: overall status flipped to degraded."
+        },
+        {
+          "at": "2026-08-15T11:46:01.464Z",
+          "message": "Automatic resolution: all services operational."
+        }
+      ]
+    },
+    {
+      "id": "auto-1786267976599",
+      "title": "Service Degradation Detected",
+      "state": "resolved",
+      "startedAt": "2026-08-09T09:32:48.101Z",
+      "resolvedAt": "2026-08-09T10:07:09.289Z",
+      "affectedServices": [
+        "PSX DPS — KSE-100 Upstream Feed"
+      ],
+      "updates": [
+        {
+          "at": "2026-08-09T09:32:48.101Z",
+          "message": "Automatic detection: overall status flipped to degraded."
+        },
+        {
+          "at": "2026-08-09T10:07:09.289Z",
+          "message": "Automatic resolution: all services operational."
+        }
+      ]
+    },
+    {
+      "id": "auto-1786109545809",
+      "title": "Service Degradation Detected",
+      "state": "resolved",
+      "startedAt": "2026-08-07T13:32:16.230Z",
+      "resolvedAt": "2026-08-07T14:34:19.516Z",
+      "affectedServices": [
+        "PSX DPS — KSE-100 Upstream Feed"
+      ],
+      "updates": [
+        {
+          "at": "2026-08-07T13:32:16.230Z",
+          "message": "Automatic detection: overall status flipped to degraded."
+        },
+        {
+          "at": "2026-08-07T14:34:19.516Z",
+          "message": "Automatic resolution: all services operational."
+        }
+      ]
+    },
+    {
+      "id": "auto-1785919732353",
+      "title": "Service Outage Detected",
+      "state": "resolved",
+      "startedAt": "2026-08-05T08:48:49.661Z",
+      "resolvedAt": "2026-08-05T11:08:14.297Z",
+      "affectedServices": [
+        "PSX DPS — KSE-100 Upstream Feed"
+      ],
+      "updates": [
+        {
+          "at": "2026-08-05T08:48:49.661Z",
+          "message": "Automatic detection: overall status flipped to outage."
+        },
+        {
+          "at": "2026-08-05T11:08:14.297Z",
+          "message": "Automatic resolution: all services operational."
+        }
+      ]
+    },
+    {
+      "id": "auto-1785869965526",
+      "title": "Service Outage Detected",
+      "state": "resolved",
+      "startedAt": "2026-08-04T18:59:22.588Z",
+      "resolvedAt": "2026-08-04T20:38:00.008Z",
+      "affectedServices": [
+        "PSX DPS — KSE-100 Upstream Feed"
+      ],
+      "updates": [
+        {
+          "at": "2026-08-04T18:59:22.588Z",
+          "message": "Automatic detection: overall status flipped to outage."
+        },
+        {
+          "at": "2026-08-04T20:38:00.008Z",
+          "message": "Automatic resolution: all services operational."
+        }
+      ]
+    },
+    {
+      "id": "auto-1785101589042",
+      "title": "Service Outage Detected",
+      "state": "resolved",
+      "startedAt": "2026-07-26T21:33:05.640Z",
+      "resolvedAt": "2026-07-26T22:35:32.355Z",
+      "affectedServices": [
+        "PSX DPS — KSE-100 Upstream Feed"
+      ],
+      "updates": [
+        {
+          "at": "2026-07-26T21:33:05.640Z",
+          "message": "Automatic detection: overall status flipped to outage."
+        },
+        {
+          "at": "2026-07-26T22:35:32.355Z",
+          "message": "Automatic resolution: all services operational."
+        }
+      ]
+    },
+    {
+      "id": "auto-1784489467825",
+      "title": "Service Outage Detected",
+      "state": "resolved",
+      "startedAt": "2026-07-19T19:31:05.137Z",
+      "resolvedAt": "2026-07-19T20:24:55.109Z",
+      "affectedServices": [
+        "PSX DPS — KSE-100 Upstream Feed"
+      ],
+      "updates": [
+        {
+          "at": "2026-07-19T19:31:05.137Z",
+          "message": "Automatic detection: overall status flipped to outage."
+        },
+        {
+          "at": "2026-07-19T20:24:55.109Z",
+          "message": "Automatic resolution: all services operational."
+        }
+      ]
+    },
+    {
+      "id": "auto-1784473798660",
+      "title": "Service Outage Detected",
+      "state": "resolved",
+      "startedAt": "2026-07-19T15:09:55.319Z",
+      "resolvedAt": "2026-07-19T16:08:58.769Z",
+      "affectedServices": [
+        "PSX DPS — KSE-100 Upstream Feed"
+      ],
+      "updates": [
+        {
+          "at": "2026-07-19T15:09:55.319Z",
+          "message": "Automatic detection: overall status flipped to outage."
+        },
+        {
+          "at": "2026-07-19T16:08:58.769Z",
+          "message": "Automatic resolution: all services operational."
+        }
+      ]
+    },
+    {
+      "id": "auto-1784131483849",
+      "title": "Service Degradation Detected",
+      "state": "resolved",
+      "startedAt": "2026-07-15T16:04:37.211Z",
+      "resolvedAt": "2026-07-15T17:34:42.776Z",
+      "affectedServices": [
+        "PSX DPS — KSE-100 Upstream Feed"
+      ],
+      "updates": [
+        {
+          "at": "2026-07-15T16:04:37.211Z",
+          "message": "Automatic detection: overall status flipped to degraded."
+        },
+        {
+          "at": "2026-07-15T17:34:42.776Z",
+          "message": "Automatic resolution: all services operational."
+        }
+      ]
+    },
+    {
+      "id": "auto-1783957680807",
+      "title": "Service Degradation Detected",
+      "state": "resolved",
+      "startedAt": "2026-07-13T15:47:50.787Z",
+      "resolvedAt": "2026-07-13T17:44:49.764Z",
+      "affectedServices": [
+        "Pakistan Macro API",
+        "Macro Insight API",
+        "Pulse Archive API",
+        "Policy Tracker Page",
+        "Policy Tracker Fixture Data"
+      ],
+      "updates": [
+        {
+          "at": "2026-07-13T15:47:50.787Z",
+          "message": "Automatic detection: overall status flipped to degraded."
+        },
+        {
+          "at": "2026-07-13T17:44:49.764Z",
+          "message": "Automatic resolution: all services operational."
+        }
+      ]
+    },
+    {
+      "id": "auto-1783515898391",
+      "title": "Service Degradation Detected",
+      "state": "resolved",
+      "startedAt": "2026-07-08T13:04:49.764Z",
+      "resolvedAt": "2026-07-08T15:30:41.024Z",
+      "affectedServices": [
+        "PSX DPS — KSE-100 Upstream Feed"
+      ],
+      "updates": [
+        {
+          "at": "2026-07-08T13:04:49.764Z",
+          "message": "Automatic detection: overall status flipped to degraded."
+        },
+        {
+          "at": "2026-07-08T15:30:41.024Z",
+          "message": "Automatic resolution: all services operational."
+        }
+      ]
+    },
+    {
+      "id": "auto-1783179290255",
+      "title": "Service Degradation Detected",
+      "state": "resolved",
+      "startedAt": "2026-07-04T15:34:43.040Z",
+      "resolvedAt": "2026-07-04T16:36:32.745Z",
+      "affectedServices": [
+        "PSX DPS — KSE-100 Upstream Feed"
+      ],
+      "updates": [
+        {
+          "at": "2026-07-04T15:34:43.040Z",
+          "message": "Automatic detection: overall status flipped to degraded."
+        },
+        {
+          "at": "2026-07-04T16:36:32.745Z",
+          "message": "Automatic resolution: all services operational."
+        }
+      ]
+    },
+    {
+      "id": "auto-1783027942520",
+      "title": "Service Degradation Detected",
+      "state": "resolved",
+      "startedAt": "2026-07-02T21:32:00.864Z",
+      "resolvedAt": "2026-07-02T22:41:28.012Z",
+      "affectedServices": [
+        "Main Website",
+        "Security Insight API",
+        "Paid Access Page Wiring"
+      ],
+      "updates": [
+        {
+          "at": "2026-07-02T21:32:00.864Z",
+          "message": "Automatic detection: overall status flipped to degraded."
+        },
+        {
+          "at": "2026-07-02T22:41:28.012Z",
+          "message": "Automatic resolution: all services operational."
+        }
+      ]
+    },
+    {
+      "id": "auto-1782559269933",
+      "title": "Service Degradation Detected",
+      "state": "resolved",
+      "startedAt": "2026-06-27T11:21:06.547Z",
+      "resolvedAt": "2026-06-29T02:10:00.543Z",
+      "affectedServices": [
+        "PSX DPS — KSE-100 Upstream Feed"
+      ],
+      "updates": [
+        {
+          "at": "2026-06-27T11:21:06.547Z",
+          "message": "Automatic detection: overall status flipped to degraded."
+        },
+        {
+          "at": "2026-06-29T02:10:00.543Z",
+          "message": "Automatic resolution: all services operational."
+        }
+      ]
+    },
+    {
+      "id": "auto-1782535320989",
+      "title": "Service Outage Detected",
+      "state": "resolved",
+      "startedAt": "2026-06-27T04:41:57.045Z",
+      "resolvedAt": "2026-06-27T06:03:04.839Z",
+      "affectedServices": [
+        "PSX DPS — KSE-100 Upstream Feed"
+      ],
+      "updates": [
+        {
+          "at": "2026-06-27T04:41:57.045Z",
+          "message": "Automatic detection: overall status flipped to outage."
+        },
+        {
+          "at": "2026-06-27T06:03:04.839Z",
+          "message": "Automatic resolution: all services operational."
+        }
+      ]
+    },
+    {
+      "id": "auto-1782522938217",
+      "title": "Service Degradation Detected",
+      "state": "resolved",
+      "startedAt": "2026-06-27T01:15:30.275Z",
+      "resolvedAt": "2026-06-27T02:03:58.190Z",
+      "affectedServices": [
+        "Macro Insight API"
+      ],
+      "updates": [
+        {
+          "at": "2026-06-27T01:15:30.275Z",
+          "message": "Automatic detection: overall status flipped to degraded."
+        },
+        {
+          "at": "2026-06-27T02:03:58.190Z",
+          "message": "Automatic resolution: all services operational."
+        }
+      ]
+    },
+    {
+      "id": "auto-1782505891795",
+      "title": "Service Degradation Detected",
+      "state": "resolved",
+      "startedAt": "2026-06-26T20:31:21.421Z",
+      "resolvedAt": "2026-06-26T21:07:27.896Z",
+      "affectedServices": [
+        "News API"
+      ],
+      "updates": [
+        {
+          "at": "2026-06-26T20:31:21.421Z",
+          "message": "Automatic detection: overall status flipped to degraded."
+        },
+        {
+          "at": "2026-06-26T21:07:27.896Z",
+          "message": "Automatic resolution: all services operational."
+        }
+      ]
+    },
+    {
+      "id": "auto-1782421900357",
+      "title": "Service Degradation Detected",
+      "state": "resolved",
+      "startedAt": "2026-06-25T21:11:29.552Z",
+      "resolvedAt": "2026-06-25T21:51:07.328Z",
+      "affectedServices": [
+        "Paid Access Page Wiring"
+      ],
+      "updates": [
+        {
+          "at": "2026-06-25T21:11:29.552Z",
+          "message": "Automatic detection: overall status flipped to degraded."
+        },
+        {
+          "at": "2026-06-25T21:51:07.328Z",
+          "message": "Automatic resolution: all services operational."
+        }
+      ]
+    },
+    {
+      "id": "auto-1782294943304",
+      "title": "Service Degradation Detected",
+      "state": "resolved",
+      "startedAt": "2026-06-24T09:55:37.134Z",
+      "resolvedAt": "2026-06-24T11:04:42.606Z",
+      "affectedServices": [
+        "PSX DPS — KSE-100 Upstream Feed"
+      ],
+      "updates": [
+        {
+          "at": "2026-06-24T09:55:37.134Z",
+          "message": "Automatic detection: overall status flipped to degraded."
+        },
+        {
+          "at": "2026-06-24T11:04:42.606Z",
+          "message": "Automatic resolution: all services operational."
+        }
+      ]
+    },
+    {
+      "id": "auto-1782085161969",
+      "title": "Service Outage Detected",
+      "state": "resolved",
+      "startedAt": "2026-06-21T23:39:18.329Z",
+      "resolvedAt": "2026-06-22T00:08:31.302Z",
+      "affectedServices": [
+        "PSX DPS — KSE-100 Upstream Feed"
+      ],
+      "updates": [
+        {
+          "at": "2026-06-21T23:39:18.329Z",
+          "message": "Automatic detection: overall status flipped to outage."
+        },
+        {
+          "at": "2026-06-22T00:08:31.302Z",
+          "message": "Automatic resolution: all services operational."
+        }
+      ]
+    },
+    {
+      "id": "auto-1782049318889",
+      "title": "Service Degradation Detected",
+      "state": "resolved",
+      "startedAt": "2026-06-21T13:41:52.108Z",
+      "resolvedAt": "2026-06-21T14:33:45.142Z",
+      "affectedServices": [
+        "PSX DPS — KSE-100 Upstream Feed"
+      ],
+      "updates": [
+        {
+          "at": "2026-06-21T13:41:52.108Z",
+          "message": "Automatic detection: overall status flipped to degraded."
+        },
+        {
+          "at": "2026-06-21T14:33:45.142Z",
+          "message": "Automatic resolution: all services operational."
+        }
+      ]
+    },
+    {
+      "id": "auto-1781765888876",
+      "title": "Service Degradation Detected",
+      "state": "resolved",
+      "startedAt": "2026-06-18T06:57:59.038Z",
+      "resolvedAt": "2026-06-18T08:37:49.604Z",
+      "affectedServices": [
+        "PSX DPS — KSE-100 Upstream Feed"
+      ],
+      "updates": [
+        {
+          "at": "2026-06-18T06:57:59.038Z",
+          "message": "Automatic detection: overall status flipped to degraded."
+        },
+        {
+          "at": "2026-06-18T08:37:49.604Z",
+          "message": "Automatic resolution: all services operational."
+        }
+      ]
+    },
+    {
+      "id": "auto-1781716257319",
+      "title": "Service Outage Detected",
+      "state": "resolved",
+      "startedAt": "2026-06-17T17:10:52.398Z",
+      "resolvedAt": "2026-06-17T18:04:10.604Z",
+      "affectedServices": [
+        "PSX DPS — KSE-100 Upstream Feed"
+      ],
+      "updates": [
+        {
+          "at": "2026-06-17T17:10:52.398Z",
+          "message": "Automatic detection: overall status flipped to outage."
+        },
+        {
+          "at": "2026-06-17T18:04:10.604Z",
+          "message": "Automatic resolution: all services operational."
+        }
+      ]
+    },
+    {
       "id": "auto-1781342104646",
       "title": "Service Degradation Detected",
       "state": "resolved",
