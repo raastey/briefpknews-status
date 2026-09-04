@@ -1,6 +1,25 @@
 {
   "items": [
     {
+      "id": "auto-1788563822429",
+      "title": "Service Outage Detected",
+      "state": "outage",
+      "startedAt": "2026-09-04T23:16:54.811Z",
+      "resolvedAt": null,
+      "affectedServices": [
+        "Pulse Archive API",
+        "Policy Tracker Page",
+        "Policy Tracker Fixture Data",
+        "PSX DPS — KSE-100 Upstream Feed"
+      ],
+      "updates": [
+        {
+          "at": "2026-09-04T23:16:54.811Z",
+          "message": "Automatic detection: overall status flipped to outage."
+        }
+      ]
+    },
+    {
       "id": "auto-1788371669858",
       "title": "Service Outage Detected",
       "state": "resolved",
