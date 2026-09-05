@@ -3,9 +3,9 @@
     {
       "id": "auto-1788563822429",
       "title": "Service Outage Detected",
-      "state": "outage",
+      "state": "resolved",
       "startedAt": "2026-09-04T23:16:54.811Z",
-      "resolvedAt": null,
+      "resolvedAt": "2026-09-05T01:04:11.648Z",
       "affectedServices": [
         "Pulse Archive API",
         "Policy Tracker Page",
@@ -16,6 +16,10 @@
         {
           "at": "2026-09-04T23:16:54.811Z",
           "message": "Automatic detection: overall status flipped to outage."
+        },
+        {
+          "at": "2026-09-05T01:04:11.648Z",
+          "message": "Automatic resolution: all services operational."
         }
       ]
     },
