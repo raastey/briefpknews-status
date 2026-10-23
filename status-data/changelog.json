@@ -1,5 +1,5 @@
 {
-  "lastPublished": "2026-08-31",
+  "lastPublished": "2026-10-23",
   "entryTemplate": {
     "id": "chg-YYYY-MM-DD-short-slug",
     "date": "YYYY-MM-DD",
@@ -14,6 +14,31 @@
     "links": []
   },
   "entries": [
+    {
+      "id": "chg-2026-10-23-mines-minerals",
+      "date": "2026-10-23",
+      "type": "feature",
+      "major": true,
+      "title": "New Mines & Minerals tracker: public cadastres, concession files, and who keeps the value",
+      "summary": "A new page sets out which provincial mining portals publish parcel records and which do not, then follows the large concessions from the lease holder to the district that hosts the mine.",
+      "detail": "The files cover Reko Diq, Saindak, Thar coal, the Salt Range, Frontier Works Organization leases in Khyber Pakhtunkhwa, Chamalong and Duki coal, Swat and Gilgit-Baltistan gems, and the Karoonjhar hills.\n\nOwnership and royalty are kept separate. A production payment to a provincial government is not drawn as if households in the host district held equity. Where a split is a model rather than a published share register, the page says so.\n\nA slider lets you compare today's pattern with one that keeps more of the refined value in the host district, the province, and a national fund. The operator's share stays on the page.\n\nThe often-cited six trillion dollars is labeled as an official estimate, not an audited reserve statement.",
+      "tags": [
+        "mines",
+        "minerals",
+        "data",
+        "feature"
+      ],
+      "links": [
+        {
+          "label": "Open Mines & Minerals",
+          "url": "https://www.briefpknews.xyz/mines"
+        },
+        {
+          "label": "Release notes",
+          "url": "https://status.briefpknews.xyz/changelog.html"
+        }
+      ]
+    },
     {
       "id": "chg-2026-08-31-water-ipp-tracker",
       "date": "2026-08-31",
